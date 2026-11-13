@@ -1,0 +1,8 @@
+gate: checking site/long-baseline.html (software); this takes a few minutes on a CPU Chrome
+gate: no open FAIL
+  WAIVED container-edges section#measure > div.mo-io__stage: the stage is the dealt iris-opens moment's own inset panel, mounted by assets/moments/iris-opens/moment.js exactly as the kit's demo.html does (data-moment on the section); it is absolute, pointer-events none, and is removed (display none) once the iris opens, so it is a transition overlay, not a layout child
+  WAIVED sparse #measure section.section.mo-io "What the blink measures Barnard'": the section is the live measurement table plus both epoch frames as its visual; the fill is low only because the table rows are thin data lines, and padding it out would add filler to a data readout
+  WAIVED hero-lines section.hero h1: the h1 is final at 31 characters ('16 years of motion in one blink') and sets in 3 lines at 1440; the 4-line result only comes from the checker padding it to the hero's 45-character maxChars
+  WAIVED neighbour #measure section.section.mo-io "What the blink measures Barnard'": #measure is the last section of a two-section tool page; at 390 its stacked table, frames and notes end and the closing footer follows directly, there is no further section whose heading or picture could be framed
+  11 WARN (not blocking), first: body-size p#lb-bandnote "WISE W1 (3.4 µm) and W2 (; label-centre header.nav.nav--centre > div.wrap.nav__b; copy-length section#measure "What the blink measures; button-contrast div.hero-text.grid > div.hero__text.span; skip-link header.nav.nav--centre > div.wrap.nav__b
+GATE: PASS

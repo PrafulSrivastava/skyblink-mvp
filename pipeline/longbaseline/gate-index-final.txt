@@ -1,0 +1,8 @@
+gate: checking site/index.html (software); this takes a few minutes on a CPU Chrome
+gate: no open FAIL
+  WAIVED container-edges section#battle > div.mo-io__stage: the stage is the dealt iris-opens moment's own inset panel, mounted by assets/moments/iris-opens/moment.js exactly as the kit's demo.html does (data-moment on the section); it is absolute, pointer-events none, and is removed (display none) once the iris opens, so it is a transition overlay, not a layout child
+  waiver ignored (matches no open finding): hero-lines "section.hero h1"
+  waiver ignored (matches no open finding): sparse "#measure"
+  waiver ignored (matches no open finding): neighbour "#measure"
+  18 WARN (not blocking), first: flush section#battle > div.mo-io__stage > div.; flush section#battle > div.wrap > div.grid > d; cut-text div.ui-win__main > ul.ui-win__rows > li.; text-only section#data "Questions about the data"; text-contrast div.ui-win__main > ul.ui-win__rows > li.
+GATE: PASS
