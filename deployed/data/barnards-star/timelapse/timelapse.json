@@ -1,0 +1,2155 @@
+{
+ "id": "barnards-star",
+ "name": "Barnard's Star",
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 269.44796807,
+  "CRVAL2": 4.7464414,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15,
+  "orientation": "north up, east left",
+  "centre": "midpoint between the WISE-epoch and SPHEREx-epoch positions"
+ },
+ "motion": {
+  "baseline_years": 16.43,
+  "expected_shift_arcsec": 171.0,
+  "expected_shift_px": 27.8,
+  "position_angle_deg": 355.2,
+  "pm_total_mas_yr": 10393.3,
+  "source": "Gaia DR3 pmra*cosdec=-801.6, pmdec=10362.4 mas/yr, parallax 547.0 mas"
+ },
+ "bands": {
+  "W1": {
+   "n_frames": 24,
+   "n_unwise": 23,
+   "stretch": {
+    "lo": -21.44,
+    "hi": 28996.6,
+    "a": 0.1,
+    "unit": "unWISE counts (Vega nanomaggies), local-median-subtracted",
+    "type": "one asinh stretch for all unWISE frames: median over epochs of each frame's 10th and 99.5th percentile"
+   },
+   "cutout_centre_deg": [
+    269.44796807,
+    4.7464414
+   ],
+   "gap_filled_from_neighbour_tile": false,
+   "orientation_check": {
+    "corr_vs_allsky_2010": 0.711,
+    "corr_if_flipped": -0.025
+   },
+   "frames": [
+    {
+     "i": 0,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (2010 cryogenic WISE)",
+     "mjd": 55274.906,
+     "date": "2010-03-19",
+     "unwise_epochs": [
+      0
+     ],
+     "path": "timelapse/W1/f00.png",
+     "pred": {
+      "png_x": 22.845,
+      "png_y": 37.858
+     },
+     "centroid": {
+      "png_x": 22.719,
+      "png_y": 37.941,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.15,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 1,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (2010 cryogenic WISE)",
+     "mjd": 55455.737,
+     "date": "2010-09-16",
+     "unwise_epochs": [
+      1
+     ],
+     "path": "timelapse/W1/f01.png",
+     "pred": {
+      "png_x": 23.087,
+      "png_y": 37.019
+     },
+     "centroid": {
+      "png_x": 23.363,
+      "png_y": 36.558,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.54,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 2,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 56738.3,
+     "date": "2014-03-22",
+     "unwise_epochs": [
+      2
+     ],
+     "path": "timelapse/W1/f02.png",
+     "pred": {
+      "png_x": 23.368,
+      "png_y": 31.108
+     },
+     "centroid": {
+      "png_x": 23.424,
+      "png_y": 31.13,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.06,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 3,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 56919.156,
+     "date": "2014-09-19",
+     "unwise_epochs": [
+      3
+     ],
+     "path": "timelapse/W1/f03.png",
+     "pred": {
+      "png_x": 23.61,
+      "png_y": 30.272
+     },
+     "centroid": {
+      "png_x": 23.591,
+      "png_y": 30.067,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.21,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 4,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57101.614,
+     "date": "2015-03-20",
+     "unwise_epochs": [
+      4
+     ],
+     "path": "timelapse/W1/f04.png",
+     "pred": {
+      "png_x": 23.498,
+      "png_y": 29.434
+     },
+     "centroid": {
+      "png_x": 23.557,
+      "png_y": 29.396,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.07,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 5,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57281.78,
+     "date": "2015-09-16",
+     "unwise_epochs": [
+      5
+     ],
+     "path": "timelapse/W1/f05.png",
+     "pred": {
+      "png_x": 23.739,
+      "png_y": 28.598
+     },
+     "centroid": {
+      "png_x": 23.664,
+      "png_y": 28.591,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.08,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 6,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57465.724,
+     "date": "2016-03-18",
+     "unwise_epochs": [
+      6
+     ],
+     "path": "timelapse/W1/f06.png",
+     "pred": {
+      "png_x": 23.628,
+      "png_y": 27.755
+     },
+     "centroid": {
+      "png_x": 23.727,
+      "png_y": 27.817,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.12,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 7,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57638.74,
+     "date": "2016-09-07",
+     "unwise_epochs": [
+      7
+     ],
+     "path": "timelapse/W1/f07.png",
+     "pred": {
+      "png_x": 23.865,
+      "png_y": 26.945
+     },
+     "centroid": {
+      "png_x": 23.922,
+      "png_y": 26.992,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.07,
+     "saturated_core_px": 1
+    },
+    {
+     "i": 8,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57831.591,
+     "date": "2017-03-19",
+     "unwise_epochs": [
+      8
+     ],
+     "path": "timelapse/W1/f08.png",
+     "pred": {
+      "png_x": 23.758,
+      "png_y": 26.067
+     },
+     "centroid": {
+      "png_x": 23.961,
+      "png_y": 25.839,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.31,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 9,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58000.488,
+     "date": "2017-09-04",
+     "unwise_epochs": [
+      9
+     ],
+     "path": "timelapse/W1/f09.png",
+     "pred": {
+      "png_x": 23.992,
+      "png_y": 25.274
+     },
+     "centroid": {
+      "png_x": 24.365,
+      "png_y": 25.049,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.44,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 10,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58197.085,
+     "date": "2018-03-20",
+     "unwise_epochs": [
+      10
+     ],
+     "path": "timelapse/W1/f10.png",
+     "pred": {
+      "png_x": 23.888,
+      "png_y": 24.38
+     },
+     "centroid": {
+      "png_x": 24.003,
+      "png_y": 24.565,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.22,
+     "saturated_core_px": 5
+    },
+    {
+     "i": 11,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58360.986,
+     "date": "2018-08-30",
+     "unwise_epochs": [
+      11
+     ],
+     "path": "timelapse/W1/f11.png",
+     "pred": {
+      "png_x": 24.118,
+      "png_y": 23.607
+     },
+     "centroid": {
+      "png_x": 24.26,
+      "png_y": 23.614,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.14,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 12,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58564.995,
+     "date": "2019-03-22",
+     "unwise_epochs": [
+      12
+     ],
+     "path": "timelapse/W1/f12.png",
+     "pred": {
+      "png_x": 24.019,
+      "png_y": 22.681
+     },
+     "centroid": {
+      "png_x": 24.291,
+      "png_y": 22.76,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.28,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 13,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58728.838,
+     "date": "2019-09-02",
+     "unwise_epochs": [
+      13
+     ],
+     "path": "timelapse/W1/f13.png",
+     "pred": {
+      "png_x": 24.251,
+      "png_y": 21.911
+     },
+     "centroid": {
+      "png_x": 24.287,
+      "png_y": 21.776,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.14,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 14,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58926.892,
+     "date": "2020-03-18",
+     "unwise_epochs": [
+      14
+     ],
+     "path": "timelapse/W1/f14.png",
+     "pred": {
+      "png_x": 24.148,
+      "png_y": 21.013
+     },
+     "centroid": {
+      "png_x": 24.495,
+      "png_y": 21.127,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.36,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 15,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59090.682,
+     "date": "2020-08-29",
+     "unwise_epochs": [
+      15
+     ],
+     "path": "timelapse/W1/f15.png",
+     "pred": {
+      "png_x": 24.378,
+      "png_y": 20.239
+     },
+     "centroid": {
+      "png_x": 24.454,
+      "png_y": 20.405,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.18,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 16,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59292.617,
+     "date": "2021-03-19",
+     "unwise_epochs": [
+      16
+     ],
+     "path": "timelapse/W1/f16.png",
+     "pred": {
+      "png_x": 24.279,
+      "png_y": 19.324
+     },
+     "centroid": {
+      "png_x": 24.698,
+      "png_y": 19.358,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.42,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 17,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59456.386,
+     "date": "2021-08-30",
+     "unwise_epochs": [
+      17
+     ],
+     "path": "timelapse/W1/f17.png",
+     "pred": {
+      "png_x": 24.509,
+      "png_y": 18.551
+     },
+     "centroid": {
+      "png_x": 24.586,
+      "png_y": 18.551,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.08,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 18,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59659.339,
+     "date": "2022-03-21",
+     "unwise_epochs": [
+      18
+     ],
+     "path": "timelapse/W1/f18.png",
+     "pred": {
+      "png_x": 24.409,
+      "png_y": 17.63
+     },
+     "centroid": {
+      "png_x": 24.747,
+      "png_y": 17.548,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.35,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 19,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59823.323,
+     "date": "2022-09-01",
+     "unwise_epochs": [
+      19
+     ],
+     "path": "timelapse/W1/f19.png",
+     "pred": {
+      "png_x": 24.64,
+      "png_y": 16.858
+     },
+     "centroid": {
+      "png_x": 24.943,
+      "png_y": 16.53,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.45,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 20,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60023.805,
+     "date": "2023-03-20",
+     "unwise_epochs": [
+      20
+     ],
+     "path": "timelapse/W1/f20.png",
+     "pred": {
+      "png_x": 24.54,
+      "png_y": 15.948
+     },
+     "centroid": {
+      "png_x": 24.607,
+      "png_y": 15.957,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.07,
+     "saturated_core_px": 5
+    },
+    {
+     "i": 21,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60187.643,
+     "date": "2023-08-31",
+     "unwise_epochs": [
+      21
+     ],
+     "path": "timelapse/W1/f21.png",
+     "pred": {
+      "png_x": 24.77,
+      "png_y": 15.175
+     },
+     "centroid": {
+      "png_x": 24.795,
+      "png_y": 15.257,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.09,
+     "saturated_core_px": 5
+    },
+    {
+     "i": 22,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60387.99,
+     "date": "2024-03-18",
+     "unwise_epochs": [
+      22
+     ],
+     "path": "timelapse/W1/f22.png",
+     "pred": {
+      "png_x": 24.67,
+      "png_y": 14.267
+     },
+     "centroid": {
+      "png_x": 24.693,
+      "png_y": 14.394,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.13,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 23,
+     "kind": "spherex",
+     "survey": "SPHEREx 2.9-3.8 \u00b5m (D4)",
+     "mjd": 61279.0558,
+     "date": "2026-08-27",
+     "date_range": [
+      "2026-08-24",
+      "2026-08-29"
+     ],
+     "path": "timelapse/W1/f23.png",
+     "pred": {
+      "png_x": 25.158,
+      "png_y": 10.131
+     },
+     "centroid": {
+      "png_x": 25.158,
+      "png_y": 10.131,
+      "source": "prediction"
+     },
+     "fit_offset_px": null,
+     "saturated_core_px": 51,
+     "stretch": "own (MJy/sr)"
+    }
+   ]
+  },
+  "W2": {
+   "n_frames": 24,
+   "n_unwise": 23,
+   "stretch": {
+    "lo": -26.67,
+    "hi": 61721.04,
+    "a": 0.1,
+    "unit": "unWISE counts (Vega nanomaggies), local-median-subtracted",
+    "type": "one asinh stretch for all unWISE frames: median over epochs of each frame's 10th and 99.5th percentile"
+   },
+   "cutout_centre_deg": [
+    269.44796807,
+    4.7464414
+   ],
+   "gap_filled_from_neighbour_tile": false,
+   "orientation_check": {
+    "corr_vs_allsky_2010": 0.698,
+    "corr_if_flipped": -0.019
+   },
+   "frames": [
+    {
+     "i": 0,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (2010 cryogenic WISE)",
+     "mjd": 55274.906,
+     "date": "2010-03-19",
+     "unwise_epochs": [
+      0
+     ],
+     "path": "timelapse/W2/f00.png",
+     "pred": {
+      "png_x": 22.845,
+      "png_y": 37.858
+     },
+     "centroid": {
+      "png_x": 22.81,
+      "png_y": 37.931,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.08,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 1,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (2010 cryogenic WISE)",
+     "mjd": 55455.737,
+     "date": "2010-09-16",
+     "unwise_epochs": [
+      1
+     ],
+     "path": "timelapse/W2/f01.png",
+     "pred": {
+      "png_x": 23.087,
+      "png_y": 37.019
+     },
+     "centroid": {
+      "png_x": 23.296,
+      "png_y": 36.587,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.48,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 2,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 56738.3,
+     "date": "2014-03-22",
+     "unwise_epochs": [
+      2
+     ],
+     "path": "timelapse/W2/f02.png",
+     "pred": {
+      "png_x": 23.368,
+      "png_y": 31.108
+     },
+     "centroid": {
+      "png_x": 23.326,
+      "png_y": 31.104,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.04,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 3,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 56919.156,
+     "date": "2014-09-19",
+     "unwise_epochs": [
+      3
+     ],
+     "path": "timelapse/W2/f03.png",
+     "pred": {
+      "png_x": 23.61,
+      "png_y": 30.272
+     },
+     "centroid": {
+      "png_x": 23.688,
+      "png_y": 30.047,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.24,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 4,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57101.614,
+     "date": "2015-03-20",
+     "unwise_epochs": [
+      4
+     ],
+     "path": "timelapse/W2/f04.png",
+     "pred": {
+      "png_x": 23.498,
+      "png_y": 29.434
+     },
+     "centroid": {
+      "png_x": 23.647,
+      "png_y": 29.523,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.17,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 5,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57281.78,
+     "date": "2015-09-16",
+     "unwise_epochs": [
+      5
+     ],
+     "path": "timelapse/W2/f05.png",
+     "pred": {
+      "png_x": 23.739,
+      "png_y": 28.598
+     },
+     "centroid": {
+      "png_x": 23.687,
+      "png_y": 28.597,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.05,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 6,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57465.724,
+     "date": "2016-03-18",
+     "unwise_epochs": [
+      6
+     ],
+     "path": "timelapse/W2/f06.png",
+     "pred": {
+      "png_x": 23.628,
+      "png_y": 27.755
+     },
+     "centroid": {
+      "png_x": 23.809,
+      "png_y": 27.965,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.28,
+     "saturated_core_px": 0
+    },
+    {
+     "i": 7,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57638.74,
+     "date": "2016-09-07",
+     "unwise_epochs": [
+      7
+     ],
+     "path": "timelapse/W2/f07.png",
+     "pred": {
+      "png_x": 23.865,
+      "png_y": 26.945
+     },
+     "centroid": {
+      "png_x": 23.985,
+      "png_y": 26.839,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.16,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 8,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 57831.591,
+     "date": "2017-03-19",
+     "unwise_epochs": [
+      8
+     ],
+     "path": "timelapse/W2/f08.png",
+     "pred": {
+      "png_x": 23.758,
+      "png_y": 26.067
+     },
+     "centroid": {
+      "png_x": 23.933,
+      "png_y": 25.966,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.2,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 9,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58000.488,
+     "date": "2017-09-04",
+     "unwise_epochs": [
+      9
+     ],
+     "path": "timelapse/W2/f09.png",
+     "pred": {
+      "png_x": 23.992,
+      "png_y": 25.274
+     },
+     "centroid": {
+      "png_x": 23.916,
+      "png_y": 25.44,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.18,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 10,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58197.085,
+     "date": "2018-03-20",
+     "unwise_epochs": [
+      10
+     ],
+     "path": "timelapse/W2/f10.png",
+     "pred": {
+      "png_x": 23.888,
+      "png_y": 24.38
+     },
+     "centroid": {
+      "png_x": 23.928,
+      "png_y": 24.543,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.17,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 11,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58360.986,
+     "date": "2018-08-30",
+     "unwise_epochs": [
+      11
+     ],
+     "path": "timelapse/W2/f11.png",
+     "pred": {
+      "png_x": 24.118,
+      "png_y": 23.607
+     },
+     "centroid": {
+      "png_x": 24.308,
+      "png_y": 23.309,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.35,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 12,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58564.995,
+     "date": "2019-03-22",
+     "unwise_epochs": [
+      12
+     ],
+     "path": "timelapse/W2/f12.png",
+     "pred": {
+      "png_x": 24.019,
+      "png_y": 22.681
+     },
+     "centroid": {
+      "png_x": 24.115,
+      "png_y": 22.651,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.1,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 13,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58728.838,
+     "date": "2019-09-02",
+     "unwise_epochs": [
+      13
+     ],
+     "path": "timelapse/W2/f13.png",
+     "pred": {
+      "png_x": 24.251,
+      "png_y": 21.911
+     },
+     "centroid": {
+      "png_x": 24.412,
+      "png_y": 21.64,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.32,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 14,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 58926.892,
+     "date": "2020-03-18",
+     "unwise_epochs": [
+      14
+     ],
+     "path": "timelapse/W2/f14.png",
+     "pred": {
+      "png_x": 24.148,
+      "png_y": 21.013
+     },
+     "centroid": {
+      "png_x": 24.399,
+      "png_y": 21.202,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.31,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 15,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59090.682,
+     "date": "2020-08-29",
+     "unwise_epochs": [
+      15
+     ],
+     "path": "timelapse/W2/f15.png",
+     "pred": {
+      "png_x": 24.378,
+      "png_y": 20.239
+     },
+     "centroid": {
+      "png_x": 24.371,
+      "png_y": 20.258,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.02,
+     "saturated_core_px": 1
+    },
+    {
+     "i": 16,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59292.617,
+     "date": "2021-03-19",
+     "unwise_epochs": [
+      16
+     ],
+     "path": "timelapse/W2/f16.png",
+     "pred": {
+      "png_x": 24.279,
+      "png_y": 19.324
+     },
+     "centroid": {
+      "png_x": 24.451,
+      "png_y": 19.654,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.37,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 17,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59456.386,
+     "date": "2021-08-30",
+     "unwise_epochs": [
+      17
+     ],
+     "path": "timelapse/W2/f17.png",
+     "pred": {
+      "png_x": 24.509,
+      "png_y": 18.551
+     },
+     "centroid": {
+      "png_x": 24.632,
+      "png_y": 18.436,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.17,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 18,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59659.339,
+     "date": "2022-03-21",
+     "unwise_epochs": [
+      18
+     ],
+     "path": "timelapse/W2/f18.png",
+     "pred": {
+      "png_x": 24.409,
+      "png_y": 17.63
+     },
+     "centroid": {
+      "png_x": 24.578,
+      "png_y": 17.53,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.2,
+     "saturated_core_px": 3
+    },
+    {
+     "i": 19,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 59823.323,
+     "date": "2022-09-01",
+     "unwise_epochs": [
+      19
+     ],
+     "path": "timelapse/W2/f19.png",
+     "pred": {
+      "png_x": 24.64,
+      "png_y": 16.858
+     },
+     "centroid": {
+      "png_x": 24.696,
+      "png_y": 16.749,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.12,
+     "saturated_core_px": 2
+    },
+    {
+     "i": 20,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60023.805,
+     "date": "2023-03-20",
+     "unwise_epochs": [
+      20
+     ],
+     "path": "timelapse/W2/f20.png",
+     "pred": {
+      "png_x": 24.54,
+      "png_y": 15.948
+     },
+     "centroid": {
+      "png_x": 24.811,
+      "png_y": 16.257,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.41,
+     "saturated_core_px": 1
+    },
+    {
+     "i": 21,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60187.643,
+     "date": "2023-08-31",
+     "unwise_epochs": [
+      21
+     ],
+     "path": "timelapse/W2/f21.png",
+     "pred": {
+      "png_x": 24.77,
+      "png_y": 15.175
+     },
+     "centroid": {
+      "png_x": 24.705,
+      "png_y": 15.193,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.07,
+     "saturated_core_px": 1
+    },
+    {
+     "i": 22,
+     "kind": "unwise",
+     "survey": "unWISE time-resolved coadd (NEOWISE-R)",
+     "mjd": 60387.926,
+     "date": "2024-03-18",
+     "unwise_epochs": [
+      22
+     ],
+     "path": "timelapse/W2/f22.png",
+     "pred": {
+      "png_x": 24.67,
+      "png_y": 14.267
+     },
+     "centroid": {
+      "png_x": 24.632,
+      "png_y": 14.465,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.2,
+     "saturated_core_px": 4
+    },
+    {
+     "i": 23,
+     "kind": "spherex",
+     "survey": "SPHEREx 4.0-5.0 \u00b5m (D5/D6)",
+     "mjd": 61272.0117,
+     "date": "2026-08-20",
+     "date_range": [
+      "2026-08-16",
+      "2026-08-28"
+     ],
+     "path": "timelapse/W2/f23.png",
+     "pred": {
+      "png_x": 25.15,
+      "png_y": 10.16
+     },
+     "centroid": {
+      "png_x": 25.179,
+      "png_y": 10.295,
+      "source": "fit"
+     },
+     "fit_offset_px": 0.14,
+     "saturated_core_px": 4,
+     "stretch": "own (MJy/sr)"
+    }
+   ]
+  }
+ },
+ "track": {
+  "step_days": 30,
+  "columns": [
+   "mjd",
+   "png_x",
+   "png_y"
+  ],
+  "points": [
+   [
+    55274.9,
+    22.85,
+    37.86
+   ],
+   [
+    55304.9,
+    22.87,
+    37.7
+   ],
+   [
+    55334.9,
+    22.91,
+    37.54
+   ],
+   [
+    55364.9,
+    22.96,
+    37.4
+   ],
+   [
+    55394.9,
+    23.02,
+    37.27
+   ],
+   [
+    55424.9,
+    23.06,
+    37.14
+   ],
+   [
+    55454.9,
+    23.09,
+    37.02
+   ],
+   [
+    55484.9,
+    23.09,
+    36.9
+   ],
+   [
+    55514.9,
+    23.07,
+    36.78
+   ],
+   [
+    55544.9,
+    23.04,
+    36.65
+   ],
+   [
+    55574.9,
+    23.01,
+    36.51
+   ],
+   [
+    55604.9,
+    22.98,
+    36.36
+   ],
+   [
+    55634.9,
+    22.97,
+    36.2
+   ],
+   [
+    55664.9,
+    22.99,
+    36.04
+   ],
+   [
+    55694.9,
+    23.03,
+    35.89
+   ],
+   [
+    55724.9,
+    23.08,
+    35.74
+   ],
+   [
+    55754.9,
+    23.14,
+    35.6
+   ],
+   [
+    55784.9,
+    23.18,
+    35.48
+   ],
+   [
+    55814.9,
+    23.21,
+    35.36
+   ],
+   [
+    55844.9,
+    23.22,
+    35.24
+   ],
+   [
+    55874.9,
+    23.21,
+    35.12
+   ],
+   [
+    55904.9,
+    23.18,
+    34.99
+   ],
+   [
+    55934.9,
+    23.14,
+    34.85
+   ],
+   [
+    55964.9,
+    23.11,
+    34.7
+   ],
+   [
+    55994.9,
+    23.1,
+    34.55
+   ],
+   [
+    56024.9,
+    23.12,
+    34.39
+   ],
+   [
+    56054.9,
+    23.15,
+    34.23
+   ],
+   [
+    56084.9,
+    23.2,
+    34.08
+   ],
+   [
+    56114.9,
+    23.26,
+    33.94
+   ],
+   [
+    56144.9,
+    23.31,
+    33.81
+   ],
+   [
+    56174.9,
+    23.34,
+    33.69
+   ],
+   [
+    56204.9,
+    23.35,
+    33.58
+   ],
+   [
+    56234.9,
+    23.34,
+    33.46
+   ],
+   [
+    56264.9,
+    23.31,
+    33.33
+   ],
+   [
+    56294.9,
+    23.28,
+    33.19
+   ],
+   [
+    56324.9,
+    23.25,
+    33.05
+   ],
+   [
+    56354.9,
+    23.23,
+    32.89
+   ],
+   [
+    56384.9,
+    23.24,
+    32.73
+   ],
+   [
+    56414.9,
+    23.28,
+    32.57
+   ],
+   [
+    56444.9,
+    23.32,
+    32.42
+   ],
+   [
+    56474.9,
+    23.38,
+    32.28
+   ],
+   [
+    56504.9,
+    23.43,
+    32.15
+   ],
+   [
+    56534.9,
+    23.47,
+    32.03
+   ],
+   [
+    56564.9,
+    23.48,
+    31.91
+   ],
+   [
+    56594.9,
+    23.48,
+    31.8
+   ],
+   [
+    56624.9,
+    23.45,
+    31.67
+   ],
+   [
+    56654.9,
+    23.41,
+    31.53
+   ],
+   [
+    56684.9,
+    23.38,
+    31.39
+   ],
+   [
+    56714.9,
+    23.37,
+    31.23
+   ],
+   [
+    56744.9,
+    23.37,
+    31.07
+   ],
+   [
+    56774.9,
+    23.4,
+    30.91
+   ],
+   [
+    56804.9,
+    23.44,
+    30.76
+   ],
+   [
+    56834.9,
+    23.5,
+    30.62
+   ],
+   [
+    56864.9,
+    23.55,
+    30.49
+   ],
+   [
+    56894.9,
+    23.59,
+    30.37
+   ],
+   [
+    56924.9,
+    23.61,
+    30.25
+   ],
+   [
+    56954.9,
+    23.61,
+    30.13
+   ],
+   [
+    56984.9,
+    23.59,
+    30.01
+   ],
+   [
+    57014.9,
+    23.55,
+    29.87
+   ],
+   [
+    57044.9,
+    23.52,
+    29.73
+   ],
+   [
+    57074.9,
+    23.5,
+    29.58
+   ],
+   [
+    57104.9,
+    23.5,
+    29.42
+   ],
+   [
+    57134.9,
+    23.52,
+    29.26
+   ],
+   [
+    57164.9,
+    23.57,
+    29.1
+   ],
+   [
+    57194.9,
+    23.62,
+    28.96
+   ],
+   [
+    57224.9,
+    23.67,
+    28.83
+   ],
+   [
+    57254.9,
+    23.72,
+    28.7
+   ],
+   [
+    57284.9,
+    23.74,
+    28.59
+   ],
+   [
+    57314.9,
+    23.74,
+    28.47
+   ],
+   [
+    57344.9,
+    23.72,
+    28.35
+   ],
+   [
+    57374.9,
+    23.69,
+    28.21
+   ],
+   [
+    57404.9,
+    23.65,
+    28.07
+   ],
+   [
+    57434.9,
+    23.63,
+    27.92
+   ],
+   [
+    57464.9,
+    23.63,
+    27.76
+   ],
+   [
+    57494.9,
+    23.65,
+    27.6
+   ],
+   [
+    57524.9,
+    23.69,
+    27.45
+   ],
+   [
+    57554.9,
+    23.74,
+    27.3
+   ],
+   [
+    57584.9,
+    23.8,
+    27.16
+   ],
+   [
+    57614.9,
+    23.84,
+    27.04
+   ],
+   [
+    57644.9,
+    23.87,
+    26.92
+   ],
+   [
+    57674.9,
+    23.87,
+    26.8
+   ],
+   [
+    57704.9,
+    23.86,
+    26.68
+   ],
+   [
+    57734.9,
+    23.82,
+    26.55
+   ],
+   [
+    57764.9,
+    23.79,
+    26.41
+   ],
+   [
+    57794.9,
+    23.76,
+    26.26
+   ],
+   [
+    57824.9,
+    23.76,
+    26.1
+   ],
+   [
+    57854.9,
+    23.77,
+    25.94
+   ],
+   [
+    57884.9,
+    23.81,
+    25.79
+   ],
+   [
+    57914.9,
+    23.86,
+    25.64
+   ],
+   [
+    57944.9,
+    23.92,
+    25.5
+   ],
+   [
+    57974.9,
+    23.96,
+    25.38
+   ],
+   [
+    58004.9,
+    24.0,
+    25.26
+   ],
+   [
+    58034.9,
+    24.0,
+    25.14
+   ],
+   [
+    58064.9,
+    23.99,
+    25.02
+   ],
+   [
+    58094.9,
+    23.96,
+    24.89
+   ],
+   [
+    58124.9,
+    23.93,
+    24.75
+   ],
+   [
+    58154.9,
+    23.9,
+    24.6
+   ],
+   [
+    58184.9,
+    23.89,
+    24.45
+   ],
+   [
+    58214.9,
+    23.9,
+    24.29
+   ],
+   [
+    58244.9,
+    23.93,
+    24.13
+   ],
+   [
+    58274.9,
+    23.98,
+    23.98
+   ],
+   [
+    58304.9,
+    24.04,
+    23.84
+   ],
+   [
+    58334.9,
+    24.09,
+    23.71
+   ],
+   [
+    58364.9,
+    24.12,
+    23.59
+   ],
+   [
+    58394.9,
+    24.13,
+    23.47
+   ],
+   [
+    58424.9,
+    24.13,
+    23.36
+   ],
+   [
+    58454.9,
+    24.1,
+    23.23
+   ],
+   [
+    58484.9,
+    24.06,
+    23.09
+   ],
+   [
+    58514.9,
+    24.03,
+    22.94
+   ],
+   [
+    58544.9,
+    24.02,
+    22.79
+   ],
+   [
+    58574.9,
+    24.02,
+    22.63
+   ],
+   [
+    58604.9,
+    24.06,
+    22.47
+   ],
+   [
+    58634.9,
+    24.1,
+    22.32
+   ],
+   [
+    58664.9,
+    24.16,
+    22.18
+   ],
+   [
+    58694.9,
+    24.21,
+    22.05
+   ],
+   [
+    58724.9,
+    24.25,
+    21.93
+   ],
+   [
+    58754.9,
+    24.26,
+    21.81
+   ],
+   [
+    58784.9,
+    24.26,
+    21.69
+   ],
+   [
+    58814.9,
+    24.23,
+    21.57
+   ],
+   [
+    58844.9,
+    24.2,
+    21.43
+   ],
+   [
+    58874.9,
+    24.17,
+    21.29
+   ],
+   [
+    58904.9,
+    24.15,
+    21.13
+   ],
+   [
+    58934.9,
+    24.15,
+    20.97
+   ],
+   [
+    58964.9,
+    24.18,
+    20.81
+   ],
+   [
+    58994.9,
+    24.22,
+    20.66
+   ],
+   [
+    59024.9,
+    24.28,
+    20.52
+   ],
+   [
+    59054.9,
+    24.33,
+    20.38
+   ],
+   [
+    59084.9,
+    24.37,
+    20.26
+   ],
+   [
+    59114.9,
+    24.39,
+    20.14
+   ],
+   [
+    59144.9,
+    24.39,
+    20.03
+   ],
+   [
+    59174.9,
+    24.37,
+    19.9
+   ],
+   [
+    59204.9,
+    24.33,
+    19.77
+   ],
+   [
+    59234.9,
+    24.3,
+    19.63
+   ],
+   [
+    59264.9,
+    24.28,
+    19.47
+   ],
+   [
+    59294.9,
+    24.28,
+    19.31
+   ],
+   [
+    59324.9,
+    24.3,
+    19.15
+   ],
+   [
+    59354.9,
+    24.34,
+    19.0
+   ],
+   [
+    59384.9,
+    24.4,
+    18.85
+   ],
+   [
+    59414.9,
+    24.45,
+    18.72
+   ],
+   [
+    59444.9,
+    24.5,
+    18.6
+   ],
+   [
+    59474.9,
+    24.52,
+    18.48
+   ],
+   [
+    59504.9,
+    24.52,
+    18.36
+   ],
+   [
+    59534.9,
+    24.5,
+    18.24
+   ],
+   [
+    59564.9,
+    24.47,
+    18.11
+   ],
+   [
+    59594.9,
+    24.44,
+    17.97
+   ],
+   [
+    59624.9,
+    24.41,
+    17.81
+   ],
+   [
+    59654.9,
+    24.41,
+    17.65
+   ],
+   [
+    59684.9,
+    24.43,
+    17.49
+   ],
+   [
+    59714.9,
+    24.47,
+    17.34
+   ],
+   [
+    59744.9,
+    24.52,
+    17.19
+   ],
+   [
+    59774.9,
+    24.57,
+    17.06
+   ],
+   [
+    59804.9,
+    24.62,
+    16.93
+   ],
+   [
+    59834.9,
+    24.65,
+    16.81
+   ],
+   [
+    59864.9,
+    24.66,
+    16.7
+   ],
+   [
+    59894.9,
+    24.64,
+    16.57
+   ],
+   [
+    59924.9,
+    24.61,
+    16.45
+   ],
+   [
+    59954.9,
+    24.57,
+    16.3
+   ],
+   [
+    59984.9,
+    24.55,
+    16.15
+   ],
+   [
+    60014.9,
+    24.54,
+    16.0
+   ],
+   [
+    60044.9,
+    24.55,
+    15.84
+   ],
+   [
+    60074.9,
+    24.59,
+    15.68
+   ],
+   [
+    60104.9,
+    24.64,
+    15.53
+   ],
+   [
+    60134.9,
+    24.7,
+    15.39
+   ],
+   [
+    60164.9,
+    24.74,
+    15.27
+   ],
+   [
+    60194.9,
+    24.78,
+    15.15
+   ],
+   [
+    60224.9,
+    24.79,
+    15.03
+   ],
+   [
+    60254.9,
+    24.77,
+    14.91
+   ],
+   [
+    60284.9,
+    24.74,
+    14.78
+   ],
+   [
+    60314.9,
+    24.71,
+    14.64
+   ],
+   [
+    60344.9,
+    24.68,
+    14.49
+   ],
+   [
+    60374.9,
+    24.67,
+    14.34
+   ],
+   [
+    60404.9,
+    24.68,
+    14.18
+   ],
+   [
+    60434.9,
+    24.71,
+    14.02
+   ],
+   [
+    60464.9,
+    24.76,
+    13.87
+   ],
+   [
+    60494.9,
+    24.82,
+    13.73
+   ],
+   [
+    60524.9,
+    24.87,
+    13.6
+   ],
+   [
+    60554.9,
+    24.9,
+    13.48
+   ],
+   [
+    60584.9,
+    24.92,
+    13.36
+   ],
+   [
+    60614.9,
+    24.91,
+    13.24
+   ],
+   [
+    60644.9,
+    24.88,
+    13.12
+   ],
+   [
+    60674.9,
+    24.85,
+    12.98
+   ],
+   [
+    60704.9,
+    24.81,
+    12.83
+   ],
+   [
+    60734.9,
+    24.8,
+    12.68
+   ],
+   [
+    60764.9,
+    24.81,
+    12.52
+   ],
+   [
+    60794.9,
+    24.84,
+    12.36
+   ],
+   [
+    60824.9,
+    24.88,
+    12.21
+   ],
+   [
+    60854.9,
+    24.94,
+    12.07
+   ],
+   [
+    60884.9,
+    24.99,
+    11.94
+   ],
+   [
+    60914.9,
+    25.03,
+    11.81
+   ],
+   [
+    60944.9,
+    25.05,
+    11.7
+   ],
+   [
+    60974.9,
+    25.04,
+    11.58
+   ],
+   [
+    61004.9,
+    25.02,
+    11.45
+   ],
+   [
+    61034.9,
+    24.98,
+    11.32
+   ],
+   [
+    61064.9,
+    24.95,
+    11.17
+   ],
+   [
+    61094.9,
+    24.93,
+    11.02
+   ],
+   [
+    61124.9,
+    24.93,
+    10.86
+   ],
+   [
+    61154.9,
+    24.96,
+    10.7
+   ],
+   [
+    61184.9,
+    25.0,
+    10.55
+   ],
+   [
+    61214.9,
+    25.06,
+    10.4
+   ],
+   [
+    61244.9,
+    25.11,
+    10.27
+   ],
+   [
+    61274.9,
+    25.15,
+    10.15
+   ],
+   [
+    61279.1,
+    25.16,
+    10.13
+   ]
+  ],
+  "source": "Gaia DR3 pmra*cosdec=-801.6, pmdec=10362.4 mas/yr, parallax 547.0 mas"
+ }
+}

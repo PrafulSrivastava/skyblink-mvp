@@ -15,12 +15,18 @@ This repository is a backup of the deployed static site (and, on the current bra
 - What it is: the static site that was live on 13 November 2026 after the design pass, before long-baseline mode. The site files are in `deployed/`.
 - Instant rollback on Vercel (no rebuild): deployment `dpl_EFtknA9Z9YjoGjf854VyP6rZn14i`
 
-### v0.2-long-baseline — WISE 2010 vs SPHEREx (current)
+### v0.2-long-baseline — WISE 2010 vs SPHEREx
 
 - Branch: `feature/long-baseline` (default)
 - Tag: `v0.2-long-baseline`
 - What it is: v0.1 plus the long-baseline blink (WISE 2010 against SPHEREx), the `/long-baseline` page, pipeline scripts under `pipeline/`, and a `RESTORE.md` in this tree. Site files are in `deployed/`.
 - Instant rollback on Vercel (no rebuild): deployment `dpl_B8eYfiaQYLXFs1Su494aeud9kW7i`
+
+### v0.3-time-lapse — every WISE/NEOWISE pass 2010 to 2024, then SPHEREx (current)
+
+- Branch: `feature/time-lapse` (built on `feature/long-baseline`)
+- What it is: v0.2 plus the `/time-lapse` page (23 to 24 unWISE passes per target plus the SPHEREx frame, W1 and W2), a Time-lapse link in the viewer, landing and credits updates, and the pipeline under `pipeline/timelapse/`. Site files are in `deployed/`.
+- Vercel production deployment: `dpl_CEKK7tYXa22eMkp98uihd1jxLkwD`. To go back to v0.2, roll back to `dpl_B8eYfiaQYLXFs1Su494aeud9kW7i`.
 
 ## How to restore
 

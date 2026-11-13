@@ -235,6 +235,7 @@
           <p class="lb__note" id="lb-bandnote"></p>
           <p class="lb__note" id="lb-norm"></p>
           <a class="link" data-viewer-link href="/viewer?target=barnards-star">SPHEREx-only blink for this star</a>
+          <a class="link" data-tl-link href="/time-lapse?target=barnards-star">Every pass from 2010 as a time-lapse</a>
         </div>
         <div class="span-6 start-7 lb-stats-grid">
           <div class="lb-two" role="img" aria-label="The WISE 2010 frame and the SPHEREx frame side by side on the shared grid">
@@ -267,7 +268,7 @@
           <a class="footer__mark" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
           <p class="footer__lede">A blink viewer for SPHEREx.</p>
         </div>
-        <div class="span-2 footer__col"><h3>Viewer</h3><ul><li><a href="/viewer/">All targets</a></li><li><a href="/long-baseline">Long baseline</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Viewer</h3><ul><li><a href="/viewer/">All targets</a></li><li><a href="/long-baseline">Long baseline</a></li><li><a href="/time-lapse">Time-lapse</a></li></ul></div>
         <div class="span-2 footer__col"><h3>Steps</h3><ul><li><a href="/#how">How it works</a></li><li><a href="/#viewer">The viewer</a></li></ul></div>
         <div class="span-2 footer__col"><h3>Battle</h3><ul><li><a href="/battle/">Blink Battle</a></li><li><a href="/#battle">Rules</a></li></ul></div>
         <div class="span-2 footer__col"><h3>Data</h3><ul><li><a href="/#data">Questions</a></li><li><a href="/credits.html">Credits</a></li></ul></div>
@@ -312,6 +313,7 @@
     document.querySelectorAll('[data-band]').forEach((b) => setPressed(b, b.dataset.band === state.band));
     document.querySelectorAll('[data-target]').forEach((b) => setPressed(b, b.dataset.target === t.id));
     document.querySelectorAll('[data-viewer-link]').forEach((a) => { a.href = '/viewer?target=' + t.id; });
+    document.querySelectorAll('[data-tl-link]').forEach((a) => { a.href = '/time-lapse?target=' + t.id + '&band=' + state.band; });
     $('lb-name').textContent = d.name;
     const base = '/data/';
     $('lb-img-a').src = base + t.id + '/' + p.paths.wise;

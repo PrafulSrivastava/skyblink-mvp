@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="soft" data-ground="sky" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkyBlink time-lapse: every WISE pass from 2010, then SPHEREx</title>
+<meta name="description" content="Play every WISE and NEOWISE pass of the same patch of sky from 2010 to 2024 in order, then the SPHEREx frame, and watch nearby stars walk across the field.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SkyBlink: a blink viewer for NASA SPHEREx infrared images">
+<meta property="og:description" content="Play SPHEREx frames of five nearby stars as a loop and see each one move between visits.">
+<meta property="og:image" content="/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0d14">
+<!-- <link rel="canonical" href="https://[the final domain]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/system.css">
+<link rel="stylesheet" href="/assets/ui/cards.css">
+<link rel="stylesheet" href="/assets/motion/motion.css">
+<link rel="stylesheet" href="/assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="/assets/layout/layout.css">
+<link rel="stylesheet" href="/assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #0a0d14; --p-surface: #131824; --p-ink: #e9edf3; --p-muted: #82868d;
+  --p-accent: #5ab9fc; --p-accent-ink: #0a0d14; --p-action: #5ab9fc; --p-action-ink: #0a0d14;
+  --p-inv-bg: #e9edf3; --p-inv-surface: #d7dbe1; --p-inv-ink: #0a0d14; --p-inv-muted: #54575f;
+  --p-inv-accent: #0a0d14; --p-inv-accent-ink: #e9edf3; --p-inv-action: #0a0d14; --p-inv-action-ink: #e9edf3;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-text: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.97;
+}
+</style>
+<link rel="stylesheet" href="/assets/ui/base.css">
+<link rel="stylesheet" href="/assets/ui/window/fragment.css">
+<link rel="stylesheet" href="/assets/ui/notify/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="/assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="/assets/moments/moments.js">
+<link rel="modulepreload" href="/assets/moments/lib.js">
+<link rel="modulepreload" href="/assets/moments/iris-opens/moment.js">
+<style>
+  /* inside visuals only: real SPHEREx frames drawn at their pixel scale */
+  .sky-thumb { object-fit: cover; image-rendering: pixelated; border-radius: 6px; }
+  .sky-img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border-radius: var(--u-r, 10px); }
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+  .app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane--list::after { display: none; }
+    .app .ui-win__side { display: none; }
+    .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+    .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+  }
+  .blink { padding: 20px 24px; display: grid; gap: 16px; font: 400 13px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .blink__head { display: flex; gap: 8px; align-items: center; }
+  .blink__head b { font-weight: 500; font-size: 14px; }
+  .blink__tabs { display: flex; gap: 6px; margin-left: auto; }
+  .blink__tabs span { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--u-line); color: var(--u-muted); }
+  .blink__tabs span.is-on { border-color: var(--accent); color: var(--u-ink); }
+  .blink__frames { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .blink__frames > div { display: grid; gap: 6px; }
+  .blink__frames span { color: var(--u-muted); }
+  .blink__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+  .blink__stats div { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--u-line); }
+  .blink__stats dd { margin: 0; font-family: var(--ui-mono, var(--font-mono)); }
+  .blink__stats dt { color: var(--u-muted); }
+  .spec { width: 100%; height: auto; }
+  .spec path.line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .spec path.axis { stroke: var(--u-line); }
+  .spec text { fill: var(--u-muted); font: 400 13px var(--ui-font, var(--font-text)); }
+  .coord { display: grid; gap: 10px; padding: 20px; font: 400 14px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .coord__field { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--u-line); border-radius: 8px; font-family: var(--ui-mono, var(--font-mono)); }
+  .coord__row { display: flex; justify-content: space-between; color: var(--u-muted); }
+  .coord__row b { color: var(--u-ink); font-weight: 500; }
+  .visits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 20px; }
+  .battle-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 32px; }
+  #how .panel { --p-h: 456px; }
+  @media (max-width: 1279px) { #how .panel { --p-h: 300px; } }
+  @media (max-width: 639px) { #how .panel { --p-h: 150px; } #how .card:not(:nth-child(2)) .panel { display: none; } }
+  #battle .t-lead { color: var(--ink); }
+  @media (min-width: 640px) and (max-width: 1023px) { #how { --h: 2; } }
+  @media (max-width: 639px) { .battle-view { padding: 48px 32px; } }
+  #battle .battle-view { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 639px) { .faq__item:nth-child(5) { display: none; } #battle .battle-view { grid-template-columns: repeat(2, minmax(0, 1fr)); } #battle .battle-view > img:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); } }
+</style>
+<style>
+    .lb__panel { background: var(--u-bg, var(--p-surface)); border: 1px solid var(--u-border, var(--line)); color: var(--u-ink, var(--ink)); border-radius: var(--u-r, 12px); padding: 20px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .lb__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .lb__label { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .lb__chip { appearance: none; font: 500 13px/1 var(--font-text); color: var(--muted); background: transparent; border: 1px solid var(--line-strong, var(--line)); border-radius: 999px; padding: 9px 14px; min-height: 36px; cursor: pointer; transition: color .2s, border-color .2s, background-color .2s; }
+  .lb__chip:hover { color: var(--ink); border-color: rgba(90,185,252,.5); }
+  .lb__chip[aria-pressed="true"] { color: var(--accent); border-color: rgba(90,185,252,.6); background: rgba(90,185,252,.1); }
+  .lb__chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lb__chip small { font-family: var(--font-mono); font-size: 11px; margin-left: 4px; }
+  .lb__link { margin-left: auto; font: 500 13px/1 var(--font-text); color: var(--accent); text-decoration: none; padding: 9px 2px; }
+  .lb__link:hover { text-decoration: underline; }
+  .lb__stage { position: relative; width: 100%; max-width: 520px; aspect-ratio: 1; margin: 0 auto; border-radius: 10px; overflow: hidden; background: #000; }
+  .lb__stage img { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+  .lb__stage img.is-off { visibility: hidden; }
+  .lb__stage svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .lb__badge { position: absolute; left: 10px; top: 10px; font: 500 12px/1.2 var(--font-mono); color: #e9edf3; background: rgba(10,13,20,.78); border: 1px solid var(--line-strong, var(--line)); border-radius: 6px; padding: 6px 8px; }
+  .lb__badge b { color: #5ab9fc; font-weight: 500; }
+  .lb__scale { position: absolute; right: 10px; bottom: 10px; font: 400 11px/1 var(--font-mono); color: #c3c7cd; background: rgba(10,13,20,.85); border-radius: 4px; padding: 4px 6px; }
+  .lb__controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .lb__note { font: 400 14px/1.5 var(--font-text); color: var(--ink); margin: 0; }
+  .lb__flags { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .lb__flags li { font: 400 14px/1.45 var(--font-text); color: var(--ink); }
+  .lb__flags li.is-warn { color: #bda38b; }
+  .lb__stats { display: grid; margin: 0; }
+  .lb__stats div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .lb__stats dt { color: var(--muted); font: 400 13px/1.4 var(--font-text); }
+  .lb__stats dd { margin: 0; font: 400 13px/1.4 var(--font-mono); color: var(--ink); text-align: right; }
+  .lb__key { display: flex; gap: 16px; flex-wrap: wrap; font: 400 12px/1 var(--font-mono); color: var(--muted); }
+  .lb__key i { display: inline-block; width: 18px; height: 0; border-top: 2px dashed #bda38b; vertical-align: middle; margin-right: 6px; }
+  .lb__key i.now { border-top-style: solid; border-color: var(--accent); }
+  .lb__key i.path { border-top: 2px solid #e9edf3; }
+  .hero__text .lb__row { margin-top: 4px; }
+  .hero__text .lb__flags { margin-top: 4px; }
+  .lb__panel--art { padding: 16px; gap: 12px; height: 100%; display: flex; flex-direction: column; border: 0; border-radius: 0; }
+  .lb__panel--art .lb__stage { flex: 1 1 0; min-height: 0; width: auto; max-width: 100%; aspect-ratio: 1; margin: 0 auto; }
+  .lb__panel--art .lb__key { justify-content: center; }
+  .lb-stats-grid { display: grid; gap: 16px; align-content: start; }
+  .lb-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .lb-two img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border-radius: 8px; background: #000; }
+  #measure .faq__item p { font-size: 14px; }
+  @media (max-width: 639px) { .lb__key { display: none; } .hero__text .hero__proof, .hero__text .hero__lead, .hero__text .btn--secondary { display: none; } .lb__panel--art { padding: 10px; gap: 8px; } }
+</style>
+<style>
+  .tl__date { font: 500 clamp(28px, 3.2vw, 40px)/1 var(--font-mono); letter-spacing: -0.02em; color: var(--ink); text-align: center; font-variant-numeric: tabular-nums; }
+  .tl__date small { display: block; margin-top: 6px; font: 400 12px/1.2 var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+  .tl__timeline { display: grid; gap: 4px; }
+  #tl-badge { max-width: calc(100% - 20px); }
+  .tl__range { width: 100%; height: 44px; margin: 0; accent-color: #5ab9fc; cursor: pointer; background: transparent; }
+  .tl__range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tl__ticks { position: relative; height: 8px; margin: 0 9px; }
+  .tl__ticks i { position: absolute; top: 0; width: 2px; height: 8px; margin-left: -1px; background: var(--line-strong, var(--line)); border-radius: 1px; }
+  .tl__ticks i.is-sx { background: #5ab9fc; }
+  .tl__ticks i.is-past { background: #e9edf3; }
+  .tl__ends { display: flex; justify-content: space-between; font: 400 12px/1 var(--font-mono); color: var(--muted); margin: 0 2px; }
+  .lb__key i.trail { border-top: 0; width: 8px; height: 8px; border-radius: 50%; background: #e9edf3; opacity: .7; margin-right: 6px; }
+  .lb__key i.track { border-top: 2px dashed #bda38b; }
+  .tl__phone-flags { display: none; }
+  @media (max-width: 1023px) {
+    .hero__text .hero__proof, .hero__text .hero__lead, .hero__text #tl-flags, #tl-stage ~ .lb__key, .tl__ends, .tl__timeline .lb__label { display: none; }
+    .tl__phone-flags { display: grid; } .lb__panel--art .lb__stage { min-height: 240px; } .tl__ticks { display: none; }
+  }
+  @media (max-width: 639px) {
+    .tl__date { font-size: 22px; } .tl__date small { margin-top: 4px; } .tl__ends, .tl__timeline .lb__label { display: none; }
+    #tl-stage .lb__scale { display: none; } .lb__panel--art .lb__stage { min-height: 160px; }
+    .tl__range { height: 44px; } .tl__ticks { display: none; }
+    .hero__text #tl-flags, #tl-trail-btn, #tl-track-btn, [data-speed="0.5"] { display: none; }
+    .tl__phone-flags { display: grid; }
+  }
+</style>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="/#top">Skip to content</a>
+    <a class="nav__logo" href="/#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="/#viewer">Viewer <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">Fast movers</p>
+              <a href="/viewer/?target=barnards-star">Barnard&rsquo;s Star<span>10,362 mas a year, band D2</span></a>
+              <a href="/viewer/?target=eps-indi-b">Epsilon Indi B<span>Methane dip at 3.3 &micro;m</span></a>
+              <a href="/viewer/?target=wise-0855">WISE 0855&minus;0714<span>Coldest known brown dwarf</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">Bright variables</p>
+              <a href="/viewer/?target=rw-aur">RW Aurigae<span>T Tauri star, band D1</span></a>
+              <a href="/viewer/?target=r-dra">R Draconis<span>Mira giant, wings only</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="/#how">Steps</a></div>
+      <div class="nav__item"><a class="nav__link" href="/#battle">Battle</a></div>
+      <div class="nav__item"><a class="nav__link" href="/#data">Data</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="/viewer/">Open the viewer</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+<main id="top">
+  <section class="hero hero--split" data-enter aria-labelledby="tl-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="tl-h">Infrared time-lapse, 2010 to 2026</h1>
+        <p class="hero__lead">WISE and NEOWISE swept this sky every six months from 2010 to 2024. SkyBlink plays each pass in order and ends on SPHEREx. Barnard&rsquo;s Star walks 28 pixels.</p>
+        <div class="lb__row" role="group" aria-label="Target" id="tl-targets"></div>
+        <div class="lb__row" role="group" aria-label="Band">
+          <span class="lb__label">Band</span>
+          <button class="lb__chip" type="button" data-band="W1" aria-pressed="false">WISE W1 <small>3.4 µm</small></button>
+          <button class="lb__chip" type="button" data-band="W2" aria-pressed="true">WISE W2 <small>4.6 µm</small></button>
+        </div>
+        <ul class="lb__flags" id="tl-flags"></ul>
+        <div class="btn-row"><a class="btn btn--primary" data-viewer-link href="/viewer?target=barnards-star">Open the viewer<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#measure">See the numbers</a></div>
+        <p class="hero__proof">unWISE time-resolved coadds of WISE and NEOWISE, and SPHEREx DR1 and QR3 from NASA/IPAC IRSA.</p>
+      </div>
+      <div class="hero__media span-6 start-7">
+        <div class="lb__panel lb__panel--art" aria-label="Time-lapse player">
+          <div class="lb__stage" id="tl-stage">
+            <img id="tl-img" alt="The field around the target at the current pass" width="980" height="980">
+            <svg viewBox="0 0 49 49" aria-hidden="true">
+              <polyline id="tl-track" fill="none" stroke="#bda38b" stroke-width=".3" stroke-dasharray="1 .7" stroke-linecap="round"/>
+              <polyline id="tl-trail-line" fill="none" stroke="#e9edf3" stroke-width=".25" stroke-opacity=".55" stroke-linejoin="round"/>
+              <g id="tl-trail"></g>
+              <circle id="tl-now" r="2.3" fill="none" stroke="#5ab9fc" stroke-width=".35"/>
+            </svg>
+            <div class="lb__badge" id="tl-badge" aria-live="polite"></div>
+            <div class="lb__scale">49 × 49 px, 6.15″/px, north up</div>
+          </div>
+          <div class="tl__date" id="tl-date">2010-03-19<small id="tl-sub">pass 1 of 24</small></div>
+          <div class="tl__timeline">
+            <label class="lb__label" for="tl-range">Timeline</label>
+            <input class="tl__range" id="tl-range" type="range" min="0" max="23" step="1" value="0" >
+            <div class="tl__ticks" id="tl-ticks" aria-hidden="true"></div>
+            <div class="tl__ends" aria-hidden="true"><span id="tl-start">2010</span><span id="tl-end">2026</span></div>
+          </div>
+          <div class="lb__controls">
+            <button class="lb__chip" type="button" id="tl-play" aria-pressed="true">Pause</button>
+            <button class="lb__chip" type="button" data-speed="0.5" aria-pressed="false">0.5×</button>
+            <button class="lb__chip" type="button" data-speed="1" aria-pressed="true">1×</button>
+            <button class="lb__chip" type="button" data-speed="2" aria-pressed="false">2×</button>
+            <button class="lb__chip" type="button" id="tl-trail-btn" aria-pressed="true">Trail</button>
+            <button class="lb__chip" type="button" id="tl-track-btn" aria-pressed="true">Predicted track</button>
+          </div>
+          <div class="lb__key"><span><i class="trail"></i>Fitted past positions</span><span><i class="track"></i>Gaia or CatWISE motion</span><span><i class="now"></i>Now</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+  <section class="section" id="measure" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="measure-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 lb-stats-grid">
+          <h2 id="measure-h">What the time-lapse measures</h2>
+          <p class="t-lead" id="tl-name">Barnard&rsquo;s Star</p>
+          <ul class="lb__flags tl__phone-flags" id="tl-flags-m"></ul>
+          <dl class="lb__stats" id="tl-stats"></dl>
+          <p class="lb__note" id="tl-norm"></p>
+          <a class="link" data-lb-link href="/long-baseline?target=barnards-star">Two-frame blink of 2010 against SPHEREx</a>
+        </div>
+        <div class="span-6 start-7 lb-stats-grid">
+          <div class="lb-two" role="img" aria-label="The first WISE pass and the SPHEREx frame side by side on the shared grid">
+            <img id="tl-still-a" alt="" width="980" height="980" loading="lazy">
+            <img id="tl-still-b" alt="" width="980" height="980" loading="lazy">
+          </div>
+          <div class="faq">
+            <div class="faq__item"><h3>Where the passes come from</h3><p>Each WISE frame is an unWISE time-resolved coadd: the dozen or so exposures of one sky pass stacked into one image. WISE slept from 2011 to 2013, so the dates jump there.</p></div>
+            <div class="faq__item"><h3>Why nothing flickers</h3><p>All WISE frames of a star share one brightness stretch, so field stars hold steady and only real changes show. The SPHEREx frame uses its own.</p></div>
+            <div class="faq__item"><h3>The dots and the dashed line</h3><p>Dots are Gaussian fits to the star in each past pass. The dashed line is the path that Gaia DR3 or CatWISE2020 motion and parallax predict.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Watch five nearby stars move</h2>
+        <p>Free, no sign-in, runs in your browser.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="/viewer/">Open the viewer<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="footer__mark" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+          <p class="footer__lede">A blink viewer for SPHEREx.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Viewer</h3><ul><li><a href="/viewer/">All targets</a></li><li><a href="/long-baseline">Long baseline</a></li><li><a href="/time-lapse">Time-lapse</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Steps</h3><ul><li><a href="/#how">How it works</a></li><li><a href="/#viewer">The viewer</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Battle</h3><ul><li><a href="/battle/">Blink Battle</a></li><li><a href="/#battle">Rules</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Data</h3><ul><li><a href="/#data">Questions</a></li><li><a href="/credits.html">Credits</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 SkyBlink, NASA Space Apps Challenge</span>
+        <div class="socials"></div>
+        <a class="credits" href="/credits.html">Data via NASA/IPAC IRSA, ESA Gaia, CatWISE2020 and unWISE</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const q = new URLSearchParams(location.search);
+  const BASE = 700;
+  const state = { idx: null, t: null, d: null, band: null, i: 0, playing: !reduce, speed: 1, trail: true, track: true, timer: null, cache: {} };
+  const fmt = (v, n = 1) => (v == null ? 'n/a' : Number(v).toFixed(n));
+  const NS = 'http://www.w3.org/2000/svg';
+  function setPressed(el, on) { el.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function frames() { return state.d.bands[state.band].frames; }
+  function url(f) { return '/data/' + state.t.id + '/' + f.path; }
+  function preload() { frames().forEach((f) => { const u = url(f); if (!state.cache[u]) { const im = new Image(); im.src = u; state.cache[u] = im; } }); }
+  function pt(f) { return [f.centroid.png_x + 0.5, f.centroid.png_y + 0.5]; }
+  function show(i) {
+    const fr = frames(); i = ((i % fr.length) + fr.length) % fr.length; state.i = i;
+    const f = fr[i];
+    $('tl-img').src = url(f);
+    $('tl-range').value = i;
+    $('tl-date').firstChild.nodeValue = f.date;
+    $('tl-sub').textContent = (f.kind === 'spherex' ? 'SPHEREx, ' : 'WISE pass ' + (i + 1) + ' of ' + (fr.length - 1) + ', ') + (f.kind === 'spherex' ? 'own stretch' : f.survey.includes('cryogenic') ? 'cryogenic WISE' : 'NEOWISE');
+    $('tl-badge').innerHTML = f.kind === 'spherex' ? '<b>SPHEREx</b> ' + f.survey.replace('SPHEREx ', '') : '<b>unWISE ' + state.band + '</b> ' + f.date.slice(0, 7);
+    const [x, y] = pt(f);
+    $('tl-now').setAttribute('cx', x); $('tl-now').setAttribute('cy', y);
+    const g = $('tl-trail'); g.innerHTML = '';
+    const past = fr.slice(0, i + 1).map(pt);
+    if (state.trail) {
+      past.slice(0, -1).forEach((p, k) => {
+        const c = document.createElementNS(NS, 'circle');
+        c.setAttribute('cx', p[0]); c.setAttribute('cy', p[1]); c.setAttribute('r', '.55');
+        c.setAttribute('fill', '#e9edf3'); c.setAttribute('fill-opacity', (0.15 + 0.75 * (k + 1) / past.length).toFixed(2));
+        g.appendChild(c);
+      });
+      $('tl-trail-line').setAttribute('points', past.map((p) => p.join(',')).join(' '));
+    } else $('tl-trail-line').setAttribute('points', '');
+    document.querySelectorAll('#tl-ticks i').forEach((el, k) => el.classList.toggle('is-past', k <= i && !el.classList.contains('is-sx')));
+  }
+  function schedule() {
+    clearTimeout(state.timer);
+    if (!state.playing) return;
+    const last = state.i === frames().length - 1;
+    state.timer = setTimeout(() => { show(state.i + 1); schedule(); }, (last ? BASE * 2.2 : BASE) / state.speed);
+  }
+  function play(on) {
+    state.playing = on;
+    $('tl-play').textContent = on ? 'Pause' : 'Play'; setPressed($('tl-play'), on);
+    schedule();
+  }
+  function render() {
+    const d = state.d, t = state.t, fr = frames();
+    document.querySelectorAll('[data-band]').forEach((b) => setPressed(b, b.dataset.band === state.band));
+    document.querySelectorAll('[data-target]').forEach((b) => setPressed(b, b.dataset.target === t.id));
+    document.querySelectorAll('[data-viewer-link]').forEach((a) => { a.href = '/viewer?target=' + t.id; });
+    document.querySelectorAll('[data-lb-link]').forEach((a) => { a.href = '/long-baseline?target=' + t.id + '&band=' + state.band; });
+    $('tl-name').textContent = d.name;
+    preload();
+    $('tl-range').max = fr.length - 1;
+    $('tl-ticks').innerHTML = fr.map((f, k) => '<i class="' + (f.kind === 'spherex' ? 'is-sx' : '') + '" style="left:' + (100 * k / (fr.length - 1)).toFixed(3) + '%"></i>').join('');
+    $('tl-start').textContent = fr[0].date.slice(0, 4); $('tl-end').textContent = fr[fr.length - 1].date.slice(0, 4);
+    $('tl-track').setAttribute('points', d.track.points.map((p) => (p[1] + 0.5) + ',' + (p[2] + 0.5)).join(' '));
+    $('tl-track').style.display = state.track ? '' : 'none';
+    $('tl-still-a').src = url(fr[0]); $('tl-still-b').src = url(fr[fr.length - 1]);
+    const flags = t.labels.filter((l) => l.bands.includes(state.band));
+    $('tl-flags').innerHTML = flags.map((l) => '<li class="' + (l.kind === 'warn' ? 'is-warn' : '') + '">' + l.text + '</li>').join('');
+    $('tl-flags-m').innerHTML = $('tl-flags').innerHTML;
+    const uw = fr.filter((f) => f.kind === 'unwise'), a = fr[0], b = fr[fr.length - 1];
+    const px = Math.hypot(b.centroid.png_x - a.centroid.png_x, b.centroid.png_y - a.centroid.png_y);
+    const fits = fr.filter((f) => f.centroid.source === 'fit');
+    const offs = fits.map((f) => f.fit_offset_px).filter((v) => v != null);
+    const sx = fr.find((f) => f.kind === 'spherex');
+    const rows = [
+      ['WISE passes', uw.length + ', ' + uw[0].date + ' to ' + uw[uw.length - 1].date],
+      ['SPHEREx frame', sx ? sx.date_range.join(' to ') : 'none'],
+      ['Proper motion', fmt(d.motion.pm_total_mas_yr, 0) + ' mas/yr, PA ' + fmt(d.motion.position_angle_deg, 0) + '°'],
+      ['Shift, first to last', fmt(px, 1) + ' px (' + fmt(px * 6.15, 0) + '″)'],
+      ['Fitted positions', fits.length + ' of ' + fr.length + ' frames'],
+      ['Median fit vs prediction', offs.length ? fmt(offs.slice().sort((p, r) => p - r)[Math.floor(offs.length / 2)], 2) + ' px' : 'n/a'],
+    ];
+    $('tl-stats').innerHTML = rows.map((r) => '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>').join('');
+    show(Math.min(state.i, fr.length - 1));
+  }
+  async function pick(id, band) {
+    const t = state.idx.targets.find((x) => x.id === id) || state.idx.targets[0];
+    const d = await (await fetch('/data/' + t.data)).json();
+    state.t = t; state.d = d; state.band = band && d.bands[band] ? band : t.default_band; state.i = 0;
+    const u = new URL(location.href); u.searchParams.set('target', t.id); u.searchParams.set('band', state.band); history.replaceState(null, '', u);
+    render(); schedule();
+  }
+  async function init() {
+    state.idx = await (await fetch('/data/timelapse.json')).json();
+    $('tl-norm').textContent = state.idx.normalisation;
+    $('tl-targets').innerHTML = '<span class="lb__label">Target</span>' + state.idx.targets.map((t) => '<button class="lb__chip" type="button" data-target="' + t.id + '" aria-pressed="false">' + t.short + '</button>').join('');
+    $('tl-targets').addEventListener('click', (e) => { const b = e.target.closest('[data-target]'); if (b) pick(b.dataset.target, state.band); });
+    document.querySelectorAll('[data-band]').forEach((b) => b.addEventListener('click', () => { state.band = b.dataset.band; state.i = Math.min(state.i, state.d.bands[state.band].frames.length - 1); const u = new URL(location.href); u.searchParams.set('band', state.band); history.replaceState(null, '', u); render(); schedule(); }));
+    document.querySelectorAll('[data-speed]').forEach((b) => b.addEventListener('click', () => { state.speed = +b.dataset.speed; document.querySelectorAll('[data-speed]').forEach((x) => setPressed(x, x === b)); schedule(); }));
+    $('tl-play').addEventListener('click', () => play(!state.playing));
+    $('tl-range').addEventListener('input', (e) => { play(false); show(+e.target.value); });
+    $('tl-trail-btn').addEventListener('click', () => { state.trail = !state.trail; setPressed($('tl-trail-btn'), state.trail); show(state.i); });
+    $('tl-track-btn').addEventListener('click', () => { state.track = !state.track; setPressed($('tl-track-btn'), state.track); $('tl-track').style.display = state.track ? '' : 'none'; });
+    await pick(q.get('target') || 'barnards-star', q.get('band'));
+    play(state.playing);
+  }
+  init();
+})();
+</script>
+<script type="module" src="/assets/system.js"></script>
+<script type="module" src="/assets/motion/motion.js"></script>
+<script type="module" src="/assets/layout/layout.js"></script>
+</body>
+</html>

@@ -1,0 +1,207 @@
+{
+ "version": 1,
+ "mode": "time-lapse",
+ "title": "Time-lapse: every WISE and NEOWISE pass from 2010 to 2024, then SPHEREx",
+ "source": "unWISE time-resolved coadds (Meisner et al. 2018, 2023; neo11 epochs) cut out through the WiseView service (Caselden et al. 2018). One coadd per sky pass, about every six months. The last frame is the SPHEREx stack from the long-baseline mode.",
+ "normalisation": "All unWISE frames of a target share one asinh stretch (the median over epochs of each frame's 10th and 99.5th percentile), so field stars keep a steady brightness. The SPHEREx frame is in MJy/sr and is stretched on its own.",
+ "band_note": "W1 is 3.4 µm and W2 is 4.6 µm. The SPHEREx frame stacks its 2.9 to 3.8 µm (W1) or 4.0 to 5.0 µm (W2) channels.",
+ "targets": [
+  {
+   "id": "barnards-star",
+   "name": "Barnard's Star",
+   "short": "Barnard's Star",
+   "default_band": "W2",
+   "data": "barnards-star/timelapse/timelapse.json",
+   "labels": [
+    {
+     "kind": "info",
+     "text": "Saturated core: unWISE leaves a few hollow pixels at the centre of very bright stars. They are drawn white here and left out of the fits",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    }
+   ],
+   "summary": {
+    "W1": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-03-19",
+     "last_unwise": "2024-03-18",
+     "last": "2026-08-27",
+     "n_fit_centroids": 23
+    },
+    "W2": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-03-19",
+     "last_unwise": "2024-03-18",
+     "last": "2026-08-20",
+     "n_fit_centroids": 24
+    }
+   }
+  },
+  {
+   "id": "eps-indi-b",
+   "name": "Epsilon Indi B",
+   "short": "ε Indi B",
+   "default_band": "W2",
+   "data": "eps-indi-b/timelapse/timelapse.json",
+   "labels": [
+    {
+     "kind": "info",
+     "text": "The diagonal streak and the bright ring at the top right in every other frame are WISE artefacts from bright ε Indi A just outside the field. They follow the scan direction and are not moving sources",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    }
+   ],
+   "summary": {
+    "W1": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-05-02",
+     "last_unwise": "2024-04-30",
+     "last": "2026-04-22",
+     "n_fit_centroids": 24
+    },
+    "W2": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-05-02",
+     "last_unwise": "2024-04-30",
+     "last": "2026-09-27",
+     "n_fit_centroids": 24
+    }
+   }
+  },
+  {
+   "id": "wise-0855",
+   "name": "WISE J085510.83-071442.5",
+   "short": "WISE 0855",
+   "default_band": "W2",
+   "data": "wise-0855/timelapse/timelapse.json",
+   "labels": [
+    {
+     "kind": "warn",
+     "text": "Barely detected in W1: the fitted position wanders up to 3 px from the prediction in faint frames, so the trail falls back to the prediction there. Use W2",
+     "bands": [
+      "W1"
+     ]
+    },
+    {
+     "kind": "info",
+     "text": "A G=16.3 Gaia star sits 8″ from the 2025 position and adds some light to the SPHEREx frame",
+     "bands": [
+      "W2"
+     ]
+    }
+   ],
+   "summary": {
+    "W1": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-05-04",
+     "last_unwise": "2024-04-17",
+     "last": "2026-05-04",
+     "n_fit_centroids": 16
+    },
+    "W2": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-05-04",
+     "last_unwise": "2024-04-17",
+     "last": "2026-05-01",
+     "n_fit_centroids": 24
+    }
+   }
+  },
+  {
+   "id": "rw-aur",
+   "name": "RW Aurigae",
+   "short": "RW Aur",
+   "default_band": "W2",
+   "data": "rw-aur/timelapse/timelapse.json",
+   "labels": [
+    {
+     "kind": "info",
+     "text": "No visible motion expected: under 0.5″ in 16 years. RW Aur is a variable young star, so the brightness changes are real",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    },
+    {
+     "kind": "info",
+     "text": "Saturated core: unWISE leaves a few hollow pixels at the centre of very bright stars. They are drawn white here and left out of the fits",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    }
+   ],
+   "summary": {
+    "W1": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-03-04",
+     "last_unwise": "2024-02-14",
+     "last": "2026-09-05",
+     "n_fit_centroids": 24
+    },
+    "W2": {
+     "n_frames": 24,
+     "n_unwise": 23,
+     "first": "2010-03-04",
+     "last_unwise": "2024-02-14",
+     "last": "2026-09-14",
+     "n_fit_centroids": 24
+    }
+   }
+  },
+  {
+   "id": "r-dra",
+   "name": "R Draconis",
+   "short": "R Dra",
+   "default_band": "W2",
+   "data": "r-dra/timelapse/timelapse.json",
+   "labels": [
+    {
+     "kind": "info",
+     "text": "No visible motion expected: 0.3″ in 16 years. R Dra is a Mira variable, so it brightens and fades on a 245-day cycle",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    },
+    {
+     "kind": "warn",
+     "text": "Heavily saturated: the hollow core is drawn white and the Gaussian fit is unreliable, so the trail uses the Gaia prediction in most frames",
+     "bands": [
+      "W1",
+      "W2"
+     ]
+    }
+   ],
+   "summary": {
+    "W1": {
+     "n_frames": 25,
+     "n_unwise": 24,
+     "first": "2010-06-05",
+     "last_unwise": "2024-05-18",
+     "last": "2026-07-10",
+     "n_fit_centroids": 12
+    },
+    "W2": {
+     "n_frames": 25,
+     "n_unwise": 24,
+     "first": "2010-06-05",
+     "last_unwise": "2024-05-18",
+     "last": "2026-05-23",
+     "n_fit_centroids": 5
+    }
+   }
+  }
+ ]
+}

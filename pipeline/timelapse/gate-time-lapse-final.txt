@@ -1,0 +1,8 @@
+gate: checking site/time-lapse.html (software); this takes a few minutes on a CPU Chrome
+gate: no open FAIL
+  WAIVED container-edges section#measure > div.mo-io__stage: the stage is the dealt iris-opens moment's own inset panel, mounted by assets/moments/iris-opens/moment.js exactly as the kit's demo.html does (data-moment on the section); it is absolute, pointer-events none, and is removed (display none) once the iris opens, so it is a transition overlay, not a layout child
+  WAIVED sparse #measure section.section.mo-io "What the time-lapse measures Bar": the section is the live measurement table plus both epoch frames as its visual; the fill is low only because the table rows are thin data lines, and padding it out would add filler to a data readout
+  WAIVED neighbour #measure section.section.mo-io "What the time-lapse measures Bar": #measure is the last section of a two-section tool page; at 390 its stacked table, frames and notes end and the closing footer follows directly, there is no further section whose heading or picture could be framed
+  waiver ignored (matches no open finding): hero-lines "section.hero h1"
+  13 WARN (not blocking), first: caption div#tl-date "2016-03-18 WISE pass 7 of 2; no-visual main#top > section.hero.hero--split "Inf; body-size ul#tl-flags > li "Saturated core: unWISE; label-centre header.nav.nav--centre > div.wrap.nav__b; copy-length section#measure "What the time-lapse mea
+GATE: PASS
