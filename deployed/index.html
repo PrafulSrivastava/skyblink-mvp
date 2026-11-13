@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="soft" data-ground="sky" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkyBlink: a blink viewer for NASA SPHEREx infrared images</title>
+<meta name="description" content="Play SPHEREx frames of five nearby stars as a loop and see each one move between visits, in the browser.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SkyBlink: a blink viewer for NASA SPHEREx infrared images">
+<meta property="og:description" content="Play SPHEREx frames of five nearby stars as a loop and see each one move between visits.">
+<meta property="og:image" content="/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0d14">
+<!-- <link rel="canonical" href="https://[the final domain]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #0a0d14; --p-surface: #131824; --p-ink: #e9edf3; --p-muted: #82868d;
+  --p-accent: #5ab9fc; --p-accent-ink: #0a0d14; --p-action: #5ab9fc; --p-action-ink: #0a0d14;
+  --p-inv-bg: #e9edf3; --p-inv-surface: #d7dbe1; --p-inv-ink: #0a0d14; --p-inv-muted: #54575f;
+  --p-inv-accent: #0a0d14; --p-inv-accent-ink: #e9edf3; --p-inv-action: #0a0d14; --p-inv-action-ink: #e9edf3;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-text: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.97;
+}
+</style>
+<link rel="stylesheet" href="assets/ui/base.css">
+<link rel="stylesheet" href="assets/ui/window/fragment.css">
+<link rel="stylesheet" href="assets/ui/notify/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/iris-opens/moment.js">
+<style>
+  /* inside visuals only: real SPHEREx frames drawn at their pixel scale */
+  .sky-thumb { object-fit: cover; image-rendering: pixelated; border-radius: 6px; }
+  .sky-img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border-radius: var(--u-r, 10px); }
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+  .app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane--list::after { display: none; }
+    .app .ui-win__side { display: none; }
+    .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+    .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+  }
+  .blink { padding: 20px 24px; display: grid; gap: 16px; font: 400 13px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .blink__head { display: flex; gap: 8px; align-items: center; }
+  .blink__head b { font-weight: 500; font-size: 14px; }
+  .blink__tabs { display: flex; gap: 6px; margin-left: auto; }
+  .blink__tabs span { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--u-line); color: var(--u-muted); }
+  .blink__tabs span.is-on { border-color: var(--accent); color: var(--u-ink); }
+  .blink__frames { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .blink__frames > div { display: grid; gap: 6px; }
+  .blink__frames span { color: var(--u-muted); }
+  .blink__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+  .blink__stats div { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--u-line); }
+  .blink__stats dd { margin: 0; font-family: var(--ui-mono, var(--font-mono)); }
+  .blink__stats dt { color: var(--u-muted); }
+  .spec { width: 100%; height: auto; }
+  .spec path.line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .spec path.axis { stroke: var(--u-line); }
+  .spec text { fill: var(--u-muted); font: 400 13px var(--ui-font, var(--font-text)); }
+  .coord { display: grid; gap: 10px; padding: 20px; font: 400 14px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .coord__field { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--u-line); border-radius: 8px; font-family: var(--ui-mono, var(--font-mono)); }
+  .coord__row { display: flex; justify-content: space-between; color: var(--u-muted); }
+  .coord__row b { color: var(--u-ink); font-weight: 500; }
+  .visits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 20px; }
+  .battle-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 32px; }
+  #how .panel { --p-h: 456px; }
+  @media (max-width: 1279px) { #how .panel { --p-h: 300px; } }
+  @media (max-width: 639px) { #how .panel { --p-h: 150px; } #how .card:not(:nth-child(2)) .panel { display: none; } }
+  #battle .t-lead { color: var(--ink); }
+  @media (min-width: 640px) and (max-width: 1023px) { #how { --h: 2; } }
+  @media (max-width: 639px) { .battle-view { padding: 48px 32px; } }
+  #battle .battle-view { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 639px) { .faq__item:nth-child(5) { display: none; } #battle .battle-view { grid-template-columns: repeat(2, minmax(0, 1fr)); } #battle .battle-view > img:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); } }
+</style>
+</head>
+<body>
+<!-- type: software (a web tool that plays NASA SPHEREx images as a blink)
+     deal: hero collage, nav nav-centre (nav-cards dealt first; no photographs, dealt again from nav-mega|nav-centre),
+     close close-type, footer footer-dark (footer-statement dealt first: on a dark page its lit slab draws the main action in ink, a second look for one action; dealt again from footer-dark|footer-columns), rhythm dark-band (on a dark page the inverse band is the light one),
+     buttons pill, mark dots, grounds none, effect none.
+     palette: the client's own (start.mjs brand): night ground #0a0d14, ink #e9edf3, sky-blue accent #5ab9fc; type manrope.
+     moments: iris-opens on #battle (the one band on a new ground: the game opens like a telescope's aperture). -->
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="#viewer">Viewer <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">Fast movers</p>
+              <a href="/viewer/?target=barnards-star">Barnard&rsquo;s Star<span>10,362 mas a year, band D2</span></a>
+              <a href="/viewer/?target=eps-indi-b">Epsilon Indi B<span>Methane dip at 3.3 &micro;m</span></a>
+              <a href="/viewer/?target=wise-0855">WISE 0855&minus;0714<span>Coldest known brown dwarf</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">Bright variables</p>
+              <a href="/viewer/?target=rw-aur">RW Aurigae<span>T Tauri star, band D1</span></a>
+              <a href="/viewer/?target=r-dra">R Draconis<span>Mira giant, wings only</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="#how">Steps</a></div>
+      <div class="nav__item"><a class="nav__link" href="#battle">Battle</a></div>
+      <div class="nav__item"><a class="nav__link" href="#data">Data</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="/viewer/">Open the viewer</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--collage" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="hero-h">Blink viewer for NASA SPHEREx images</h1>
+        <p class="hero__lead">SkyBlink stacks SPHEREx infrared frames by visit and plays them as a loop, so a nearby star&rsquo;s motion shows. Barnard&rsquo;s Star moved 1.54 pixels in one year.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="/viewer/">Open the viewer<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="/battle/">Play Blink Battle</a></div>
+        <p class="hero__proof">Images from SPHEREx DR1 and QR3 at NASA/IPAC IRSA.</p>
+      </div>
+      <div class="hero__art span-6 start-7" role="img" aria-label="SkyBlink&rsquo;s list of five SPHEREx targets with their proper motion, and a note that Barnard&rsquo;s Star moved 1.54 pixels">
+        <div class="ly-piece ly-piece--main" aria-hidden="true">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="Queued" data-work="Stacking" data-done="Moving">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">SkyBlink <i>/</i> <b>Targets</b></span>
+              <span class="ui-spacer"></span>
+            </div>
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav is-on">Targets<em>5</em></span>
+                <span class="ui-win__nav">Visits<em>20</em></span>
+                <span class="ui-win__nav">Spectra</span>
+                <span class="ui-win__label">Bands</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>D2</span>
+                <span class="ui-win__nav"><span class="ui-win__hash">#</span>D6</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>Target</span><span>Motion</span><span>State</span></div>
+                <ul class="ui-win__rows"><li class="ui-win__row"><img class="ui-avatar sky-thumb" src="assets/sky/barnards-star-a.png" alt="" width="28" height="28"><span class="ui-win__who">Barnard&rsquo;s Star</span><span class="ui-win__sub">D2 &middot; 10,362 mas/yr</span><span class="ui-win__st">Moving</span></li><li class="ui-win__row"><img class="ui-avatar sky-thumb" src="assets/sky/eps-indi-b-a.png" alt="" width="28" height="28"><span class="ui-win__who">Epsilon Indi B</span><span class="ui-win__sub">D3 &middot; 4,684 mas/yr</span><span class="ui-win__st">Moving</span></li><li class="ui-win__row"><img class="ui-avatar sky-thumb" src="assets/sky/wise-0855-a.png" alt="" width="28" height="28"><span class="ui-win__who">WISE 0855&minus;0714</span><span class="ui-win__sub">D6 &middot; 8,088 mas/yr</span><span class="ui-win__st is-you">Blended</span></li><li class="ui-win__row"><img class="ui-avatar sky-thumb" src="assets/sky/rw-aur-a.png" alt="" width="28" height="28"><span class="ui-win__who">RW Aurigae</span><span class="ui-win__sub">D2 &middot; 27 mas/yr</span><span class="ui-win__st is-done">Saturated</span></li><li class="ui-win__row"><img class="ui-avatar sky-thumb" src="assets/sky/r-dra-a.png" alt="" width="28" height="28"><span class="ui-win__who">R Draconis</span><span class="ui-win__sub">D2 &middot; 22 mas/yr</span><span class="ui-win__st is-done">Saturated</span></li></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ly-piece ly-piece--note" aria-hidden="true" style="left: var(--s-7); bottom: var(--s-7); width: 300px;">
+          <div class="ui ui-notify" data-ui="notify">
+            <ul class="ui-notify__list" data-notify-list>
+              <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">Barnard&rsquo;s Star moved<time>D2</time></span><span class="ui-note__body">1.54 px measured, 1.67 px predicted</span></span></li>
+              <li class="ui-note"><span class="ui-note__ico"><svg class="ui-icon" viewBox="0 0 16 16"><path d="m3.5 8.4 2.8 2.8 6.2-6.4"/></svg></span><span class="ui-note__text"><span class="ui-note__title">WISE 0855 position fixed<time>D6</time></span><span class="ui-note__body">125.7&Prime; from the brief&rsquo;s coordinate</span></span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="viewer" aria-labelledby="viewer-h">
+    <div class="wrap">
+      <div class="grid">
+        <h2 class="span-5" id="viewer-h">The viewer, open on Barnard&rsquo;s Star</h2>
+        <div class="span-6 start-7 stack-4">
+          <p>Pick a target and a band. Visit 1 and visit 5 play in turn, the difference image shows the shift, and the readout sets it beside the Gaia prediction.</p>
+          <a class="link" href="/viewer/?target=barnards-star">See Barnard&rsquo;s Star in the viewer</a>
+        </div>
+      </div>
+      <div class="ui app fill" role="img" aria-label="The SkyBlink viewer: a list of stacked SPHEREx visits beside Barnard&rsquo;s Star in band D2, visit 1, visit 5 and their difference, with the measured shift" data-ui-pause-host>
+        <div class="app__pane app__pane--list">
+          <div class="ui ui-panel ui-win" data-ui="window" data-open="Queued" data-work="Stacking" data-done="Stacked">
+            <div class="ui-win__bar">
+              <span class="ui-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+              <span class="ui-win__crumb">SkyBlink <i>/</i> <b>Visits</b></span>
+              <span class="ui-spacer"></span>
+            </div>
+            <div class="ui-win__body">
+              <nav class="ui-win__side" aria-hidden="true">
+                <span class="ui-win__nav">Targets<em>5</em></span>
+                <span class="ui-win__nav is-on">Visits<em>20</em></span>
+                <span class="ui-win__nav">Spectra</span>
+              </nav>
+              <div class="ui-win__main">
+                <div class="ui-win__cols" aria-hidden="true"><span>Target</span><span>Visit</span><span>State</span><span>Frames</span></div>
+                <ul class="ui-win__rows"><li class="ui-win__row"><span class="ui-avatar" data-tone="1">BS</span><span class="ui-win__who">Barnard&rsquo;s Star</span><span class="ui-win__sub">Visit 1 &middot; 15 Aug 2025 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">17 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="1">BS</span><span class="ui-win__who">Barnard&rsquo;s Star</span><span class="ui-win__sub">Visit 3 &middot; 11 Mar 2026 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">18 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="1">BS</span><span class="ui-win__who">Barnard&rsquo;s Star</span><span class="ui-win__sub">Visit 5 &middot; 16 Aug 2026 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">21 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="2">EI</span><span class="ui-win__who">Epsilon Indi B</span><span class="ui-win__sub">Visit 2 &middot; 28 Sep 2025 &middot; D3</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">23 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="2">EI</span><span class="ui-win__who">Epsilon Indi B</span><span class="ui-win__sub">Visit 3 &middot; 18 Apr 2026 &middot; D3</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">12 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">W0</span><span class="ui-win__who">WISE 0855&minus;0714</span><span class="ui-win__sub">Visit 2 &middot; 31 Oct 2025 &middot; D6</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">18 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="3">W0</span><span class="ui-win__who">WISE 0855&minus;0714</span><span class="ui-win__sub">Visit 4 &middot; 21 Apr 2026 &middot; D6</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">21 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">RA</span><span class="ui-win__who">RW Aurigae</span><span class="ui-win__sub">Visit 1 &middot; 1 Sep 2025 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">18 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="4">RA</span><span class="ui-win__who">RW Aurigae</span><span class="ui-win__sub">Visit 3 &middot; 2 Sep 2026 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">18 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">RD</span><span class="ui-win__who">R Draconis</span><span class="ui-win__sub">Visit 1 &middot; 16 May 2025 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">33 frames</span></li><li class="ui-win__row"><span class="ui-avatar" data-tone="5">RD</span><span class="ui-win__who">R Draconis</span><span class="ui-win__sub">Visit 3 &middot; 22 Apr 2026 &middot; D2</span><span class="ui-win__st is-done">Stacked</span><span class="ui-win__age">18 frames</span></li></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app__pane app__pane--open">
+          <div class="blink">
+            <div class="blink__head"><b>Barnard&rsquo;s Star &middot; D2</b><span class="blink__tabs"><span>Blink</span><span class="is-on">Difference</span><span>Spectrum</span></span></div>
+            <div class="blink__frames">
+              <div><span>Visit 1, Aug 2025</span><img class="sky-img" src="assets/sky/barnards-star-a.png" alt="" width="392" height="392"></div>
+              <div><span>Visit 5, Aug 2026</span><img class="sky-img" src="assets/sky/barnards-star-b.png" alt="" width="392" height="392"></div>
+              <div><span>Difference</span><img class="sky-img" src="assets/sky/barnards-star-d.png" alt="" width="392" height="392"></div>
+            </div>
+            <dl class="blink__stats">
+              <div><dt>Proper motion</dt><dd>10,362 mas/yr</dd></div>
+              <div><dt>Predicted shift</dt><dd>1.67 px</dd></div>
+              <div><dt>Measured shift</dt><dd>1.54 px</dd></div>
+              <div><dt>Core</dt><dd>Saturated</dd></div>
+              <div><dt>Pixel scale</dt><dd>6.15&Prime;</dd></div>
+              <div><dt>Frames</dt><dd>17 and 21</dd></div>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="how-h">SkyBlink in 3 steps</h2></div>
+      <div class="grid">
+        <article class="card card--row card--open span-4">
+          <span class="step-num">1</span>
+          <h3>Type a position into SkyBlink</h3>
+          <p>Type RA and Dec, or pick a target. Gaia DR3 or CatWISE2020 moves it to the date of each visit.</p>
+          <div class="panel"><div class="ui ui-panel coord" role="img" aria-label="A coordinate field with Barnard&rsquo;s Star&rsquo;s position and its Gaia proper motion">
+            <div class="coord__field">17h57m48.5s +04&deg;41&prime;36&Prime;</div>
+            <div class="coord__row"><span>Catalogue</span><b>Gaia DR3</b></div>
+            <div class="coord__row"><span>&mu; Dec</span><b>10,362 mas/yr</b></div>
+            <div class="coord__row"><span>&mu; RA</span><b>&minus;802 mas/yr</b></div>
+            <div class="coord__row"><span>Moved since 2016</span><b>105.6&Prime;</b></div>
+          </div></div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">2</span>
+          <h3>Stack each SPHEREx visit</h3>
+          <p>Frames from one visit are co-added per band, with flagged pixels masked and north up.</p>
+          <div class="panel"><div class="visits" role="img" aria-label="Epsilon Indi B in band D3 at two visits and their difference">
+            <img class="sky-img" src="assets/sky/eps-indi-b-a.png" alt="" width="392" height="392" loading="lazy">
+            <img class="sky-img" src="assets/sky/eps-indi-b-b.png" alt="" width="392" height="392" loading="lazy">
+          </div></div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">3</span>
+          <h3>Read the 102-channel spectrum</h3>
+          <p>Click any pixel. Epsilon Indi B dips at 3.3 &micro;m, where methane absorbs.</p>
+          <div class="panel"><div class="ui ui-panel" style="padding: 20px" role="img" aria-label="Epsilon Indi B&rsquo;s SPHEREx spectrum from 0.75 to 5 micrometres, with a dip at 3.3 micrometres">
+            <svg class="spec" viewBox="0 0 600 250" aria-hidden="true"><path class="axis" d="M0 220.5H600"/><path class="line" d="M0.4 219.8 L3.0 219.9 L5.6 219.7 L8.3 218.7 L11.0 217.8 L13.8 215.8 L19.6 210.4 L22.6 204.8 L25.7 203.2 L28.9 197.4 L32.2 189.4 L35.4 182.4 L38.8 169.6 L42.4 156.8 L45.9 146.9 L49.7 165.0 L51.2 172.4 L54.9 173.9 L58.9 171.5 L62.8 147.3 L66.9 123.9 L71.2 108.0 L75.4 80.8 L79.8 110.0 L84.1 184.4 L88.7 199.5 L93.5 201.1 L98.3 184.8 L103.2 173.8 L108.3 155.4 L113.5 99.0 L118.9 86.1 L124.4 103.4 L127.9 110.6 L133.4 114.5 L139.1 134.4 L144.7 161.1 L150.8 179.8 L156.8 186.4 L163.1 175.9 L169.3 177.7 L175.8 169.7 L182.3 142.6 L189.0 123.2 L196.1 121.1 L203.2 137.9 L210.4 162.7 L217.7 172.2 L225.2 179.2 L232.8 178.9 L239.3 174.8 L247.9 187.8 L267.7 189.3 L278.0 190.3 L288.6 185.3 L310.7 158.3 L322.3 156.1 L334.3 177.0 L346.4 185.9 L359.0 182.4 L371.7 180.8 L384.8 172.9 L398.1 147.3 L411.8 122.6 L426.1 62.4 L435.2 51.0 L440.0 43.7 L444.8 35.3 L449.6 29.2 L454.6 24.3 L459.5 10.5 L464.5 14.0 L469.6 13.2 L474.6 21.3 L479.7 26.1 L484.8 49.4 L489.9 78.7 L495.1 94.4 L500.3 94.9 L505.6 102.9 L510.8 108.6 L516.0 127.3 L520.2 130.7 L524.8 142.4 L529.4 152.6 L534.1 159.4 L538.7 160.4 L543.5 155.9 L548.5 156.4 L553.3 138.1 L558.2 142.7 L563.2 154.2 L568.0 154.2 L572.9 152.8 L577.8 151.4 L582.9 147.9 L588.0 144.0 L593.1 145.9 L598.3 136.6"/><text x="0" y="246">0.75 &micro;m</text><text x="330" y="246">3.3 &micro;m</text><text x="540" y="246">5 &micro;m</text></svg>
+          </div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="data" aria-labelledby="data-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-4">
+          <h2 id="data-h">Questions about the data</h2>
+          <p>Every frame is real SPHEREx data, shipped with the site.</p>
+          <a class="link" href="/credits.html">Read the data credits</a>
+        </div>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>Where do the images come from?</h3><p>SPHEREx Level 2 spectral images from DR1 and QR3, read from IRSA&rsquo;s public bucket and saved as static files.</p></div>
+          <div class="faq__item"><h3>Why does SkyBlink move a coordinate?</h3><p>Nearby stars drift. WISE 0855 sits 125.7&Prime; from the brief&rsquo;s position, so SkyBlink applies its CatWISE2020 motion first.</p></div>
+          <div class="faq__item"><h3>What does Saturated mean in the viewer?</h3><p>The star overflows the detector core. For RW Aurigae and R Draconis the viewer measures the PSF wings instead.</p></div>
+          <div class="faq__item"><h3>Why is WISE 0855 marked Blended?</h3><p>A Gaia star of G 16.3 overlaps it at short wavelengths, so band D6 is its default.</p></div>
+          <div class="faq__item"><h3>Which wavelengths does SPHEREx cover?</h3><p>Six detector bands, D1 to D6, run from 0.75 to 5 &micro;m in 102 spectral channels.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="section ground-inverse" id="battle" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="battle-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-7 stack-6">
+          <h2 id="battle-h">Blink Battle, a five-round game</h2>
+          <p class="t-lead">Two real SPHEREx frames flash in turn. Tap the star that moved; accuracy and speed score up to 1,000 points a round.</p>
+          <a class="link" href="/battle/">Play Blink Battle</a>
+        </div>
+        <div class="frame span-12">
+          <div class="ui ui-panel battle-view" role="img" aria-label="WISE 0855 in band D6 at two visits, the frames a Blink Battle round flashes, and their difference">
+            <img class="sky-img" src="assets/sky/wise-0855-a.png" alt="" width="392" height="392" loading="lazy">
+            <img class="sky-img" src="assets/sky/wise-0855-b.png" alt="" width="392" height="392" loading="lazy">
+            <img class="sky-img" src="assets/sky/wise-0855-d.png" alt="" width="392" height="392" loading="lazy">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Watch five nearby stars move</h2>
+        <p>Free, no sign-in, runs in your browser.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="/viewer/">Open the viewer<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="footer__mark" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+          <p class="footer__lede">A blink viewer for SPHEREx.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Viewer</h3><ul><li><a href="/viewer/">All targets</a></li><li><a href="/viewer/?target=eps-indi-b">Epsilon Indi B</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Steps</h3><ul><li><a href="#how">How it works</a></li><li><a href="#viewer">The viewer</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Battle</h3><ul><li><a href="/battle/">Blink Battle</a></li><li><a href="#battle">Rules</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Data</h3><ul><li><a href="#data">Questions</a></li><li><a href="/credits.html">Credits</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 SkyBlink, NASA Space Apps Challenge</span>
+        <div class="socials"></div>
+        <a class="credits" href="/credits.html">Data via NASA/IPAC IRSA, ESA Gaia and CatWISE2020</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+</body>
+</html>

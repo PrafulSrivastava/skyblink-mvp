@@ -1,0 +1,208 @@
+{
+ "version": 1,
+ "generated": "2026-11-13T07:31:06Z",
+ "grid_pixel_scale_arcsec": 6.15,
+ "grid_naxis": 49,
+ "flux_unit": "uJy",
+ "image_unit": "MJy/sr",
+ "targets": [
+  {
+   "id": "barnards-star",
+   "name": "Barnard's Star",
+   "default_band": "D2",
+   "target": "barnards-star/target.json",
+   "spectrum": "barnards-star/spectrum.json",
+   "visits": [
+    "v1",
+    "v2",
+    "v3",
+    "v4",
+    "v5",
+    "v6"
+   ],
+   "full_visits": [
+    "v1",
+    "v3",
+    "v5"
+   ],
+   "bands": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "default_frames": {
+    "v1": "barnards-star/frames/D2/v1.png",
+    "v3": "barnards-star/frames/D2/v3.png",
+    "v5": "barnards-star/frames/D2/v5.png",
+    "v6": "barnards-star/frames/D2/v6.png"
+   },
+   "default_diff": "barnards-star/diff/D2/v1_v5.png",
+   "mean_epoch": {
+    "mjd": 61102.10132,
+    "date": "2026-03-03",
+    "ra_deg": 269.4463742,
+    "dec_deg": 4.7686831
+   },
+   "input_offset_arcsec": 105.6
+  },
+  {
+   "id": "eps-indi-b",
+   "name": "Epsilon Indi B",
+   "default_band": "D3",
+   "target": "eps-indi-b/target.json",
+   "spectrum": "eps-indi-b/spectrum.json",
+   "visits": [
+    "v1",
+    "v2",
+    "v3",
+    "v4"
+   ],
+   "full_visits": [
+    "v2",
+    "v3"
+   ],
+   "bands": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "default_frames": {
+    "v1": "eps-indi-b/frames/D3/v1.png",
+    "v2": "eps-indi-b/frames/D3/v2.png",
+    "v3": "eps-indi-b/frames/D3/v3.png",
+    "v4": "eps-indi-b/frames/D3/v4.png"
+   },
+   "default_diff": "eps-indi-b/diff/D3/v2_v3.png",
+   "mean_epoch": {
+    "mjd": 61041.99797,
+    "date": "2026-01-01",
+    "ra_deg": 331.0965661,
+    "dec_deg": -56.8006429
+   },
+   "input_offset_arcsec": 46.7
+  },
+  {
+   "id": "wise-0855",
+   "name": "WISE J085510.83-071442.5",
+   "default_band": "D6",
+   "target": "wise-0855/target.json",
+   "spectrum": "wise-0855/spectrum.json",
+   "visits": [
+    "v1",
+    "v2",
+    "v3",
+    "v4"
+   ],
+   "full_visits": [
+    "v2",
+    "v4"
+   ],
+   "bands": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "default_frames": {
+    "v1": "wise-0855/frames/D6/v1.png",
+    "v2": "wise-0855/frames/D6/v2.png",
+    "v3": "wise-0855/frames/D6/v3.png",
+    "v4": "wise-0855/frames/D6/v4.png"
+   },
+   "default_diff": "wise-0855/diff/D6/v2_v4.png",
+   "mean_epoch": {
+    "mjd": 61035.04184,
+    "date": "2025-12-26",
+    "ra_deg": 133.7601588,
+    "dec_deg": -7.2412971
+   },
+   "input_offset_arcsec": 125.7
+  },
+  {
+   "id": "rw-aur",
+   "name": "RW Aurigae",
+   "default_band": "D2",
+   "target": "rw-aur/target.json",
+   "spectrum": "rw-aur/spectrum.json",
+   "visits": [
+    "v1",
+    "v2",
+    "v3"
+   ],
+   "full_visits": [
+    "v1",
+    "v2",
+    "v3"
+   ],
+   "bands": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "default_frames": {
+    "v1": "rw-aur/frames/D2/v1.png",
+    "v2": "rw-aur/frames/D2/v2.png",
+    "v3": "rw-aur/frames/D2/v3.png"
+   },
+   "default_diff": "rw-aur/diff/D2/v1_v3.png",
+   "mean_epoch": {
+    "mjd": 61108.86722,
+    "date": "2026-03-09",
+    "ra_deg": 76.9560878,
+    "dec_deg": 30.4011269
+   },
+   "input_offset_arcsec": 0.3
+  },
+  {
+   "id": "r-dra",
+   "name": "R Draconis",
+   "default_band": "D2",
+   "target": "r-dra/target.json",
+   "spectrum": "r-dra/spectrum.json",
+   "visits": [
+    "v1",
+    "v2",
+    "v3"
+   ],
+   "full_visits": [
+    "v1",
+    "v2",
+    "v3"
+   ],
+   "bands": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "default_frames": {
+    "v1": "r-dra/frames/D2/v1.png",
+    "v2": "r-dra/frames/D2/v2.png",
+    "v3": "r-dra/frames/D2/v3.png"
+   },
+   "default_diff": "r-dra/diff/D2/v1_v3.png",
+   "mean_epoch": {
+    "mjd": 61022.87266,
+    "date": "2025-12-13",
+    "ra_deg": 248.167234,
+    "dec_deg": 66.7550234
+   },
+   "input_offset_arcsec": 0.2
+  }
+ ],
+ "citation": "CITATION.md",
+ "schema": "SCHEMA.md"
+}

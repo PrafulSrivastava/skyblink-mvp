@@ -1,0 +1,1010 @@
+{
+ "id": "rw-aur",
+ "name": "RW Aurigae",
+ "input": {
+  "coord": "05h07m49.459s +30d24m04.337s",
+  "source": "Gaia DR3 156430822114424576 catalogue position at J2016.0 (the brief gives no coordinate)",
+  "ra_deg": 76.9560812,
+  "dec_deg": 30.40120459,
+  "offset_from_mean_epoch_position_arcsec": 0.28,
+  "offset_from_mean_epoch_position_px": 0.05
+ },
+ "catalog": {
+  "catalog": "Gaia DR3",
+  "source_id": "156430822114424576",
+  "ra": 76.95608119552952,
+  "dec": 30.401204589097233,
+  "pmra": 2.6406431770317083,
+  "pmdec": -27.397582540455325,
+  "pmra_err": 0.04894876480102539,
+  "pmdec_err": 0.035927459597587585,
+  "parallax": 6.406249329219477,
+  "parallax_err": 0.044122789055109024,
+  "rv": -20.937068939208984,
+  "G": 12.18407154083252,
+  "ruwe": 1.5003727674484253,
+  "ref_epoch": "J2016.0 (TCB)",
+  "ref_epoch_mjd": 57388.5
+ },
+ "proper_motion_source": "Gaia DR3 source 156430822114424576: pmra*cosdec=2.641 mas/yr, pmdec=-27.398 mas/yr, ref epoch J2016.0 (TCB); parallax 6.406 mas applied (geocentric observer; SPHEREx LEO offset ignored); radial velocity -20.94 km/s used for perspective acceleration",
+ "default_band": "D2",
+ "mean_epoch": {
+  "mjd": 61108.86722,
+  "date": "2026-03-09",
+  "ra_deg": 76.9560878,
+  "dec_deg": 30.4011269
+ },
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 76.95608782,
+  "CRVAL2": 30.40112691,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "CUNIT1": "deg",
+  "CUNIT2": "deg",
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15,
+  "orientation": "north up, east left",
+  "array_storage": "PNG and .f32 rows are stored top-down (row 0 = north edge). FITS pixel y = NAXIS2-1-png_y; x is the same."
+ },
+ "visits": [
+  {
+   "id": "v1",
+   "mjd_mean": 60928.21972425739,
+   "mjd_min": 60919.420312786,
+   "mjd_max": 60938.232724025,
+   "date_start": "2025-09-01",
+   "date_end": "2025-09-20",
+   "n_images": 108,
+   "n_images_per_band": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 18,
+    "D6": 18
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "target_radec": [
+    76.9560915,
+    30.401131
+   ],
+   "target_px": {
+    "x": 23.998,
+    "y": 24.002,
+    "png_x": 23.998,
+    "png_y": 23.998
+   },
+   "n_coadded": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 18,
+    "D6": 18
+   }
+  },
+  {
+   "id": "v2",
+   "mjd_mean": 61102.21615407577,
+   "mjd_min": 61091.720282138,
+   "mjd_max": 61111.002753168,
+   "date_start": "2026-02-20",
+   "date_end": "2026-03-12",
+   "n_images": 111,
+   "n_images_per_band": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 19,
+    "D4": 19,
+    "D5": 19,
+    "D6": 18
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "target_radec": [
+    76.9560878,
+    30.4011271
+   ],
+   "target_px": {
+    "x": 24.0,
+    "y": 24.0,
+    "png_x": 24.0,
+    "png_y": 24.0
+   },
+   "n_coadded": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 19,
+    "D4": 19,
+    "D5": 19,
+    "D6": 18
+   }
+  },
+  {
+   "id": "v3",
+   "mjd_mean": 61294.63051666603,
+   "mjd_min": 61285.097835518,
+   "mjd_max": 61299.896562983,
+   "date_start": "2026-09-02",
+   "date_end": "2026-09-16",
+   "n_images": 109,
+   "n_images_per_band": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 19,
+    "D6": 18
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "target_radec": [
+    76.9560924,
+    30.4011234
+   ],
+   "target_px": {
+    "x": 23.998,
+    "y": 23.998,
+    "png_x": 23.998,
+    "png_y": 24.002
+   },
+   "n_coadded": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 19,
+    "D6": 18
+   }
+  }
+ ],
+ "comparison_star": {
+  "gaia_dr3_source_id": "156430027546480512",
+  "ra": 76.98404373995804,
+  "dec": 30.39543046955223,
+  "G": 14.77597427368164,
+  "pm_total_mas_yr": 0.5104113273337347,
+  "x": 9.885,
+  "y": 20.667,
+  "png_x": 9.885,
+  "png_y": 27.333,
+  "selection": "Gaia DR3, 10<=G<=16.5, total PM<10 mas/yr, >=7 px from target, >=6 px from grid edge, no Gaia neighbour with G<G+2.5 within 20 arcsec; brightest passing"
+ },
+ "stretch": {
+  "D1": {
+   "type": "asinh",
+   "lo": -0.019756849855184555,
+   "hi": 7.055441379547119,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 1.2473704814910889,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  },
+  "D2": {
+   "type": "asinh",
+   "lo": -0.022003626450896263,
+   "hi": 7.615753173828125,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.976177990436554,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  },
+  "D3": {
+   "type": "asinh",
+   "lo": -0.01986066997051239,
+   "hi": 8.063182830810547,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.7804285287857056,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  },
+  "D4": {
+   "type": "asinh",
+   "lo": -0.015223684720695019,
+   "hi": 5.6722283363342285,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.8747134208679199,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  },
+  "D5": {
+   "type": "asinh",
+   "lo": -0.018175777047872543,
+   "hi": 15.668219566345215,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 5.614283084869385,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  },
+  "D6": {
+   "type": "asinh",
+   "lo": -0.0233196672052145,
+   "hi": 24.152254104614258,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 11.782105445861816,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v1",
+     "v3"
+    ],
+    "definition": "v3 minus v1"
+   }
+  }
+ },
+ "paths": {
+  "D1": {
+   "v1": {
+    "png": "frames/D1/v1.png",
+    "f32": "frames/D1/v1.f32",
+    "mask": "mask/D1/v1.png"
+   },
+   "v2": {
+    "png": "frames/D1/v2.png",
+    "f32": "frames/D1/v2.f32",
+    "mask": "mask/D1/v2.png"
+   },
+   "v3": {
+    "png": "frames/D1/v3.png",
+    "f32": "frames/D1/v3.f32",
+    "mask": "mask/D1/v3.png"
+   },
+   "diff": "diff/D1/v1_v3.png"
+  },
+  "D2": {
+   "v1": {
+    "png": "frames/D2/v1.png",
+    "f32": "frames/D2/v1.f32",
+    "mask": "mask/D2/v1.png"
+   },
+   "v2": {
+    "png": "frames/D2/v2.png",
+    "f32": "frames/D2/v2.f32",
+    "mask": "mask/D2/v2.png"
+   },
+   "v3": {
+    "png": "frames/D2/v3.png",
+    "f32": "frames/D2/v3.f32",
+    "mask": "mask/D2/v3.png"
+   },
+   "diff": "diff/D2/v1_v3.png"
+  },
+  "D3": {
+   "v1": {
+    "png": "frames/D3/v1.png",
+    "f32": "frames/D3/v1.f32",
+    "mask": "mask/D3/v1.png"
+   },
+   "v2": {
+    "png": "frames/D3/v2.png",
+    "f32": "frames/D3/v2.f32",
+    "mask": "mask/D3/v2.png"
+   },
+   "v3": {
+    "png": "frames/D3/v3.png",
+    "f32": "frames/D3/v3.f32",
+    "mask": "mask/D3/v3.png"
+   },
+   "diff": "diff/D3/v1_v3.png"
+  },
+  "D4": {
+   "v1": {
+    "png": "frames/D4/v1.png",
+    "f32": "frames/D4/v1.f32",
+    "mask": "mask/D4/v1.png"
+   },
+   "v2": {
+    "png": "frames/D4/v2.png",
+    "f32": "frames/D4/v2.f32",
+    "mask": "mask/D4/v2.png"
+   },
+   "v3": {
+    "png": "frames/D4/v3.png",
+    "f32": "frames/D4/v3.f32",
+    "mask": "mask/D4/v3.png"
+   },
+   "diff": "diff/D4/v1_v3.png"
+  },
+  "D5": {
+   "v1": {
+    "png": "frames/D5/v1.png",
+    "f32": "frames/D5/v1.f32",
+    "mask": "mask/D5/v1.png"
+   },
+   "v2": {
+    "png": "frames/D5/v2.png",
+    "f32": "frames/D5/v2.f32",
+    "mask": "mask/D5/v2.png"
+   },
+   "v3": {
+    "png": "frames/D5/v3.png",
+    "f32": "frames/D5/v3.f32",
+    "mask": "mask/D5/v3.png"
+   },
+   "diff": "diff/D5/v1_v3.png"
+  },
+  "D6": {
+   "v1": {
+    "png": "frames/D6/v1.png",
+    "f32": "frames/D6/v1.f32",
+    "mask": "mask/D6/v1.png"
+   },
+   "v2": {
+    "png": "frames/D6/v2.png",
+    "f32": "frames/D6/v2.f32",
+    "mask": "mask/D6/v2.png"
+   },
+   "v3": {
+    "png": "frames/D6/v3.png",
+    "f32": "frames/D6/v3.f32",
+    "mask": "mask/D6/v3.png"
+   },
+   "diff": "diff/D6/v1_v3.png"
+  }
+ },
+ "full_visits": [
+  "v1",
+  "v2",
+  "v3"
+ ],
+ "photometry": {
+  "aperture_radius_px": 2.5,
+  "annulus_px": [
+   6.0,
+   10.0
+  ],
+  "flux_unit": "uJy"
+ },
+ "checks": {
+  "motion_first_last_full_visit": {
+   "pair": [
+    "v1",
+    "v3"
+   ],
+   "predicted_dx_px": 0.0,
+   "predicted_dy_px": -0.004,
+   "predicted_shift_px": 0.004,
+   "per_band": {
+    "D1": {
+     "fit_A": {
+      "x": 23.962049919298106,
+      "y": 24.057845787102284,
+      "sigma": 0.715285809671729,
+      "amp": 39.70500874349932,
+      "ex": 0.00987120958071335,
+      "ey": 0.009853374134302742,
+      "npix": 75,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 23.845080362790398,
+      "y": 24.103941937093172,
+      "sigma": 0.7963412905347658,
+      "amp": 36.22725498880623,
+      "ex": 0.02093501069795797,
+      "ey": 0.02019908870268999,
+      "npix": 74,
+      "n_masked_in_r": 1
+     },
+     "measured_dx_px": -0.117,
+     "measured_dy_px": 0.046,
+     "measured_shift_px": 0.126,
+     "offset_from_pred_A_px": 0.066,
+     "offset_from_pred_B_px": 0.186,
+     "comparison_shift_px": 0.08,
+     "comparison_fit_A": {
+      "x": 9.85717110436373,
+      "y": 20.698150715308966,
+      "sigma": 0.6307806396843626,
+      "amp": 3.637799631098689,
+      "ex": 0.03482252978578877,
+      "ey": 0.0302740557624361,
+      "npix": 36,
+      "n_masked_in_r": 3
+     },
+     "comparison_fit_B": {
+      "x": 9.891642548031488,
+      "y": 20.62561427643391,
+      "sigma": 0.662269973073652,
+      "amp": 3.5421417244127618,
+      "ex": 0.03884503502377578,
+      "ey": 0.032767533635867624,
+      "npix": 35,
+      "n_masked_in_r": 4
+     }
+    },
+    "D2": {
+     "fit_A": {
+      "x": 23.781660457171277,
+      "y": 24.056900408287493,
+      "sigma": 0.8174600179903501,
+      "amp": 22.847911007709232,
+      "ex": 0.01558379830035344,
+      "ey": 0.012069069122307905,
+      "npix": 73,
+      "n_masked_in_r": 2
+     },
+     "fit_B": {
+      "x": 23.812936403153724,
+      "y": 24.078878116037306,
+      "sigma": 0.7576353613915201,
+      "amp": 34.30359082757688,
+      "ex": 0.008740052598635634,
+      "ey": 0.0070331448018876455,
+      "npix": 70,
+      "n_masked_in_r": 5
+     },
+     "measured_dx_px": 0.031,
+     "measured_dy_px": 0.022,
+     "measured_shift_px": 0.038,
+     "offset_from_pred_A_px": 0.223,
+     "offset_from_pred_B_px": 0.202,
+     "comparison_shift_px": 0.043,
+     "comparison_fit_A": {
+      "x": 9.89229512482634,
+      "y": 20.684695734889928,
+      "sigma": 0.619777605512289,
+      "amp": 5.8749215254316365,
+      "ex": 0.02915228584232081,
+      "ey": 0.02414041622547444,
+      "npix": 39,
+      "n_masked_in_r": 0
+     },
+     "comparison_fit_B": {
+      "x": 9.855665389546727,
+      "y": 20.706409410941355,
+      "sigma": 0.592940965968862,
+      "amp": 6.7694238525764305,
+      "ex": 0.027908084171680073,
+      "ey": 0.023229781682715434,
+      "npix": 39,
+      "n_masked_in_r": 0
+     }
+    },
+    "D3": {
+     "fit_A": {
+      "x": 23.893359303564775,
+      "y": 24.107179302845815,
+      "sigma": 0.8389718917558402,
+      "amp": 37.767715053243556,
+      "ex": 0.01767234264083198,
+      "ey": 0.01768278664687601,
+      "npix": 70,
+      "n_masked_in_r": 5
+     },
+     "fit_B": {
+      "x": 23.72635173263682,
+      "y": 24.077664139681577,
+      "sigma": 0.8009058744442761,
+      "amp": 45.288651489871214,
+      "ex": 0.017105077136034035,
+      "ey": 0.012632092367089948,
+      "npix": 70,
+      "n_masked_in_r": 5
+     },
+     "measured_dx_px": -0.167,
+     "measured_dy_px": -0.03,
+     "measured_shift_px": 0.17,
+     "offset_from_pred_A_px": 0.148,
+     "offset_from_pred_B_px": 0.283,
+     "comparison_shift_px": 0.048,
+     "comparison_fit_A": {
+      "x": 9.894780251312621,
+      "y": 20.68307984503896,
+      "sigma": 0.6388856128972583,
+      "amp": 4.901245740046988,
+      "ex": 0.026611138670149193,
+      "ey": 0.02267147090648717,
+      "npix": 39,
+      "n_masked_in_r": 0
+     },
+     "comparison_fit_B": {
+      "x": 9.873160403148495,
+      "y": 20.63987542983867,
+      "sigma": 0.638252192090877,
+      "amp": 5.292332322934685,
+      "ex": 0.025449304969360906,
+      "ey": 0.02090233710167761,
+      "npix": 39,
+      "n_masked_in_r": 0
+     }
+    },
+    "D4": {
+     "fit_A": {
+      "x": 23.866376657821455,
+      "y": 24.01916349815478,
+      "sigma": 1.2854163245802506,
+      "amp": 30.78879081969538,
+      "ex": 0.02560461146628836,
+      "ey": 0.02619597438680027,
+      "npix": 55,
+      "n_masked_in_r": 20
+     },
+     "fit_B": {
+      "x": 23.6797974653499,
+      "y": 24.136761419674297,
+      "sigma": 1.1420368167054349,
+      "amp": 45.226155599649985,
+      "ex": 0.01684587539399831,
+      "ey": 0.01698548474743505,
+      "npix": 60,
+      "n_masked_in_r": 15
+     },
+     "measured_dx_px": -0.187,
+     "measured_dy_px": 0.118,
+     "measured_shift_px": 0.221,
+     "offset_from_pred_A_px": 0.133,
+     "offset_from_pred_B_px": 0.347,
+     "comparison_shift_px": 0.074,
+     "comparison_fit_A": {
+      "x": 9.884899718433722,
+      "y": 20.63453122607479,
+      "sigma": 0.7071204379275982,
+      "amp": 2.16722320401844,
+      "ex": 0.025762519757651797,
+      "ey": 0.023316493212223708,
+      "npix": 39,
+      "n_masked_in_r": 0
+     },
+     "comparison_fit_B": {
+      "x": 9.899102480083073,
+      "y": 20.706712431788173,
+      "sigma": 0.6494787342797416,
+      "amp": 2.4365022561472247,
+      "ex": 0.027401006294326746,
+      "ey": 0.0241818169787328,
+      "npix": 39,
+      "n_masked_in_r": 0
+     }
+    },
+    "D5": {
+     "fit_A": {
+      "x": 23.743540616743257,
+      "y": 24.10650413950265,
+      "sigma": 0.8517637920307839,
+      "amp": 382.38021898425916,
+      "ex": 0.023904682367366044,
+      "ey": 0.016196884349118923,
+      "npix": 67,
+      "n_masked_in_r": 8
+     },
+     "fit_B": {
+      "x": 23.707070206979616,
+      "y": 24.082500492358797,
+      "sigma": 0.997902278886059,
+      "amp": 121.36277842458267,
+      "ex": 0.013285733821859373,
+      "ey": 0.013286217963090902,
+      "npix": 72,
+      "n_masked_in_r": 3
+     },
+     "measured_dx_px": -0.036,
+     "measured_dy_px": -0.024,
+     "measured_shift_px": 0.044,
+     "offset_from_pred_A_px": 0.275,
+     "offset_from_pred_B_px": 0.303,
+     "comparison_shift_px": 0.017,
+     "comparison_fit_A": {
+      "x": 9.912579350765919,
+      "y": 20.71903999743932,
+      "sigma": 0.6600056472379767,
+      "amp": 1.4726938975042008,
+      "ex": 0.02568346167391201,
+      "ey": 0.02308212506601977,
+      "npix": 39,
+      "n_masked_in_r": 0
+     },
+     "comparison_fit_B": {
+      "x": 9.895448674464939,
+      "y": 20.717278778912274,
+      "sigma": 0.6942183492721897,
+      "amp": 1.3728243724445228,
+      "ex": 0.024752588771161623,
+      "ey": 0.0230058681245116,
+      "npix": 39,
+      "n_masked_in_r": 0
+     }
+    },
+    "D6": {
+     "fit_A": {
+      "x": 23.76183344985437,
+      "y": 24.06209617361797,
+      "sigma": 1.0702576086867974,
+      "amp": 191.90378364874778,
+      "ex": 0.023467024873612925,
+      "ey": 0.02463764168739482,
+      "npix": 68,
+      "n_masked_in_r": 7
+     },
+     "fit_B": {
+      "x": 23.55007753371724,
+      "y": 24.000460973593135,
+      "sigma": 0.8751169649718207,
+      "amp": 210.45272401250347,
+      "ex": 0.02865376589339834,
+      "ey": 0.023939731524904,
+      "npix": 74,
+      "n_masked_in_r": 1
+     },
+     "measured_dx_px": -0.212,
+     "measured_dy_px": -0.062,
+     "measured_shift_px": 0.221,
+     "offset_from_pred_A_px": 0.244,
+     "offset_from_pred_B_px": 0.448,
+     "comparison_shift_px": 0.058,
+     "comparison_fit_A": {
+      "x": 9.912131233791056,
+      "y": 20.640722542579773,
+      "sigma": 0.7276491209682717,
+      "amp": 0.8828787981488351,
+      "ex": 0.030691653169777653,
+      "ey": 0.028308085892928228,
+      "npix": 39,
+      "n_masked_in_r": 0
+     },
+     "comparison_fit_B": {
+      "x": 9.854555460737206,
+      "y": 20.633576532213013,
+      "sigma": 0.7274029602091936,
+      "amp": 0.8819410842181638,
+      "ex": 0.031338197489751175,
+      "ey": 0.029114142360407633,
+      "npix": 39,
+      "n_masked_in_r": 0
+     }
+    }
+   }
+  },
+  "coadd_forced_aperture": {
+   "v1/D1": {
+    "sum_MJy_sr_px": 130.25308,
+    "noise": 0.05811,
+    "sn": 2241.34,
+    "peak_over_sigma": 3154.44
+   },
+   "v1/D2": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D3": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D4": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D5": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D6": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D1": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D2": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D3": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D4": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D5": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v2/D6": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D1": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D2": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D3": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D4": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D5": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v3/D6": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   }
+  },
+  "masked_core_area_px_within_6px": {
+   "note": "Count of co-add mask pixels (saturated or flagged in >=50% of frames, or no data) within 6 grid px of the predicted target position. For saturated stars this grows with brightness, so it is a qualitative brightness proxy, NOT a flux.",
+   "values": {
+    "D1": {
+     "v1": 2,
+     "v2": 1,
+     "v3": 3
+    },
+    "D2": {
+     "v1": 2,
+     "v2": 3,
+     "v3": 6
+    },
+    "D3": {
+     "v1": 5,
+     "v2": 6,
+     "v3": 5
+    },
+    "D4": {
+     "v1": 20,
+     "v2": 20,
+     "v3": 15
+    },
+    "D5": {
+     "v1": 8,
+     "v2": 5,
+     "v3": 3
+    },
+    "D6": {
+     "v1": 7,
+     "v2": 3,
+     "v3": 1
+    }
+   }
+  },
+  "variability_same_channel": {
+   "v1->v2": {
+    "n_channels_compared": 3,
+    "n_channels_skipped_saturated": 99,
+    "n_channels_skipped_flagged_or_nonpositive": 0,
+    "median_dmag": -0.569,
+    "max_abs_dmag": 0.608,
+    "n_channels_gt5sigma": 3,
+    "channels": [
+     {
+      "channel": 0,
+      "wavelength_um": 0.753,
+      "flux_A": 74271.3809,
+      "flux_B": 129980.6147,
+      "ratio_B_over_A": 1.7501,
+      "ratio_err": 0.0091,
+      "dmag": -0.608,
+      "signif": 82.1
+     },
+     {
+      "channel": 1,
+      "wavelength_um": 0.771,
+      "flux_A": 77205.3496,
+      "flux_B": 130411.6325,
+      "ratio_B_over_A": 1.6892,
+      "ratio_err": 0.0087,
+      "dmag": -0.569,
+      "signif": 79.1
+     },
+     {
+      "channel": 7,
+      "wavelength_um": 0.889,
+      "flux_A": 154275.7838,
+      "flux_B": 168502.2472,
+      "ratio_B_over_A": 1.0922,
+      "ratio_err": 0.0042,
+      "dmag": -0.096,
+      "signif": 22.2
+     }
+    ]
+   },
+   "v1->v3": {
+    "n_channels_compared": 2,
+    "n_channels_skipped_saturated": 100,
+    "n_channels_skipped_flagged_or_nonpositive": 0,
+    "median_dmag": -1.018,
+    "max_abs_dmag": 1.031,
+    "n_channels_gt5sigma": 2,
+    "channels": [
+     {
+      "channel": 0,
+      "wavelength_um": 0.753,
+      "flux_A": 74271.3809,
+      "flux_B": 187604.158,
+      "ratio_B_over_A": 2.5259,
+      "ratio_err": 0.0124,
+      "dmag": -1.006,
+      "signif": 122.8
+     },
+     {
+      "channel": 1,
+      "wavelength_um": 0.771,
+      "flux_A": 77205.3496,
+      "flux_B": 199529.4045,
+      "ratio_B_over_A": 2.5844,
+      "ratio_err": 0.0124,
+      "dmag": -1.031,
+      "signif": 127.6
+     }
+    ]
+   },
+   "v2->v3": {
+    "n_channels_compared": 2,
+    "n_channels_skipped_saturated": 100,
+    "n_channels_skipped_flagged_or_nonpositive": 0,
+    "median_dmag": -0.43,
+    "max_abs_dmag": 0.462,
+    "n_channels_gt5sigma": 2,
+    "channels": [
+     {
+      "channel": 0,
+      "wavelength_um": 0.753,
+      "flux_A": 129980.6147,
+      "flux_B": 187604.158,
+      "ratio_B_over_A": 1.4433,
+      "ratio_err": 0.0058,
+      "dmag": -0.398,
+      "signif": 75.8
+     },
+     {
+      "channel": 1,
+      "wavelength_um": 0.771,
+      "flux_A": 130411.6325,
+      "flux_B": 199529.4045,
+      "ratio_B_over_A": 1.53,
+      "ratio_err": 0.0061,
+      "dmag": -0.462,
+      "signif": 86.4
+     }
+    ]
+   }
+  },
+  "psf_wing_ratio_first_last_full": {
+   "pair": [
+    "v1",
+    "v3"
+   ],
+   "note": "Sum of co-add surface brightness (MJy/sr, local-median-subtracted) in a 4-10 px annulus around the target, pixels unmasked in both visits. Band-averaged (each visit's co-add mixes the LVF wavelengths it sampled), assumes an unchanged PSF and includes any neighbours in the annulus: a variability indicator for saturated stars, not calibrated photometry.",
+   "values": {
+    "D1": {
+     "n_pix": 245,
+     "wing_sum_A": 10.281,
+     "wing_sum_B": 12.363,
+     "ratio_B_over_A": 1.2024,
+     "dmag": -0.2
+    },
+    "D2": {
+     "n_pix": 262,
+     "wing_sum_A": 14.789,
+     "wing_sum_B": 16.811,
+     "ratio_B_over_A": 1.1367,
+     "dmag": -0.139
+    },
+    "D3": {
+     "n_pix": 263,
+     "wing_sum_A": 17.311,
+     "wing_sum_B": 17.727,
+     "ratio_B_over_A": 1.0241,
+     "dmag": -0.026
+    },
+    "D4": {
+     "n_pix": 264,
+     "wing_sum_A": 42.038,
+     "wing_sum_B": 30.655,
+     "ratio_B_over_A": 0.7292,
+     "dmag": 0.343
+    },
+    "D5": {
+     "n_pix": 264,
+     "wing_sum_A": 69.106,
+     "wing_sum_B": 35.857,
+     "ratio_B_over_A": 0.5189,
+     "dmag": 0.712
+    },
+    "D6": {
+     "n_pix": 264,
+     "wing_sum_A": 108.197,
+     "wing_sum_B": 54.012,
+     "ratio_B_over_A": 0.4992,
+     "dmag": 0.754
+    }
+   }
+  }
+ },
+ "notes": [
+  "Frames: 328 used of 335 fetched; rejected {'wl_out_of_band': 6, 'offdetector': 1}. 1 frames had the target within 10.0 px of the strip/detector edge, so no forced photometry for them.",
+  "Input coordinate (Gaia DR3 156430822114424576 catalogue position at J2016.0 (the brief gives no coordinate)) is 0.3 arcsec (0.0 px) from the mean-epoch (2026-03-09) proper-motion-corrected position the grid is centred on.",
+  "RW Aur is an unresolved A+B pair at SPHEREx resolution (about 1.4 arcsec apart). Astrometry is from Gaia DR3 156430822114424576 (G=12.18, the brighter, RUWE 1.5). The other component, 156430817820015232 (G=13.04, RUWE 16), is 1.4 arcsec away. Proper motion is only about 27 mas/yr, so motion is negligible (<0.01 px).",
+  "Saturated: 301 of 327 photometry points have OVERFLOW/NONLINEAR pixels in the aperture. Only the bluest D1 channels (0.75-0.89 um) are unsaturated in more than one visit, see checks.variability_same_channel.",
+  "Brief: the challenge gives no coordinate for this target. input.* is the Gaia DR3 catalogue position at J2016.0.",
+  "Pixel data: SPHEREx Level-2 spectral images (spherex_dr1, plus spherex_qr3 where SIA returned them), read by HTTP range requests from s3://nasa-irsa-spherex (IMAGE and VARIANCE strips, row-tiled RICE FLAGS decompressed locally, WCS-WAVE table, EPSF row). One frame was checked byte-identical to the IRSA cutout service for IMAGE, FLAGS and VARIANCE.",
+  "Frame filter: the wavelength at the target pixel comes from the 'W' WCS (WAVE-TAB, sip=None) and must lie inside the detector's em_min..em_max. Visits are clusters with no gap >20 days. A visit is 'full' when every band D1-D6 has >=5 frames.",
+  "Co-adds: each frame has its sigma-clipped median subtracted (local zodi/background removal) and pixels with any of SUR_ERROR, TRANSIENT, OVERFLOW, NONLINEAR, NONFUNC, DICHROIC, MISSING_DATA, HOT, COLD, PHANMISS, PERSIST, OUTLIER, CROSSTALK, GHOST, GHOST_FPA, GHOST_EXT, STREAK, BLOOM, SNOWBALL or HALO masked. Frames are bilinearly resampled (normalised by the good-pixel weight, needing weight >=0.5) through the full SIP WCS onto the common grid, then median-combined per visit per band."
+ ],
+ "citation": "../CITATION.md"
+}
