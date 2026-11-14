@@ -1,0 +1,105 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Epilogue:wght@700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --sky-bg: #0a0d14;
+  --sky-surface: #131824;
+  --sky-ink: #e9edf3;
+  --sky-accent: #5ab9fc;
+  --battle-bg: #2b2216;
+  --battle-surface: #382d1e;
+  --battle-ink: #e4e2da;
+  --battle-accent: #bda38b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Manrope', sans-serif;
+  background: var(--sky-bg);
+  color: var(--sky-ink);
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.font-epilogue {
+  font-family: 'Epilogue', sans-serif;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--sky-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: #2a3a50;
+  border-radius: 3px;
+}
+
+/* Canvas cursor */
+canvas.crosshair {
+  cursor: crosshair;
+}
+
+/* Animated dot */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.pulse-dot {
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+/* Blink animation */
+@keyframes frame-blink {
+  0% { opacity: 1; }
+  48% { opacity: 1; }
+  50% { opacity: 0; }
+  98% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* Fade in */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fade-in 0.4s ease-out forwards;
+}
+
+/* Loading shimmer */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #131824 25%, #1a2030 50%, #131824 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+/* Spectrum panel */
+.recharts-tooltip-wrapper {
+  outline: none !important;
+}
+
+/* Star field canvas */
+canvas.star-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
