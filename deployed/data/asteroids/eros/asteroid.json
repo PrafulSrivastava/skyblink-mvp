@@ -1,0 +1,248 @@
+{
+ "id": "eros",
+ "name": "433 Eros",
+ "kind": "near-Earth asteroid (Amor group)",
+ "detector": "D1",
+ "n_frames": 6,
+ "span_hours": 1.67,
+ "path_arcsec": 240.4,
+ "path_px": 39.1,
+ "rate_arcsec_h": 143.8,
+ "rate_vs_barnard": 121303,
+ "V": 10.99,
+ "r_au": 1.148,
+ "delta_au": 0.545,
+ "phase_deg": 59.9,
+ "stretch": {
+  "lo": -0.023151040077209473,
+  "hi": 7.094803333282471,
+  "unit": "MJy/sr after local median removal"
+ },
+ "diff_sigma": 0.017587410286068916,
+ "grid": {
+  "npix": 89,
+  "scale": 6.15,
+  "crval": [
+   84.6368951,
+   15.2049933
+  ],
+  "orientation": "north up, east left"
+ },
+ "frames": [
+  {
+   "i": 0,
+   "obs_id": "2026W11_2A_0301_1D1",
+   "det": "D1",
+   "mjd": 61112.90433,
+   "utc": "2026-03-13T21:42:14Z",
+   "wl_um": 0.775,
+   "horizons": {
+    "ra": 84.6034265,
+    "dec": 15.2134724,
+    "V": 10.987,
+    "rate_arcsec_h": 152.67
+   },
+   "px": [
+    62.9,
+    39.04
+   ],
+   "on_detector": true,
+   "peak_snr": 1267.199951171875,
+   "fit_offset_arcsec": 1.17,
+   "saturated": false,
+   "flags": [
+    "HALO",
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 2,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0301_1D1_spx_l2b-v27-2026-234.fits",
+   "img": "f00.png",
+   "diff": "d00.png"
+  },
+  {
+   "i": 1,
+   "obs_id": "2026W11_2A_0301_2D1",
+   "det": "D1",
+   "mjd": 61112.905822,
+   "utc": "2026-03-13T21:44:23Z",
+   "wl_um": 0.793,
+   "horizons": {
+    "ra": 84.6049711,
+    "dec": 15.2137619,
+    "V": 10.987,
+    "rate_arcsec_h": 152.51
+   },
+   "px": [
+    62.03,
+    38.87
+   ],
+   "on_detector": true,
+   "peak_snr": 768.4000244140625,
+   "fit_offset_arcsec": 0.79,
+   "saturated": false,
+   "flags": [],
+   "coverage": 1.0,
+   "sat_px_grid": 1,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0301_2D1_spx_l2b-v27-2026-234.fits",
+   "img": "f01.png",
+   "diff": "d01.png"
+  },
+  {
+   "i": 2,
+   "obs_id": "2026W11_2A_0301_3D1",
+   "det": "D1",
+   "mjd": 61112.907314,
+   "utc": "2026-03-13T21:46:31Z",
+   "wl_um": 0.812,
+   "horizons": {
+    "ra": 84.6065109,
+    "dec": 15.2140553,
+    "V": 10.987,
+    "rate_arcsec_h": 151.9
+   },
+   "px": [
+    61.16,
+    38.69
+   ],
+   "on_detector": true,
+   "peak_snr": 548.9000244140625,
+   "fit_offset_arcsec": 1.36,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 4,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0301_3D1_spx_l2b-v27-2026-234.fits",
+   "img": "f02.png",
+   "diff": "d02.png"
+  },
+  {
+   "i": 3,
+   "obs_id": "2026W11_2A_0301_4D1",
+   "det": "D1",
+   "mjd": 61112.908807,
+   "utc": "2026-03-13T21:48:40Z",
+   "wl_um": 0.831,
+   "horizons": {
+    "ra": 84.6080438,
+    "dec": 15.2143395,
+    "V": 10.987,
+    "rate_arcsec_h": 150.85
+   },
+   "px": [
+    60.3,
+    38.53
+   ],
+   "on_detector": true,
+   "peak_snr": 1074.699951171875,
+   "fit_offset_arcsec": 1.05,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 2,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0301_4D1_spx_l2b-v27-2026-234.fits",
+   "img": "f03.png",
+   "diff": "d03.png"
+  },
+  {
+   "i": 4,
+   "obs_id": "2026W11_2A_0312_1D1",
+   "det": "D1",
+   "mjd": 61112.972512,
+   "utc": "2026-03-13T23:20:25Z",
+   "wl_um": 0.916,
+   "horizons": {
+    "ra": 84.6688201,
+    "dec": 15.1962232,
+    "V": 10.987,
+    "rate_arcsec_h": 152.65
+   },
+   "px": [
+    25.97,
+    49.13
+   ],
+   "on_detector": true,
+   "peak_snr": 2877.60009765625,
+   "fit_offset_arcsec": 0.29,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 3,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0312_1D1_spx_l2b-v27-2026-234.fits",
+   "img": "f04.png",
+   "diff": "d04.png"
+  },
+  {
+   "i": 5,
+   "obs_id": "2026W11_2A_0312_2D1",
+   "det": "D1",
+   "mjd": 61112.974004,
+   "utc": "2026-03-13T23:22:33Z",
+   "wl_um": 0.938,
+   "horizons": {
+    "ra": 84.6703637,
+    "dec": 15.1965142,
+    "V": 10.987,
+    "rate_arcsec_h": 152.41
+   },
+   "px": [
+    25.09,
+    48.96
+   ],
+   "on_detector": true,
+   "peak_snr": 3146.60009765625,
+   "fit_offset_arcsec": 0.42,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 5,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W11_2A/l2b-v27-2026-234/1/level2_2026W11_2A_0312_2D1_spx_l2b-v27-2026-234.fits",
+   "img": "f05.png",
+   "diff": "d05.png"
+  }
+ ],
+ "short": "Eros",
+ "n_visits": 2,
+ "visits": [
+  {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "utc": "2026-03-13T21:42:14Z",
+   "n": 4
+  },
+  {
+   "frames": [
+    4,
+    5
+   ],
+   "utc": "2026-03-13T23:20:25Z",
+   "n": 2
+  }
+ ],
+ "span_label": "1 h 40 min",
+ "median_fit_offset_arcsec": 1.05,
+ "n_fitted": 6,
+ "labels": [
+  {
+   "kind": "info",
+   "text": "The pipeline\u2019s OUTLIER or TRANSIENT bit is set on the asteroid in 5 of 6 frames, because it moved. SkyBlink keeps those pixels."
+  }
+ ],
+ "wl_range": [
+  0.775,
+  0.938
+ ],
+ "barnard_years_for_same_path": 23.1
+}

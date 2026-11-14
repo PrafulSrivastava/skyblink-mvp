@@ -1,0 +1,23 @@
+<style>
+  .ast__stage.is-finding { cursor: crosshair; }
+  .ast__stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ast__stage img.ast__pre { visibility: hidden; }
+  .ast__find { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line-strong, var(--line)); border-radius: 12px; background: rgba(90,185,252,.05); }
+  .ast__prompt { margin: 0; font: 400 15px/1.45 var(--font-text); color: var(--ink); }
+  .ast__prompt b { color: var(--accent); font-weight: 500; font-family: var(--font-mono); }
+  .ast__score { margin-left: auto; font: 400 12px/1 var(--font-mono); color: var(--muted); }
+  #ast-guess, #ast-miss { display: none; }
+  .is-guessed #ast-guess, .is-guessed #ast-miss { display: inline; }
+  .lb__key i.track { border-top: 2px dashed #bda38b; }
+  #ast-badge { max-width: calc(100% - 20px); }
+  @media (max-width: 1023px) {
+    .hero__text .hero__proof, .hero__text .hero__lead, .hero__text #ast-flags, #ast-stage ~ .lb__key, .tl__ends, .tl__timeline .lb__label { display: none; }
+    .tl__phone-flags { display: grid; } .lb__panel--art .lb__stage { min-height: 240px; } .tl__ticks { display: none; }
+  }
+  @media (max-width: 639px) {
+    .tl__date { font-size: 22px; } .tl__date small { margin-top: 4px; }
+    #ast-stage .lb__scale { display: none; } .lb__panel--art .lb__stage { min-height: 200px; } .hero__text .btn--secondary, .lb__label[for="ast-range"], #ast-sub { display: none; } .tl__range { height: 32px; }
+    .tl__ticks { display: none; } .hero__text #ast-flags, [data-speed] { display: none; } #ast-targets .lb__label { display: none; } .hero__text > h1 { font-size: 32px; } .hero__text .btn-row .btn { min-height: 44px; padding-block: 10px; } .ast__find .lb__row { margin: 0; }
+    .ast__find { padding: 10px 12px; } .ast__prompt { font-size: 14px; }
+  }
+</style>

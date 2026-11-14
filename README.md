@@ -22,11 +22,17 @@ This repository is a backup of the deployed static site (and, on the current bra
 - What it is: v0.1 plus the long-baseline blink (WISE 2010 against SPHEREx), the `/long-baseline` page, pipeline scripts under `pipeline/`, and a `RESTORE.md` in this tree. Site files are in `deployed/`.
 - Instant rollback on Vercel (no rebuild): deployment `dpl_B8eYfiaQYLXFs1Su494aeud9kW7i`
 
-### v0.3-time-lapse — every WISE/NEOWISE pass 2010 to 2024, then SPHEREx (current)
+### v0.3-time-lapse — every WISE/NEOWISE pass 2010 to 2024, then SPHEREx
 
 - Branch: `feature/time-lapse` (built on `feature/long-baseline`)
 - What it is: v0.2 plus the `/time-lapse` page (23 to 24 unWISE passes per target plus the SPHEREx frame, W1 and W2), a Time-lapse link in the viewer, landing and credits updates, and the pipeline under `pipeline/timelapse/`. Site files are in `deployed/`.
 - Vercel production deployment: `dpl_CEKK7tYXa22eMkp98uihd1jxLkwD`. To go back to v0.2, roll back to `dpl_B8eYfiaQYLXFs1Su494aeud9kW7i`.
+
+### v0.4-asteroids — SPHEREx frames hours apart, find the asteroid (current)
+
+- Branch: `feature/asteroids` (built on `feature/time-lapse`)
+- What it is: v0.3 plus the `/asteroids` page (433 Eros, 21 Lutetia, 16 Psyche, 1036 Ganymed; JPL Horizons track overlay, find-it scoring), an Asteroids nav item, viewer button, home and credits links, and the pipeline under `pipeline/asteroids/`.
+- Vercel production deployment: `dpl_CVGLgoVSJZXjTQz9kV17RfzStvKG`. To go back to v0.3, roll back to `dpl_CEKK7tYXa22eMkp98uihd1jxLkwD`.
 
 ## How to restore
 

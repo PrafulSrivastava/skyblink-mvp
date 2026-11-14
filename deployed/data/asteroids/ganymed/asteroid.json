@@ -1,0 +1,594 @@
+{
+ "id": "ganymed",
+ "name": "1036 Ganymed",
+ "kind": "near-Earth asteroid (largest Amor)",
+ "detector": "D3",
+ "n_frames": 16,
+ "span_hours": 16.27,
+ "path_arcsec": 346.3,
+ "path_px": 56.3,
+ "rate_arcsec_h": 21.3,
+ "rate_vs_barnard": 17956,
+ "V": 15.2,
+ "r_au": 3.466,
+ "delta_au": 3.322,
+ "phase_deg": 16.5,
+ "stretch": {
+  "lo": -0.014005511999130249,
+  "hi": 2.1226696968078613,
+  "unit": "MJy/sr after local median removal"
+ },
+ "diff_sigma": 0.010783382691442966,
+ "grid": {
+  "npix": 89,
+  "scale": 6.15,
+  "crval": [
+   146.8396606,
+   -15.989471
+  ],
+  "orientation": "north up, east left"
+ },
+ "frames": [
+  {
+   "i": 0,
+   "obs_id": "2025W48_1A_0742_1D3",
+   "det": "D3",
+   "mjd": 61006.477591,
+   "utc": "2025-11-27T11:27:43Z",
+   "wl_um": 1.771,
+   "horizons": {
+    "ra": 146.8256676,
+    "dec": -15.9432987,
+    "V": 15.203,
+    "rate_arcsec_h": 32.28
+   },
+   "px": [
+    51.88,
+    16.97
+   ],
+   "on_detector": true,
+   "peak_snr": 88.19999694824219,
+   "fit_offset_arcsec": 0.58,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_1A/l2b-v27-2026-208/3/level2_2025W48_1A_0742_1D3_spx_l2b-v27-2026-208.fits",
+   "img": "f00.png",
+   "diff": "d00.png"
+  },
+  {
+   "i": 1,
+   "obs_id": "2025W48_1A_0742_2D3",
+   "det": "D3",
+   "mjd": 61006.479083,
+   "utc": "2025-11-27T11:29:52Z",
+   "wl_um": 1.812,
+   "horizons": {
+    "ra": 146.8257484,
+    "dec": -15.9436083,
+    "V": 15.203,
+    "rate_arcsec_h": 31.86
+   },
+   "px": [
+    51.83,
+    17.15
+   ],
+   "on_detector": true,
+   "peak_snr": 145.0,
+   "fit_offset_arcsec": 0.74,
+   "saturated": false,
+   "flags": [
+    "OUTLIER",
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_1A/l2b-v27-2026-208/3/level2_2025W48_1A_0742_2D3_spx_l2b-v27-2026-208.fits",
+   "img": "f01.png",
+   "diff": "d01.png"
+  },
+  {
+   "i": 2,
+   "obs_id": "2025W48_1A_0742_3D3",
+   "det": "D3",
+   "mjd": 61006.480575,
+   "utc": "2025-11-27T11:32:01Z",
+   "wl_um": 1.855,
+   "horizons": {
+    "ra": 146.8258311,
+    "dec": -15.9439121,
+    "V": 15.203,
+    "rate_arcsec_h": 31.24
+   },
+   "px": [
+    51.78,
+    17.33
+   ],
+   "on_detector": true,
+   "peak_snr": 145.3000030517578,
+   "fit_offset_arcsec": 0.72,
+   "saturated": false,
+   "flags": [
+    "OUTLIER",
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_1A/l2b-v27-2026-208/3/level2_2025W48_1A_0742_3D3_spx_l2b-v27-2026-208.fits",
+   "img": "f02.png",
+   "diff": "d02.png"
+  },
+  {
+   "i": 3,
+   "obs_id": "2025W48_1A_0742_4D3",
+   "det": "D3",
+   "mjd": 61006.482067,
+   "utc": "2025-11-27T11:34:10Z",
+   "wl_um": 1.898,
+   "horizons": {
+    "ra": 146.8259153,
+    "dec": -15.9442082,
+    "V": 15.203,
+    "rate_arcsec_h": 30.44
+   },
+   "px": [
+    51.74,
+    17.5
+   ],
+   "on_detector": true,
+   "peak_snr": 96.5,
+   "fit_offset_arcsec": 0.48,
+   "saturated": false,
+   "flags": [
+    "OUTLIER",
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_1A/l2b-v27-2026-208/3/level2_2025W48_1A_0742_4D3_spx_l2b-v27-2026-208.fits",
+   "img": "f03.png",
+   "diff": "d03.png"
+  },
+  {
+   "i": 4,
+   "obs_id": "2025W48_2A_0027_1D3",
+   "det": "D3",
+   "mjd": 61006.611947,
+   "utc": "2025-11-27T14:41:12Z",
+   "wl_um": 1.945,
+   "horizons": {
+    "ra": 146.8313712,
+    "dec": -15.9615515,
+    "V": 15.203,
+    "rate_arcsec_h": 32.45
+   },
+   "px": [
+    48.67,
+    27.66
+   ],
+   "on_detector": true,
+   "peak_snr": 85.5999984741211,
+   "fit_offset_arcsec": 1.34,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 1,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0027_1D3_spx_l2b-v27-2026-209.fits",
+   "img": "f04.png",
+   "diff": "d04.png"
+  },
+  {
+   "i": 5,
+   "obs_id": "2025W48_2A_0027_2D3",
+   "det": "D3",
+   "mjd": 61006.613439,
+   "utc": "2025-11-27T14:43:21Z",
+   "wl_um": 1.99,
+   "horizons": {
+    "ra": 146.8314487,
+    "dec": -15.9618647,
+    "V": 15.203,
+    "rate_arcsec_h": 32.23
+   },
+   "px": [
+    48.62,
+    27.84
+   ],
+   "on_detector": true,
+   "peak_snr": 117.5,
+   "fit_offset_arcsec": 0.34,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0027_2D3_spx_l2b-v27-2026-209.fits",
+   "img": "f05.png",
+   "diff": "d05.png"
+  },
+  {
+   "i": 6,
+   "obs_id": "2025W48_2A_0027_3D3",
+   "det": "D3",
+   "mjd": 61006.614931,
+   "utc": "2025-11-27T14:45:30Z",
+   "wl_um": 2.036,
+   "horizons": {
+    "ra": 146.8315286,
+    "dec": -15.9621741,
+    "V": 15.203,
+    "rate_arcsec_h": 31.81
+   },
+   "px": [
+    48.58,
+    28.02
+   ],
+   "on_detector": true,
+   "peak_snr": 93.5999984741211,
+   "fit_offset_arcsec": 0.25,
+   "saturated": false,
+   "flags": [
+    "COLD",
+    "NONFUNC",
+    "OUTLIER",
+    "SUR_ERROR",
+    "TRANSIENT"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 3,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0027_3D3_spx_l2b-v27-2026-209.fits",
+   "img": "f06.png",
+   "diff": "d06.png"
+  },
+  {
+   "i": 7,
+   "obs_id": "2025W48_2A_0043_1D3",
+   "det": "D3",
+   "mjd": 61006.676487,
+   "utc": "2025-11-27T16:14:08Z",
+   "wl_um": 1.695,
+   "horizons": {
+    "ra": 146.8340653,
+    "dec": -15.9701136,
+    "V": 15.202,
+    "rate_arcsec_h": 32.16
+   },
+   "px": [
+    47.15,
+    32.67
+   ],
+   "on_detector": true,
+   "peak_snr": 97.5,
+   "fit_offset_arcsec": 1.04,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 1,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0043_1D3_spx_l2b-v27-2026-209.fits",
+   "img": "f07.png",
+   "diff": "d07.png"
+  },
+  {
+   "i": 8,
+   "obs_id": "2025W48_2A_0043_2D3",
+   "det": "D3",
+   "mjd": 61006.677979,
+   "utc": "2025-11-27T16:16:17Z",
+   "wl_um": 1.735,
+   "horizons": {
+    "ra": 146.8341362,
+    "dec": -15.9704277,
+    "V": 15.202,
+    "rate_arcsec_h": 32.41
+   },
+   "px": [
+    47.11,
+    32.85
+   ],
+   "on_detector": true,
+   "peak_snr": 226.89999389648438,
+   "fit_offset_arcsec": 0.75,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 2,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0043_2D3_spx_l2b-v27-2026-209.fits",
+   "img": "f08.png",
+   "diff": "d08.png"
+  },
+  {
+   "i": 9,
+   "obs_id": "2025W48_2A_0089_1D3",
+   "det": "D3",
+   "mjd": 61006.885225,
+   "utc": "2025-11-27T21:14:43Z",
+   "wl_um": 2.068,
+   "horizons": {
+    "ra": 146.8427596,
+    "dec": -15.9989534,
+    "V": 15.201,
+    "rate_arcsec_h": 32.12
+   },
+   "px": [
+    42.26,
+    49.55
+   ],
+   "on_detector": true,
+   "peak_snr": 105.5,
+   "fit_offset_arcsec": 0.76,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0089_1D3_spx_l2b-v27-2026-209.fits",
+   "img": "f09.png",
+   "diff": "d09.png"
+  },
+  {
+   "i": 10,
+   "obs_id": "2025W48_2A_0089_2D3",
+   "det": "D3",
+   "mjd": 61006.886717,
+   "utc": "2025-11-27T21:16:52Z",
+   "wl_um": 2.117,
+   "horizons": {
+    "ra": 146.8428378,
+    "dec": -15.9992619,
+    "V": 15.201,
+    "rate_arcsec_h": 31.67
+   },
+   "px": [
+    42.21,
+    49.73
+   ],
+   "on_detector": true,
+   "peak_snr": 93.5,
+   "fit_offset_arcsec": 0.95,
+   "saturated": false,
+   "flags": [
+    "OUTLIER",
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0089_2D3_spx_l2b-v27-2026-209.fits",
+   "img": "f10.png",
+   "diff": "d10.png"
+  },
+  {
+   "i": 11,
+   "obs_id": "2025W48_2A_0089_3D3",
+   "det": "D3",
+   "mjd": 61006.888209,
+   "utc": "2025-11-27T21:19:01Z",
+   "wl_um": 2.166,
+   "horizons": {
+    "ra": 146.8429181,
+    "dec": -15.9995643,
+    "V": 15.201,
+    "rate_arcsec_h": 31.03
+   },
+   "px": [
+    42.17,
+    49.91
+   ],
+   "on_detector": true,
+   "peak_snr": 136.1999969482422,
+   "fit_offset_arcsec": 0.99,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0089_3D3_spx_l2b-v27-2026-209.fits",
+   "img": "f11.png",
+   "diff": "d11.png"
+  },
+  {
+   "i": 12,
+   "obs_id": "2025W48_2A_0089_4D3",
+   "det": "D3",
+   "mjd": 61006.889702,
+   "utc": "2025-11-27T21:21:10Z",
+   "wl_um": 2.216,
+   "horizons": {
+    "ra": 146.843,
+    "dec": -15.9998587,
+    "V": 15.201,
+    "rate_arcsec_h": 30.2
+   },
+   "px": [
+    42.12,
+    50.08
+   ],
+   "on_detector": true,
+   "peak_snr": 131.0,
+   "fit_offset_arcsec": 0.88,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0089_4D3_spx_l2b-v27-2026-209.fits",
+   "img": "f12.png",
+   "diff": "d12.png"
+  },
+  {
+   "i": 13,
+   "obs_id": "2025W48_2A_0150_1D3",
+   "det": "D3",
+   "mjd": 61007.152516,
+   "utc": "2025-11-28T03:39:37Z",
+   "wl_um": 2.273,
+   "horizons": {
+    "ra": 146.8535133,
+    "dec": -16.035015,
+    "V": 15.2,
+    "rate_arcsec_h": 32.17
+   },
+   "px": [
+    36.21,
+    70.66
+   ],
+   "on_detector": true,
+   "peak_snr": 136.89999389648438,
+   "fit_offset_arcsec": 1.05,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 1,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0150_1D3_spx_l2b-v27-2026-209.fits",
+   "img": "f13.png",
+   "diff": "d13.png"
+  },
+  {
+   "i": 14,
+   "obs_id": "2025W48_2A_0150_2D3",
+   "det": "D3",
+   "mjd": 61007.154009,
+   "utc": "2025-11-28T03:41:46Z",
+   "wl_um": 2.326,
+   "horizons": {
+    "ra": 146.853582,
+    "dec": -16.0353292,
+    "V": 15.2,
+    "rate_arcsec_h": 32.33
+   },
+   "px": [
+    36.17,
+    70.84
+   ],
+   "on_detector": true,
+   "peak_snr": 81.5,
+   "fit_offset_arcsec": 0.32,
+   "saturated": false,
+   "flags": [
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0150_2D3_spx_l2b-v27-2026-209.fits",
+   "img": "f14.png",
+   "diff": "d14.png"
+  },
+  {
+   "i": 15,
+   "obs_id": "2025W48_2A_0150_3D3",
+   "det": "D3",
+   "mjd": 61007.155501,
+   "utc": "2025-11-28T03:43:55Z",
+   "wl_um": 2.378,
+   "horizons": {
+    "ra": 146.8536535,
+    "dec": -16.0356433,
+    "V": 15.2,
+    "rate_arcsec_h": 32.27
+   },
+   "px": [
+    36.13,
+    71.03
+   ],
+   "on_detector": true,
+   "peak_snr": 75.9000015258789,
+   "fit_offset_arcsec": 0.74,
+   "saturated": false,
+   "flags": [
+    "HALO",
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 0,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2025W48_2A/l2b-v27-2026-209/3/level2_2025W48_2A_0150_3D3_spx_l2b-v27-2026-209.fits",
+   "img": "f15.png",
+   "diff": "d15.png"
+  }
+ ],
+ "short": "Ganymed",
+ "n_visits": 5,
+ "visits": [
+  {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "utc": "2025-11-27T11:27:43Z",
+   "n": 4
+  },
+  {
+   "frames": [
+    4,
+    5,
+    6
+   ],
+   "utc": "2025-11-27T14:41:12Z",
+   "n": 3
+  },
+  {
+   "frames": [
+    7,
+    8
+   ],
+   "utc": "2025-11-27T16:14:08Z",
+   "n": 2
+  },
+  {
+   "frames": [
+    9,
+    10,
+    11,
+    12
+   ],
+   "utc": "2025-11-27T21:14:43Z",
+   "n": 4
+  },
+  {
+   "frames": [
+    13,
+    14,
+    15
+   ],
+   "utc": "2025-11-28T03:39:37Z",
+   "n": 3
+  }
+ ],
+ "span_label": "16 h 16 min",
+ "median_fit_offset_arcsec": 0.75,
+ "n_fitted": 16,
+ "labels": [
+  {
+   "kind": "info",
+   "text": "The pipeline\u2019s OUTLIER or TRANSIENT bit is set on the asteroid in 16 of 16 frames, because it moved. SkyBlink keeps those pixels."
+  },
+  {
+   "kind": "info",
+   "text": "Persistence (PERSIST) from an earlier bright source near the asteroid in 4 of 16 frames."
+  },
+  {
+   "kind": "warn",
+   "text": "Frame 7: dead or noisy pixels (NONFUNC, COLD or SUR_ERROR) within 2 px of the asteroid."
+  }
+ ],
+ "wl_range": [
+  1.695,
+  2.378
+ ],
+ "barnard_years_for_same_path": 33.3
+}

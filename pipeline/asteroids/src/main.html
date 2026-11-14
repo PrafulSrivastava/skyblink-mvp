@@ -1,0 +1,78 @@
+<main id="top">
+  <section class="hero hero--split" data-enter aria-labelledby="ast-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="ast-h">Blink SPHEREx frames, catch an asteroid</h1>
+        <p class="hero__lead">SPHEREx sweeps the same patch of sky again a few hours later. Stars hold still. An asteroid jumps dozens of pixels. Tap it before SkyBlink draws the JPL Horizons track.</p>
+        <div class="lb__row" role="group" aria-label="Asteroid" id="ast-targets"></div>
+        <div class="ast__find" id="ast-find" aria-live="polite">
+          <p class="ast__prompt" id="ast-prompt">Watch the loop, then tap the dot that moves.</p>
+          <div class="lb__row">
+            <button class="lb__chip" type="button" id="ast-reveal">Reveal</button>
+            <button class="lb__chip" type="button" id="ast-again" hidden>Try again</button>
+            <span class="ast__score" id="ast-total"></span>
+          </div>
+        </div>
+        <ul class="lb__flags" id="ast-flags"></ul>
+        <div class="btn-row"><a class="btn btn--primary" href="#measure">See the numbers<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="/time-lapse">Slow movers: the time-lapse</a></div>
+        <p class="hero__proof">SPHEREx DR1 and QR3 frames found with IRSA MOST. Predicted positions from JPL Horizons, as seen from SPHEREx.</p>
+      </div>
+      <div class="hero__media span-6 start-7">
+        <div class="lb__panel lb__panel--art" aria-label="Asteroid blink player">
+          <div class="lb__stage ast__stage is-finding" id="ast-stage" tabindex="0" role="button" aria-label="Tap where you think the asteroid is">
+            <img id="ast-img" alt="SPHEREx frame of the field around the asteroid" width="979" height="979">
+            <svg viewBox="0 0 89 89" aria-hidden="true">
+              <polyline id="ast-track" fill="none" stroke="#bda38b" stroke-width=".35" stroke-dasharray="1 .7" stroke-linecap="round"/>
+              <g id="ast-dots"></g>
+              <circle id="ast-now" r="2.6" fill="none" stroke="#5ab9fc" stroke-width=".4"/>
+              <line id="ast-miss" stroke="#e9edf3" stroke-width=".3" stroke-dasharray=".6 .5"/>
+              <g id="ast-guess"><path d="M-1.6 0H1.6M0 -1.6V1.6" stroke="#e9edf3" stroke-width=".45" stroke-linecap="round"/><circle r="2.2" fill="none" stroke="#e9edf3" stroke-width=".3"/></g>
+            </svg>
+            <div class="lb__badge" id="ast-badge" aria-live="polite"></div>
+            <div class="lb__scale">89 × 89 px, 6.15″/px, north up</div>
+          </div>
+          <div class="tl__date" id="ast-date">21:42 UTC<small id="ast-sub">frame 1 of 6</small></div>
+          <div class="tl__timeline">
+            <label class="lb__label" for="ast-range">Exposures</label>
+            <input class="tl__range" id="ast-range" type="range" min="0" max="5" step="1" value="0">
+            <div class="tl__ticks" id="ast-ticks" aria-hidden="true"></div>
+            <div class="tl__ends" aria-hidden="true"><span id="ast-start"></span><span id="ast-end"></span></div>
+          </div>
+          <div class="lb__controls">
+            <button class="lb__chip" type="button" id="ast-play" aria-pressed="true">Pause</button>
+            <button class="lb__chip" type="button" data-speed="0.5" aria-pressed="false">0.5×</button>
+            <button class="lb__chip" type="button" data-speed="1" aria-pressed="true">1×</button>
+            <button class="lb__chip" type="button" data-speed="2" aria-pressed="false">2×</button>
+            <button class="lb__chip" type="button" id="ast-track-btn" aria-pressed="false">Horizons track</button>
+            <button class="lb__chip" type="button" id="ast-diff-btn" aria-pressed="false">Remove still sky</button>
+          </div>
+          <div class="lb__key"><span><i class="track"></i>JPL Horizons path</span><span><i class="now"></i>Predicted position now</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+  <section class="section" id="measure" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="measure-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 lb-stats-grid">
+          <h2 id="measure-h">A fast mover next to a slow one</h2>
+          <p class="t-lead" id="ast-name">433 Eros</p>
+          <ul class="lb__flags tl__phone-flags" id="ast-flags-m"></ul>
+          <dl class="lb__stats" id="ast-stats"></dl>
+          <p class="lb__note" id="ast-compare"></p>
+        </div>
+        <div class="span-6 start-7 lb-stats-grid">
+          <div class="lb-two" role="img" aria-label="The first and the last exposure of the asteroid on the shared grid">
+            <img id="ast-still-a" alt="" width="979" height="979" loading="lazy">
+            <img id="ast-still-b" alt="" width="979" height="979" loading="lazy">
+          </div>
+          <div class="faq">
+            <div class="faq__item"><h3>Where the frames come from</h3><p>IRSA&rsquo;s Moving Object Search Tool lists every SPHEREx exposure that caught the asteroid. SkyBlink keeps one detector, so all frames share a band, and puts them on one grid by their WCS.</p></div>
+            <div class="faq__item"><h3>Why the asteroid carries a flag</h3><p>The SPHEREx pipeline marks pixels that disagree with the rest of the visit. A moving rock does exactly that, so SkyBlink shows those pixels and lists the flag.</p></div>
+            <div class="faq__item"><h3>Asteroids left out</h3><p id="ast-dropped">Iris and Eunomia saturate the detector in every frame of their best passes. Four fainter near-Earth asteroids, at V 18.5 to 21.6, were not attempted.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

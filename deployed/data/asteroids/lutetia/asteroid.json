@@ -1,0 +1,285 @@
+{
+ "id": "lutetia",
+ "name": "21 Lutetia",
+ "kind": "main-belt asteroid, Rosetta flyby target",
+ "detector": "D3",
+ "n_frames": 7,
+ "span_hours": 9.76,
+ "path_arcsec": 341.9,
+ "path_px": 55.6,
+ "rate_arcsec_h": 35.0,
+ "rate_vs_barnard": 29546,
+ "V": 12.27,
+ "r_au": 2.468,
+ "delta_au": 2.149,
+ "phase_deg": 23.5,
+ "stretch": {
+  "lo": -0.029666660353541374,
+  "hi": 10.611038208007812,
+  "unit": "MJy/sr after local median removal"
+ },
+ "diff_sigma": 0.01978161372244358,
+ "grid": {
+  "npix": 89,
+  "scale": 6.15,
+  "crval": [
+   248.7802061,
+   -19.9987746
+  ],
+  "orientation": "north up, east left"
+ },
+ "frames": [
+  {
+   "i": 0,
+   "obs_id": "2026W10_2B_0401_1D3",
+   "det": "D3",
+   "mjd": 61106.627427,
+   "utc": "2026-03-07T15:03:29Z",
+   "wl_um": 1.737,
+   "horizons": {
+    "ra": 248.7302107,
+    "dec": -19.9918366,
+    "V": 12.271,
+    "rate_arcsec_h": 43.03
+   },
+   "px": [
+    71.5,
+    39.94
+   ],
+   "on_detector": true,
+   "peak_snr": 1051.4000244140625,
+   "fit_offset_arcsec": 3.06,
+   "saturated": false,
+   "flags": [
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 3,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0401_1D3_spx_l2b-v27-2026-231.fits",
+   "img": "f00.png",
+   "diff": "d00.png"
+  },
+  {
+   "i": 1,
+   "obs_id": "2026W10_2B_0401_2D3",
+   "det": "D3",
+   "mjd": 61106.628919,
+   "utc": "2026-03-07T15:05:38Z",
+   "wl_um": 1.776,
+   "horizons": {
+    "ra": 248.7306022,
+    "dec": -19.9920547,
+    "V": 12.271,
+    "rate_arcsec_h": 42.92
+   },
+   "px": [
+    71.29,
+    40.07
+   ],
+   "on_detector": true,
+   "peak_snr": 604.9000244140625,
+   "fit_offset_arcsec": 2.6,
+   "saturated": false,
+   "flags": [],
+   "coverage": 1.0,
+   "sat_px_grid": 6,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0401_2D3_spx_l2b-v27-2026-231.fits",
+   "img": "f01.png",
+   "diff": "d01.png"
+  },
+  {
+   "i": 2,
+   "obs_id": "2026W10_2B_0401_3D3",
+   "det": "D3",
+   "mjd": 61106.630412,
+   "utc": "2026-03-07T15:07:47Z",
+   "wl_um": 1.818,
+   "horizons": {
+    "ra": 248.7309957,
+    "dec": -19.9922656,
+    "V": 12.271,
+    "rate_arcsec_h": 42.62
+   },
+   "px": [
+    71.07,
+    40.19
+   ],
+   "on_detector": true,
+   "peak_snr": 818.7000122070312,
+   "fit_offset_arcsec": 0.89,
+   "saturated": false,
+   "flags": [
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 7,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0401_3D3_spx_l2b-v27-2026-231.fits",
+   "img": "f02.png",
+   "diff": "d02.png"
+  },
+  {
+   "i": 3,
+   "obs_id": "2026W10_2B_0401_4D3",
+   "det": "D3",
+   "mjd": 61106.631904,
+   "utc": "2026-03-07T15:09:56Z",
+   "wl_um": 1.861,
+   "horizons": {
+    "ra": 248.7313907,
+    "dec": -19.9924661,
+    "V": 12.271,
+    "rate_arcsec_h": 42.17
+   },
+   "px": [
+    70.85,
+    40.31
+   ],
+   "on_detector": true,
+   "peak_snr": 1314.4000244140625,
+   "fit_offset_arcsec": 1.33,
+   "saturated": false,
+   "flags": [
+    "PERSIST"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 4,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0401_4D3_spx_l2b-v27-2026-231.fits",
+   "img": "f03.png",
+   "diff": "d03.png"
+  },
+  {
+   "i": 4,
+   "obs_id": "2026W10_2B_0415_1D3",
+   "det": "D3",
+   "mjd": 61106.695804,
+   "utc": "2026-03-07T16:41:57Z",
+   "wl_um": 2.304,
+   "horizons": {
+    "ra": 248.7470755,
+    "dec": -19.9942442,
+    "V": 12.269,
+    "rate_arcsec_h": 42.98
+   },
+   "px": [
+    62.22,
+    41.35
+   ],
+   "on_detector": true,
+   "peak_snr": 969.5,
+   "fit_offset_arcsec": 0.72,
+   "saturated": false,
+   "flags": [],
+   "coverage": 1.0,
+   "sat_px_grid": 4,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0415_1D3_spx_l2b-v27-2026-231.fits",
+   "img": "f04.png",
+   "diff": "d04.png"
+  },
+  {
+   "i": 5,
+   "obs_id": "2026W10_2B_0415_2D3",
+   "det": "D3",
+   "mjd": 61106.697297,
+   "utc": "2026-03-07T16:44:06Z",
+   "wl_um": 2.357,
+   "horizons": {
+    "ra": 248.7474672,
+    "dec": -19.9944602,
+    "V": 12.269,
+    "rate_arcsec_h": 42.8
+   },
+   "px": [
+    62.01,
+    41.48
+   ],
+   "on_detector": true,
+   "peak_snr": 836.5999755859375,
+   "fit_offset_arcsec": 0.73,
+   "saturated": false,
+   "flags": [],
+   "coverage": 1.0,
+   "sat_px_grid": 2,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0415_2D3_spx_l2b-v27-2026-231.fits",
+   "img": "f05.png",
+   "diff": "d05.png"
+  },
+  {
+   "i": 6,
+   "obs_id": "2026W10_2B_0476_1D3",
+   "det": "D3",
+   "mjd": 61107.034262,
+   "utc": "2026-03-08T00:49:20Z",
+   "wl_um": 2.102,
+   "horizons": {
+    "ra": 248.8302016,
+    "dec": -20.0057125,
+    "V": 12.264,
+    "rate_arcsec_h": 42.79
+   },
+   "px": [
+    16.5,
+    48.07
+   ],
+   "on_detector": true,
+   "peak_snr": 1090.699951171875,
+   "fit_offset_arcsec": 0.46,
+   "saturated": false,
+   "flags": [
+    "HALO",
+    "OUTLIER"
+   ],
+   "coverage": 1.0,
+   "sat_px_grid": 3,
+   "source": "s3://nasa-irsa-spherex/dr1/level2/2026W10_2B/l2b-v27-2026-231/3/level2_2026W10_2B_0476_1D3_spx_l2b-v27-2026-231.fits",
+   "img": "f06.png",
+   "diff": "d06.png"
+  }
+ ],
+ "short": "Lutetia",
+ "n_visits": 3,
+ "visits": [
+  {
+   "frames": [
+    0,
+    1,
+    2,
+    3
+   ],
+   "utc": "2026-03-07T15:03:29Z",
+   "n": 4
+  },
+  {
+   "frames": [
+    4,
+    5
+   ],
+   "utc": "2026-03-07T16:41:57Z",
+   "n": 2
+  },
+  {
+   "frames": [
+    6
+   ],
+   "utc": "2026-03-08T00:49:20Z",
+   "n": 1
+  }
+ ],
+ "span_label": "9 h 46 min",
+ "median_fit_offset_arcsec": 0.89,
+ "n_fitted": 7,
+ "labels": [
+  {
+   "kind": "info",
+   "text": "The pipeline\u2019s OUTLIER or TRANSIENT bit is set on the asteroid in 1 of 7 frames, because it moved. SkyBlink keeps those pixels."
+  },
+  {
+   "kind": "info",
+   "text": "Persistence (PERSIST) from an earlier bright source near the asteroid in 3 of 7 frames."
+  }
+ ],
+ "wl_range": [
+  1.737,
+  2.357
+ ],
+ "barnard_years_for_same_path": 32.9
+}

@@ -1,0 +1,48 @@
+{
+ "targets": [
+  {
+   "id": "eros",
+   "short": "Eros",
+   "name": "433 Eros",
+   "data": "asteroids/eros/asteroid.json"
+  },
+  {
+   "id": "lutetia",
+   "short": "Lutetia",
+   "name": "21 Lutetia",
+   "data": "asteroids/lutetia/asteroid.json"
+  },
+  {
+   "id": "psyche",
+   "short": "Psyche",
+   "name": "16 Psyche",
+   "data": "asteroids/psyche/asteroid.json"
+  },
+  {
+   "id": "ganymed",
+   "short": "Ganymed",
+   "name": "1036 Ganymed",
+   "data": "asteroids/ganymed/asteroid.json"
+  }
+ ],
+ "dropped": [
+  {
+   "name": "7 Iris",
+   "reason": "Saturated (OVERFLOW) at the asteroid in all 7 frames of its best D2 window, with BLOOM in 4; one frame has no usable core at all."
+  },
+  {
+   "name": "15 Eunomia",
+   "reason": "Saturated in all 9 D1 frames; the core is unmeasurable in 5 of them."
+  },
+  {
+   "name": "433 Eros, July 2025",
+   "reason": "Clean (8 frames, 5.0 h, 72\u2033/h) but a second Eros window; the March 2026 pass moves twice as fast."
+  },
+  {
+   "name": "3200 Phaethon, 1620 Geographos, 3122 Florence, 4179 Toutatis",
+   "reason": "MOST lists SPHEREx frames, but their predicted V of 18.5 to 21.6 is far fainter than Ganymed at 15.2, so they were not attempted."
+  }
+ ],
+ "barnard_arcsec_yr": 10.39,
+ "method": "Exposures found with IRSA MOST (catalog spherex); native strips range-read from the public nasa-irsa-spherex S3 bucket; reprojected onto one north-up 89 x 89 px, 6.15\u2033/px TAN grid; JPL Horizons astrometric positions for observer SPHEREx (-163182) at each exposure mid-time."
+}

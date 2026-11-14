@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="soft" data-ground="sky" data-buttons="pill" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SkyBlink asteroids: watch SPHEREx catch a moving rock in hours</title>
+<meta name="description" content="Blink real SPHEREx frames taken hours apart, find the asteroid that moves, then check your tap against its JPL Horizons path.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SkyBlink: a blink viewer for NASA SPHEREx infrared images">
+<meta property="og:description" content="Play SPHEREx frames of five nearby stars as a loop and see each one move between visits.">
+<meta property="og:image" content="/share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0a0d14">
+<!-- <link rel="canonical" href="https://[the final domain]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400..700&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/system.css">
+<link rel="stylesheet" href="/assets/ui/cards.css">
+<link rel="stylesheet" href="/assets/motion/motion.css">
+<link rel="stylesheet" href="/assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="/assets/layout/layout.css">
+<link rel="stylesheet" href="/assets/icons/icon.css">
+<style>
+:root {
+  --p-bg: #0a0d14; --p-surface: #131824; --p-ink: #e9edf3; --p-muted: #82868d;
+  --p-accent: #5ab9fc; --p-accent-ink: #0a0d14; --p-action: #5ab9fc; --p-action-ink: #0a0d14;
+  --p-inv-bg: #e9edf3; --p-inv-surface: #d7dbe1; --p-inv-ink: #0a0d14; --p-inv-muted: #54575f;
+  --p-inv-accent: #0a0d14; --p-inv-accent-ink: #e9edf3; --p-inv-action: #0a0d14; --p-inv-action-ink: #e9edf3;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-text: "Manrope", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.97;
+}
+</style>
+<link rel="stylesheet" href="/assets/ui/base.css">
+<link rel="stylesheet" href="/assets/ui/window/fragment.css">
+<link rel="stylesheet" href="/assets/ui/notify/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="/assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="/assets/moments/moments.js">
+<link rel="modulepreload" href="/assets/moments/lib.js">
+<link rel="modulepreload" href="/assets/moments/iris-opens/moment.js">
+<style>
+  /* inside visuals only: real SPHEREx frames drawn at their pixel scale */
+  .sky-thumb { object-fit: cover; image-rendering: pixelated; border-radius: 6px; }
+  .sky-img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border-radius: var(--u-r, 10px); }
+  .app.ui { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); margin-top: var(--s-7); background: var(--u-bg); border: 1px solid var(--u-border); border-radius: var(--u-r); box-shadow: var(--u-shadow); }
+  .app > .app__pane { position: relative; min-width: 0; min-height: 0; overflow: hidden; }
+  .app > .app__pane + .app__pane { border-left: 1px solid var(--u-line); }
+  .app > .app__pane > .ui-panel { width: 100%; border: 0; border-radius: 0; box-shadow: none; }
+  .app > .app__pane::after { content: ""; position: absolute; inset: auto 0 0 0; height: 64px; background: linear-gradient(transparent, var(--u-bg)); pointer-events: none; }
+  @media (min-width: 1024px) and (max-width: 1279px) { .app.ui { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  @media (max-width: 1023px) {
+    .app.ui { grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); }
+    .app > .app__pane--list { max-height: 252px; }
+    .app > .app__pane--list::after { display: none; }
+    .app .ui-win__side { display: none; }
+    .app .ui-win__body { grid-template-columns: minmax(0, 1fr); }
+    .app > .app__pane + .app__pane { border-left: 0; border-top: 1px solid var(--u-line); }
+  }
+  @media (max-width: 639px) {
+    .app.ui { grid-template-rows: minmax(0, 1fr); }
+    .app > .app__pane--list { display: none; }
+    .app > .app__pane + .app__pane { border-top: 0; }
+  }
+  .blink { padding: 20px 24px; display: grid; gap: 16px; font: 400 13px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .blink__head { display: flex; gap: 8px; align-items: center; }
+  .blink__head b { font-weight: 500; font-size: 14px; }
+  .blink__tabs { display: flex; gap: 6px; margin-left: auto; }
+  .blink__tabs span { padding: 3px 10px; border-radius: 999px; border: 1px solid var(--u-line); color: var(--u-muted); }
+  .blink__tabs span.is-on { border-color: var(--accent); color: var(--u-ink); }
+  .blink__frames { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .blink__frames > div { display: grid; gap: 6px; }
+  .blink__frames span { color: var(--u-muted); }
+  .blink__stats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 24px; }
+  .blink__stats div { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid var(--u-line); }
+  .blink__stats dd { margin: 0; font-family: var(--ui-mono, var(--font-mono)); }
+  .blink__stats dt { color: var(--u-muted); }
+  .spec { width: 100%; height: auto; }
+  .spec path.line { fill: none; stroke: var(--accent); stroke-width: 2; }
+  .spec path.axis { stroke: var(--u-line); }
+  .spec text { fill: var(--u-muted); font: 400 13px var(--ui-font, var(--font-text)); }
+  .coord { display: grid; gap: 10px; padding: 20px; font: 400 14px/1.4 var(--ui-font, var(--font-text)); color: var(--u-ink); }
+  .coord__field { display: flex; align-items: center; gap: 8px; padding: 10px 12px; border: 1px solid var(--u-line); border-radius: 8px; font-family: var(--ui-mono, var(--font-mono)); }
+  .coord__row { display: flex; justify-content: space-between; color: var(--u-muted); }
+  .coord__row b { color: var(--u-ink); font-weight: 500; }
+  .visits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; padding: 20px; }
+  .battle-view { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; padding: 32px; }
+  #how .panel { --p-h: 456px; }
+  @media (max-width: 1279px) { #how .panel { --p-h: 300px; } }
+  @media (max-width: 639px) { #how .panel { --p-h: 150px; } #how .card:not(:nth-child(2)) .panel { display: none; } }
+  #battle .t-lead { color: var(--ink); }
+  @media (min-width: 640px) and (max-width: 1023px) { #how { --h: 2; } }
+  @media (max-width: 639px) { .battle-view { padding: 48px 32px; } }
+  #battle .battle-view { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 639px) { .faq__item:nth-child(5) { display: none; } #battle .battle-view { grid-template-columns: repeat(2, minmax(0, 1fr)); } #battle .battle-view > img:nth-child(3) { grid-column: 1 / -1; justify-self: center; width: calc(50% - 8px); } }
+</style>
+<style>
+    .lb__panel { background: var(--u-bg, var(--p-surface)); border: 1px solid var(--u-border, var(--line)); color: var(--u-ink, var(--ink)); border-radius: var(--u-r, 12px); padding: 20px; display: grid; gap: 16px; align-content: start; min-width: 0; }
+  .lb__row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .lb__label { font: 500 12px/1 var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); margin-right: 4px; }
+  .lb__chip { appearance: none; font: 500 13px/1 var(--font-text); color: var(--muted); background: transparent; border: 1px solid var(--line-strong, var(--line)); border-radius: 999px; padding: 9px 14px; min-height: 36px; cursor: pointer; transition: color .2s, border-color .2s, background-color .2s; }
+  .lb__chip:hover { color: var(--ink); border-color: rgba(90,185,252,.5); }
+  .lb__chip[aria-pressed="true"] { color: var(--accent); border-color: rgba(90,185,252,.6); background: rgba(90,185,252,.1); }
+  .lb__chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .lb__chip small { font-family: var(--font-mono); font-size: 11px; margin-left: 4px; }
+  .lb__link { margin-left: auto; font: 500 13px/1 var(--font-text); color: var(--accent); text-decoration: none; padding: 9px 2px; }
+  .lb__link:hover { text-decoration: underline; }
+  .lb__stage { position: relative; width: 100%; max-width: 520px; aspect-ratio: 1; margin: 0 auto; border-radius: 10px; overflow: hidden; background: #000; }
+  .lb__stage img { position: absolute; inset: 0; width: 100%; height: 100%; image-rendering: pixelated; }
+  .lb__stage img.is-off { visibility: hidden; }
+  .lb__stage svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .lb__badge { position: absolute; left: 10px; top: 10px; font: 500 12px/1.2 var(--font-mono); color: #e9edf3; background: rgba(10,13,20,.78); border: 1px solid var(--line-strong, var(--line)); border-radius: 6px; padding: 6px 8px; }
+  .lb__badge b { color: #5ab9fc; font-weight: 500; }
+  .lb__scale { position: absolute; right: 10px; bottom: 10px; font: 400 11px/1 var(--font-mono); color: #c3c7cd; background: rgba(10,13,20,.85); border-radius: 4px; padding: 4px 6px; }
+  .lb__controls { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+  .lb__note { font: 400 14px/1.5 var(--font-text); color: var(--ink); margin: 0; }
+  .lb__flags { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+  .lb__flags li { font: 400 14px/1.45 var(--font-text); color: var(--ink); }
+  .lb__flags li.is-warn { color: #bda38b; }
+  .lb__stats { display: grid; margin: 0; }
+  .lb__stats div { display: flex; justify-content: space-between; gap: 16px; padding: 9px 0; border-top: 1px solid var(--line); }
+  .lb__stats dt { color: var(--muted); font: 400 13px/1.4 var(--font-text); }
+  .lb__stats dd { margin: 0; font: 400 13px/1.4 var(--font-mono); color: var(--ink); text-align: right; }
+  .lb__key { display: flex; gap: 16px; flex-wrap: wrap; font: 400 12px/1 var(--font-mono); color: var(--muted); }
+  .lb__key i { display: inline-block; width: 18px; height: 0; border-top: 2px dashed #bda38b; vertical-align: middle; margin-right: 6px; }
+  .lb__key i.now { border-top-style: solid; border-color: var(--accent); }
+  .lb__key i.path { border-top: 2px solid #e9edf3; }
+  .hero__text .lb__row { margin-top: 4px; }
+  .hero__text .lb__flags { margin-top: 4px; }
+  .lb__panel--art { padding: 16px; gap: 12px; height: 100%; display: flex; flex-direction: column; border: 0; border-radius: 0; }
+  .lb__panel--art .lb__stage { flex: 1 1 0; min-height: 0; width: auto; max-width: 100%; aspect-ratio: 1; margin: 0 auto; }
+  .lb__panel--art .lb__key { justify-content: center; }
+  .lb-stats-grid { display: grid; gap: 16px; align-content: start; }
+  .lb-two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .lb-two img { width: 100%; height: auto; aspect-ratio: 1; image-rendering: pixelated; border-radius: 8px; background: #000; }
+  #measure .faq__item p { font-size: 14px; }
+  @media (max-width: 639px) { .lb__key { display: none; } .hero__text .hero__proof, .hero__text .hero__lead, .hero__text .btn--secondary { display: none; } .lb__panel--art { padding: 10px; gap: 8px; } }
+</style>
+<style>
+  .tl__date { font: 500 clamp(28px, 3.2vw, 40px)/1 var(--font-mono); letter-spacing: -0.02em; color: var(--ink); text-align: center; font-variant-numeric: tabular-nums; }
+  .tl__date small { display: block; margin-top: 6px; font: 400 12px/1.2 var(--font-mono); letter-spacing: .04em; color: var(--muted); }
+  .tl__timeline { display: grid; gap: 4px; }
+  #tl-badge { max-width: calc(100% - 20px); }
+  .tl__range { width: 100%; height: 44px; margin: 0; accent-color: #5ab9fc; cursor: pointer; background: transparent; }
+  .tl__range:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .tl__ticks { position: relative; height: 8px; margin: 0 9px; }
+  .tl__ticks i { position: absolute; top: 0; width: 2px; height: 8px; margin-left: -1px; background: var(--line-strong, var(--line)); border-radius: 1px; }
+  .tl__ticks i.is-sx { background: #5ab9fc; }
+  .tl__ticks i.is-past { background: #e9edf3; }
+  .tl__ends { display: flex; justify-content: space-between; font: 400 12px/1 var(--font-mono); color: var(--muted); margin: 0 2px; }
+  .lb__key i.trail { border-top: 0; width: 8px; height: 8px; border-radius: 50%; background: #e9edf3; opacity: .7; margin-right: 6px; }
+  .lb__key i.track { border-top: 2px dashed #bda38b; }
+  .tl__phone-flags { display: none; }
+  @media (max-width: 1023px) {
+    .hero__text .hero__proof, .hero__text .hero__lead, .hero__text #tl-flags, #tl-stage ~ .lb__key, .tl__ends, .tl__timeline .lb__label { display: none; }
+    .tl__phone-flags { display: grid; } .lb__panel--art .lb__stage { min-height: 240px; } .tl__ticks { display: none; }
+  }
+  @media (max-width: 639px) {
+    .tl__date { font-size: 22px; } .tl__date small { margin-top: 4px; } .tl__ends, .tl__timeline .lb__label { display: none; }
+    #tl-stage .lb__scale { display: none; } .lb__panel--art .lb__stage { min-height: 160px; }
+    .tl__range { height: 44px; } .tl__ticks { display: none; }
+    .hero__text #tl-flags, #tl-trail-btn, #tl-track-btn, [data-speed="0.5"] { display: none; }
+    .tl__phone-flags { display: grid; }
+  }
+</style>
+<style>
+  .ast__stage.is-finding { cursor: crosshair; }
+  .ast__stage:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .ast__stage img.ast__pre { visibility: hidden; }
+  .ast__find { display: grid; gap: 10px; padding: 14px 16px; border: 1px solid var(--line-strong, var(--line)); border-radius: 12px; background: rgba(90,185,252,.05); }
+  .ast__prompt { margin: 0; font: 400 15px/1.45 var(--font-text); color: var(--ink); }
+  .ast__prompt b { color: var(--accent); font-weight: 500; font-family: var(--font-mono); }
+  .ast__score { margin-left: auto; font: 400 12px/1 var(--font-mono); color: var(--muted); }
+  #ast-guess, #ast-miss { display: none; }
+  .is-guessed #ast-guess, .is-guessed #ast-miss { display: inline; }
+  .lb__key i.track { border-top: 2px dashed #bda38b; }
+  #ast-badge { max-width: calc(100% - 20px); }
+  @media (max-width: 1023px) {
+    .hero__text .hero__proof, .hero__text .hero__lead, .hero__text #ast-flags, #ast-stage ~ .lb__key, .tl__ends, .tl__timeline .lb__label { display: none; }
+    .tl__phone-flags { display: grid; } .lb__panel--art .lb__stage { min-height: 240px; } .tl__ticks { display: none; }
+  }
+  @media (max-width: 639px) {
+    .tl__date { font-size: 22px; } .tl__date small { margin-top: 4px; }
+    #ast-stage .lb__scale { display: none; } .lb__panel--art .lb__stage { min-height: 200px; } .hero__text .btn--secondary, .lb__label[for="ast-range"], #ast-sub { display: none; } .tl__range { height: 32px; }
+    .tl__ticks { display: none; } .hero__text #ast-flags, [data-speed] { display: none; } #ast-targets .lb__label { display: none; } .hero__text > h1 { font-size: 32px; } .hero__text .btn-row .btn { min-height: 44px; padding-block: 10px; } .ast__find .lb__row { margin: 0; }
+    .ast__find { padding: 10px 12px; } .ast__prompt { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="/#top">Skip to content</a>
+    <a class="nav__logo" href="/#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item">
+        <a class="nav__link" href="/#viewer">Viewer <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <div class="nav__menu">
+          <div class="wrap grid">
+            <div class="menu-col span-3">
+              <p class="t-label">Fast movers</p>
+              <a href="/viewer/?target=barnards-star">Barnard&rsquo;s Star<span>10,362 mas a year, band D2</span></a>
+              <a href="/viewer/?target=eps-indi-b">Epsilon Indi B<span>Methane dip at 3.3 &micro;m</span></a>
+              <a href="/viewer/?target=wise-0855">WISE 0855&minus;0714<span>Coldest known brown dwarf</span></a>
+            </div>
+            <div class="menu-col span-3">
+              <p class="t-label">Bright variables</p>
+              <a href="/viewer/?target=rw-aur">RW Aurigae<span>T Tauri star, band D1</span></a>
+              <a href="/viewer/?target=r-dra">R Draconis<span>Mira giant, wings only</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav__item"><a class="nav__link" href="/#how">Steps</a></div>
+      <div class="nav__item"><a class="nav__link" href="/#battle">Battle</a></div>
+      <div class="nav__item"><a class="nav__link" href="/asteroids">Asteroids</a></div>
+      <div class="nav__item"><a class="nav__link" href="/#data">Data</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="btn btn--primary" href="/viewer/">Open the viewer</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</header>
+<main id="top">
+  <section class="hero hero--split" data-enter aria-labelledby="ast-h">
+    <div class="wrap"><div class="hero-text grid hero__grid">
+      <div class="hero__text span-5">
+        <h1 id="ast-h">Blink SPHEREx frames, catch an asteroid</h1>
+        <p class="hero__lead">SPHEREx sweeps the same patch of sky again a few hours later. Stars hold still. An asteroid jumps dozens of pixels. Tap it before SkyBlink draws the JPL Horizons track.</p>
+        <div class="lb__row" role="group" aria-label="Asteroid" id="ast-targets"></div>
+        <div class="ast__find" id="ast-find" aria-live="polite">
+          <p class="ast__prompt" id="ast-prompt">Watch the loop, then tap the dot that moves.</p>
+          <div class="lb__row">
+            <button class="lb__chip" type="button" id="ast-reveal">Reveal</button>
+            <button class="lb__chip" type="button" id="ast-again" hidden>Try again</button>
+            <span class="ast__score" id="ast-total"></span>
+          </div>
+        </div>
+        <ul class="lb__flags" id="ast-flags"></ul>
+        <div class="btn-row"><a class="btn btn--primary" href="#measure">See the numbers<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="/time-lapse">Slow movers: the time-lapse</a></div>
+        <p class="hero__proof">SPHEREx DR1 and QR3 frames found with IRSA MOST. Predicted positions from JPL Horizons, as seen from SPHEREx.</p>
+      </div>
+      <div class="hero__media span-6 start-7">
+        <div class="lb__panel lb__panel--art" aria-label="Asteroid blink player">
+          <div class="lb__stage ast__stage is-finding" id="ast-stage" tabindex="0" role="button" aria-label="Tap where you think the asteroid is">
+            <img id="ast-img" alt="SPHEREx frame of the field around the asteroid" width="979" height="979">
+            <svg viewBox="0 0 89 89" aria-hidden="true">
+              <polyline id="ast-track" fill="none" stroke="#bda38b" stroke-width=".35" stroke-dasharray="1 .7" stroke-linecap="round"/>
+              <g id="ast-dots"></g>
+              <circle id="ast-now" r="2.6" fill="none" stroke="#5ab9fc" stroke-width=".4"/>
+              <line id="ast-miss" stroke="#e9edf3" stroke-width=".3" stroke-dasharray=".6 .5"/>
+              <g id="ast-guess"><path d="M-1.6 0H1.6M0 -1.6V1.6" stroke="#e9edf3" stroke-width=".45" stroke-linecap="round"/><circle r="2.2" fill="none" stroke="#e9edf3" stroke-width=".3"/></g>
+            </svg>
+            <div class="lb__badge" id="ast-badge" aria-live="polite"></div>
+            <div class="lb__scale">89 × 89 px, 6.15″/px, north up</div>
+          </div>
+          <div class="tl__date" id="ast-date">21:42 UTC<small id="ast-sub">frame 1 of 6</small></div>
+          <div class="tl__timeline">
+            <label class="lb__label" for="ast-range">Exposures</label>
+            <input class="tl__range" id="ast-range" type="range" min="0" max="5" step="1" value="0">
+            <div class="tl__ticks" id="ast-ticks" aria-hidden="true"></div>
+            <div class="tl__ends" aria-hidden="true"><span id="ast-start"></span><span id="ast-end"></span></div>
+          </div>
+          <div class="lb__controls">
+            <button class="lb__chip" type="button" id="ast-play" aria-pressed="true">Pause</button>
+            <button class="lb__chip" type="button" data-speed="0.5" aria-pressed="false">0.5×</button>
+            <button class="lb__chip" type="button" data-speed="1" aria-pressed="true">1×</button>
+            <button class="lb__chip" type="button" data-speed="2" aria-pressed="false">2×</button>
+            <button class="lb__chip" type="button" id="ast-track-btn" aria-pressed="false">Horizons track</button>
+            <button class="lb__chip" type="button" id="ast-diff-btn" aria-pressed="false">Remove still sky</button>
+          </div>
+          <div class="lb__key"><span><i class="track"></i>JPL Horizons path</span><span><i class="now"></i>Predicted position now</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+  <section class="section" id="measure" data-moment="iris-opens" data-moment-opts='{"from": "base"}' aria-labelledby="measure-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 lb-stats-grid">
+          <h2 id="measure-h">A fast mover next to a slow one</h2>
+          <p class="t-lead" id="ast-name">433 Eros</p>
+          <ul class="lb__flags tl__phone-flags" id="ast-flags-m"></ul>
+          <dl class="lb__stats" id="ast-stats"></dl>
+          <p class="lb__note" id="ast-compare"></p>
+        </div>
+        <div class="span-6 start-7 lb-stats-grid">
+          <div class="lb-two" role="img" aria-label="The first and the last exposure of the asteroid on the shared grid">
+            <img id="ast-still-a" alt="" width="979" height="979" loading="lazy">
+            <img id="ast-still-b" alt="" width="979" height="979" loading="lazy">
+          </div>
+          <div class="faq">
+            <div class="faq__item"><h3>Where the frames come from</h3><p>IRSA&rsquo;s Moving Object Search Tool lists every SPHEREx exposure that caught the asteroid. SkyBlink keeps one detector, so all frames share a band, and puts them on one grid by their WCS.</p></div>
+            <div class="faq__item"><h3>Why the asteroid carries a flag</h3><p>The SPHEREx pipeline marks pixels that disagree with the rest of the visit. A moving rock does exactly that, so SkyBlink shows those pixels and lists the flag.</p></div>
+            <div class="faq__item"><h3>Asteroids left out</h3><p id="ast-dropped">Iris and Eunomia saturate the detector in every frame of their best passes. Four fainter near-Earth asteroids, at V 18.5 to 21.6, were not attempted.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--type">
+      <div class="section-head">
+        <h2 id="close-h">Watch five nearby stars move</h2>
+        <p>Free, no sign-in, runs in your browser.</p>
+      </div>
+      <a class="btn btn--primary btn--xl btn--wide" href="/viewer/">Open the viewer<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4">
+          <a class="footer__mark" href="#top"><span class="mark" data-mark="dots" aria-hidden="true"></span>SkyBlink</a>
+          <p class="footer__lede">A blink viewer for SPHEREx.</p>
+        </div>
+        <div class="span-2 footer__col"><h3>Viewer</h3><ul><li><a href="/viewer/">All targets</a></li><li><a href="/long-baseline">Long baseline</a></li><li><a href="/time-lapse">Time-lapse</a></li><li><a href="/asteroids">Asteroids</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Steps</h3><ul><li><a href="/#how">How it works</a></li><li><a href="/#viewer">The viewer</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Battle</h3><ul><li><a href="/battle/">Blink Battle</a></li><li><a href="/#battle">Rules</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Data</h3><ul><li><a href="/#data">Questions</a></li><li><a href="/credits.html">Credits</a></li></ul></div>
+      </div>
+      <div class="footer__legal">
+        <span>&copy; 2026 SkyBlink, NASA Space Apps Challenge</span>
+        <div class="socials"></div>
+        <a class="credits" href="/credits.html">Data via NASA/IPAC IRSA (SPHEREx, MOST) and JPL Horizons</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const q = new URLSearchParams(location.search);
+  const BASE = 650, N = 89, PX = 6.15;
+  const state = { idx: null, t: null, d: null, i: 0, playing: !reduce, speed: 1, track: false, diff: false, found: false, timer: null, cache: {}, scores: {} };
+  const fmt = (v, n = 1) => (v == null ? 'n/a' : Number(v).toFixed(n));
+  const big = (v) => Number(v).toLocaleString('en-US');
+  const NS = 'http://www.w3.org/2000/svg';
+  function setPressed(el, on) { el.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function frames() { return state.d.frames; }
+  function url(f) { return '/data/asteroids/' + state.t.id + '/' + (state.diff ? f.diff : f.img); }
+  function preload() { frames().forEach((f) => [f.img, f.diff].forEach((p) => { const u = '/data/asteroids/' + state.t.id + '/' + p; if (!state.cache[u]) { const im = new Image(); im.src = u; state.cache[u] = im; } })); }
+  function pt(f) { return [f.px[0] + 0.5, f.px[1] + 0.5]; }
+  function minutes(f) { return Math.round((f.mjd - frames()[0].mjd) * 1440); }
+  function hm(m) { return m >= 60 ? Math.floor(m / 60) + ' h ' + String(m % 60).padStart(2, '0') + ' min' : m + ' min'; }
+  function overlay() {
+    const on = state.track || state.found;
+    $('ast-track').style.display = on ? '' : 'none'; $('ast-now').style.display = on ? '' : 'none'; $('ast-dots').style.display = on ? '' : 'none';
+  }
+  function show(i) {
+    const fr = frames(); i = ((i % fr.length) + fr.length) % fr.length; state.i = i;
+    const f = fr[i];
+    $('ast-img').src = url(f);
+    $('ast-range').value = i;
+    $('ast-date').firstChild.nodeValue = f.utc.slice(11, 16) + ' UTC';
+    $('ast-sub').textContent = f.utc.slice(0, 10) + ', frame ' + (i + 1) + ' of ' + fr.length + (i ? ', +' + hm(minutes(f)) : '');
+    $('ast-badge').innerHTML = '<b>SPHEREx ' + f.det + '</b> ' + fmt(f.wl_um, 2) + ' µm' + (f.saturated ? ', saturated core' : '');
+    const [x, y] = pt(f);
+    $('ast-now').setAttribute('cx', x); $('ast-now').setAttribute('cy', y);
+    document.querySelectorAll('#ast-ticks i').forEach((el, k) => el.classList.toggle('is-past', k <= i));
+  }
+  function schedule() {
+    clearTimeout(state.timer);
+    if (!state.playing) return;
+    const fr = frames(), nxt = (state.i + 1) % fr.length;
+    const jump = nxt === 0 || (fr[nxt].mjd - fr[state.i].mjd) * 1440 > 15;
+    state.timer = setTimeout(() => { show(state.i + 1); schedule(); }, (jump ? BASE * 1.6 : BASE) / state.speed);
+  }
+  function play(on) { state.playing = on; $('ast-play').textContent = on ? 'Pause' : 'Play'; setPressed($('ast-play'), on); schedule(); }
+  function nearest(gx, gy) {
+    const p = frames().map(pt); let best = { d: 1e9, x: p[0][0], y: p[0][1] };
+    for (let k = 0; k < p.length - 1; k++) {
+      const [ax, ay] = p[k], [bx, by] = p[k + 1], dx = bx - ax, dy = by - ay, L = dx * dx + dy * dy;
+      const s = L ? Math.max(0, Math.min(1, ((gx - ax) * dx + (gy - ay) * dy) / L)) : 0;
+      const x = ax + s * dx, y = ay + s * dy, d = Math.hypot(gx - x, gy - y);
+      if (d < best.d) best = { d, x, y };
+    }
+    return best;
+  }
+  function totals() {
+    const v = Object.values(state.scores);
+    $('ast-total').textContent = v.length ? 'Total ' + v.reduce((a, b) => a + b, 0) + ' of ' + (100 * state.idx.targets.length) : '';
+  }
+  function setFind() {
+    state.found = false; $('ast-stage').classList.add('is-finding'); $('ast-stage').classList.remove('is-guessed');
+    $('ast-prompt').textContent = 'Watch the loop, then tap the dot that moves.';
+    $('ast-reveal').hidden = false; $('ast-again').hidden = true; overlay();
+  }
+  function reveal(guess) {
+    state.found = true; $('ast-stage').classList.remove('is-finding'); $('ast-reveal').hidden = true; $('ast-again').hidden = false; overlay();
+    const d = state.d;
+    if (guess) {
+      const nb = nearest(guess[0], guess[1]), px = nb.d, score = Math.max(0, Math.round(100 * (1 - Math.max(0, px - 1) / 11)));
+      state.scores[state.t.id] = Math.max(state.scores[state.t.id] || 0, score); totals();
+      const g = $('ast-guess'); g.setAttribute('transform', 'translate(' + guess[0] + ' ' + guess[1] + ')');
+      const m = $('ast-miss'); m.setAttribute('x1', guess[0]); m.setAttribute('y1', guess[1]); m.setAttribute('x2', nb.x); m.setAttribute('y2', nb.y);
+      $('ast-stage').classList.add('is-guessed');
+      $('ast-prompt').innerHTML = (px <= 1.5 ? 'On the track. ' : px <= 6 ? 'Close. ' : 'Missed it. ') + 'Your tap was <b>' + fmt(px * PX, 0) + '″</b> (' + fmt(px, 1) + ' px) from the Horizons path. Score <b>' + score + '</b> of 100.';
+    } else {
+      $('ast-prompt').innerHTML = d.name.replace(/^\d+ /, '') + ' moves <b>' + fmt(d.path_px, 0) + ' px</b> in ' + d.span_label + '. The dashed line is its JPL Horizons path.';
+    }
+  }
+  function render() {
+    const d = state.d, fr = frames();
+    document.querySelectorAll('[data-target]').forEach((b) => setPressed(b, b.dataset.target === state.t.id));
+    $('ast-name').textContent = d.name + ', ' + d.kind;
+    preload();
+    $('ast-range').max = fr.length - 1;
+    $('ast-ticks').innerHTML = fr.map((f, k) => '<i style="left:' + (100 * (f.mjd - fr[0].mjd) / (fr[fr.length - 1].mjd - fr[0].mjd)).toFixed(3) + '%"></i>').join('');
+    $('ast-start').textContent = fr[0].utc.slice(11, 16) + ' UTC'; $('ast-end').textContent = '+' + d.span_label;
+    $('ast-track').setAttribute('points', fr.map((f) => pt(f).join(',')).join(' '));
+    $('ast-dots').innerHTML = fr.map((f) => { const [x, y] = pt(f); return '<circle cx="' + x + '" cy="' + y + '" r=".55" fill="#bda38b"/>'; }).join('');
+    $('ast-still-a').src = '/data/asteroids/' + state.t.id + '/' + fr[0].img; $('ast-still-b').src = '/data/asteroids/' + state.t.id + '/' + fr[fr.length - 1].img;
+    $('ast-flags').innerHTML = d.labels.map((l) => '<li class="' + (l.kind === 'warn' ? 'is-warn' : '') + '">' + l.text + '</li>').join('');
+    $('ast-flags-m').innerHTML = $('ast-flags').innerHTML;
+    const rows = [
+      ['Time gap, first to last', d.span_label + ', ' + d.n_visits + ' visits'],
+      ['Exposures', fr.length + ' in ' + d.detector + ', ' + fmt(d.wl_range[0], 2) + ' to ' + fmt(d.wl_range[1], 2) + ' µm'],
+      ['Apparent speed', fmt(d.rate_arcsec_h, 1) + '″ per hour'],
+      ['Path on the grid', fmt(d.path_px, 1) + ' px (' + fmt(d.path_arcsec / 60, 1) + '′)'],
+      ['Barnard’s Star, same path', fmt(d.barnard_years_for_same_path, 1) + ' years'],
+      ['Fit vs Horizons, median', d.median_fit_offset_arcsec == null ? 'n/a' : fmt(d.median_fit_offset_arcsec, 1) + '″ (' + d.n_fitted + ' of ' + fr.length + ' frames)'],
+      ['Brightness, distance', 'V ' + fmt(d.V, 1) + ', ' + fmt(d.delta_au, 2) + ' au'],
+    ];
+    $('ast-stats').innerHTML = rows.map((r) => '<div><dt>' + r[0] + '</dt><dd>' + r[1] + '</dd></div>').join('');
+    $('ast-compare').textContent = 'Barnard’s Star, the fastest star in the sky, drifts ' + fmt(state.idx.barnard_arcsec_yr, 2) + '″ a year. ' + d.name.replace(/^\d+ /, '') + ' covers that in ' + fmt(3600 * state.idx.barnard_arcsec_yr / d.rate_arcsec_h / 60, 1) + ' minutes, about ' + big(Math.round(d.rate_vs_barnard / 1000) * 1000) + ' times faster.';
+    setFind();
+    show(0);
+  }
+  async function pick(id) {
+    const t = state.idx.targets.find((x) => x.id === id) || state.idx.targets[0];
+    const d = await (await fetch('/data/' + t.data)).json();
+    state.t = t; state.d = d; state.i = 0;
+    const u = new URL(location.href); u.searchParams.set('target', t.id); history.replaceState(null, '', u);
+    render(); schedule();
+  }
+  function stageClick(e) {
+    if (state.found) return;
+    const r = $('ast-img').getBoundingClientRect();
+    reveal([(e.clientX - r.left) / r.width * N, (e.clientY - r.top) / r.height * N]);
+  }
+  async function init() {
+    state.idx = await (await fetch('/data/asteroids.json')).json();
+    $('ast-targets').innerHTML = '<span class="lb__label">Asteroid</span>' + state.idx.targets.map((t) => '<button class="lb__chip" type="button" data-target="' + t.id + '" aria-pressed="false">' + t.short + '</button>').join('');
+    $('ast-targets').addEventListener('click', (e) => { const b = e.target.closest('[data-target]'); if (b) pick(b.dataset.target); });
+    document.querySelectorAll('[data-speed]').forEach((b) => b.addEventListener('click', () => { state.speed = +b.dataset.speed; document.querySelectorAll('[data-speed]').forEach((x) => setPressed(x, x === b)); schedule(); }));
+    $('ast-play').addEventListener('click', () => play(!state.playing));
+    $('ast-range').addEventListener('input', (e) => { play(false); show(+e.target.value); });
+    $('ast-track-btn').addEventListener('click', () => { state.track = !state.track; setPressed($('ast-track-btn'), state.track); if (state.track && !state.found) reveal(null); overlay(); });
+    $('ast-diff-btn').addEventListener('click', () => { state.diff = !state.diff; setPressed($('ast-diff-btn'), state.diff); show(state.i); });
+    $('ast-reveal').addEventListener('click', () => reveal(null));
+    $('ast-again').addEventListener('click', () => { state.track = false; setPressed($('ast-track-btn'), false); setFind(); });
+    $('ast-stage').addEventListener('click', stageClick);
+    $('ast-stage').addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!state.found) reveal(null); } });
+    await pick(q.get('target') || 'eros');
+    play(state.playing);
+  }
+  init();
+})();
+</script>
+<script type="module" src="/assets/system.js"></script>
+<script type="module" src="/assets/motion/motion.js"></script>
+<script type="module" src="/assets/layout/layout.js"></script>
+</body>
+</html>
