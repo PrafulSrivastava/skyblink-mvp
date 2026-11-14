@@ -4,7 +4,21 @@ Private backup of the SkyBlink NASA Space Apps 2026 MVP, so either live version 
 
 Live site: https://skyblink-mvp.vercel.app
 
-This repository is a backup of the deployed static site (and, on the current branch, the long-baseline pipeline). It is not the original Next.js source, which lives on Cursor Origin at [praful-srivastava/skyblink-mvp](https://cursor.com/codebase/praful-srivastava/skyblink-mvp).
+This repository holds **both**:
+
+1. **Next.js source** — `app/`, `components/`, `lib/`, `api/`, `public/data/`, `scripts/` (synced from the Mac / Cursor Origin agent build at `101cacc`).
+2. **Deployed restore points** — prebuilt static sites in `deployed/` and the long-baseline `pipeline/`.
+
+Live demo: https://skyblink-mvp.vercel.app
+
+### Quick start (source)
+
+```bash
+npm install
+npm run dev
+```
+
+See the project README in the repo root for architecture, credits, and deploy notes (`npm run build` produces static export under `out/`).
 
 ## Restore points
 

@@ -1,0 +1,1586 @@
+{
+ "id": "wise-0855",
+ "name": "WISE J085510.83-071442.5",
+ "input": {
+  "coord": "08h55m10.831s -07d14m42.53s",
+  "source": "challenge brief (Planet X and SPHEREx)",
+  "ra_deg": 133.79512917,
+  "dec_deg": -7.24514722,
+  "offset_from_mean_epoch_position_arcsec": 125.66,
+  "offset_from_mean_epoch_position_px": 20.43
+ },
+ "catalog": {
+  "catalog": "CatWISE2020",
+  "source_id": "J085507.96-071439.3",
+  "ra": 133.783924,
+  "dec": -7.2443404,
+  "pmra": -8021.200180053711,
+  "pmdec": 1035.699963569641,
+  "pmra_err": 89.19999748468399,
+  "pmdec_err": 141.2000060081482,
+  "parallax": null,
+  "rv": null,
+  "W1": 18.288000106811523,
+  "W2": 14.059000015258789,
+  "pmcode": "2N047",
+  "ref_epoch": "MJD 57170 (2015.405), CatWISE ra_pm/dec_pm",
+  "ref_epoch_mjd": 57170.0,
+  "other_catwise_rows": [
+   {
+    "name": "J085506.91-071437.5",
+    "pmra_mas": -7919.899940490723,
+    "pmdec_mas": 493.90000104904175
+   },
+   {
+    "name": "J085507.45-071437.8",
+    "pmra_mas": -4251.560211181641,
+    "pmdec_mas": -3609.999895095825
+   },
+   {
+    "name": "J085508.34-071439.2",
+    "pmra_mas": -7965.000152587891,
+    "pmdec_mas": 806.2000274658203
+   },
+   {
+    "name": "J085507.96-071439.3",
+    "pmra_mas": -8021.200180053711,
+    "pmdec_mas": 1035.699963569641
+   }
+  ]
+ },
+ "proper_motion_source": "CatWISE2020 source J085507.96-071439.3: pmra*cosdec=-8021.200 mas/yr, pmdec=1035.700 mas/yr, ref epoch MJD 57170 (2015.405), CatWISE ra_pm/dec_pm; parallax not applied (not available in catalogue row)",
+ "default_band": "D6",
+ "mean_epoch": {
+  "mjd": 61035.04184,
+  "date": "2025-12-26",
+  "ra_deg": 133.7601588,
+  "dec_deg": -7.2412971
+ },
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 133.76015879,
+  "CRVAL2": -7.24129711,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "CUNIT1": "deg",
+  "CUNIT2": "deg",
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15,
+  "orientation": "north up, east left",
+  "array_storage": "PNG and .f32 rows are stored top-down (row 0 = north edge). FITS pixel y = NAXIS2-1-png_y; x is the same."
+ },
+ "visits": [
+  {
+   "id": "v1",
+   "mjd_mean": 60801.235899557716,
+   "mjd_min": 60800.70069465,
+   "mjd_max": 60801.519319893,
+   "date_start": "2025-05-05",
+   "date_end": "2025-05-06",
+   "n_images": 30,
+   "n_images_per_band": {
+    "D1": 4,
+    "D2": 8,
+    "D3": 3,
+    "D4": 4,
+    "D5": 8,
+    "D6": 3
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": false,
+   "target_radec": [
+    133.761591,
+    -7.2414786
+   ],
+   "target_px": {
+    "x": 23.168,
+    "y": 23.894,
+    "png_x": 23.168,
+    "png_y": 24.106
+   },
+   "n_coadded": {
+    "D1": 4,
+    "D2": 8,
+    "D3": 3,
+    "D4": 4,
+    "D5": 8,
+    "D6": 3
+   }
+  },
+  {
+   "id": "v2",
+   "mjd_mean": 60986.36157709679,
+   "mjd_min": 60979.723343354,
+   "mjd_max": 60993.913551328,
+   "date_start": "2025-10-31",
+   "date_end": "2025-11-14",
+   "n_images": 109,
+   "n_images_per_band": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 19,
+    "D6": 18
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "target_radec": [
+    133.7604595,
+    -7.2413347
+   ],
+   "target_px": {
+    "x": 23.825,
+    "y": 23.978,
+    "png_x": 23.825,
+    "png_y": 24.022
+   },
+   "n_coadded": {
+    "D1": 18,
+    "D2": 18,
+    "D3": 18,
+    "D4": 18,
+    "D5": 19,
+    "D6": 18
+   }
+  },
+  {
+   "id": "v3",
+   "mjd_mean": 61021.651490472956,
+   "mjd_min": 61020.80435546,
+   "mjd_max": 61022.368771664,
+   "date_start": "2025-12-11",
+   "date_end": "2025-12-13",
+   "n_images": 18,
+   "n_images_per_band": {
+    "D1": 0,
+    "D2": 6,
+    "D3": 3,
+    "D4": 0,
+    "D5": 6,
+    "D6": 3
+   },
+   "bands_present": [
+    "D2",
+    "D3",
+    "D5",
+    "D6"
+   ],
+   "full": false,
+   "target_radec": [
+    133.7602417,
+    -7.2413076
+   ],
+   "target_px": {
+    "x": 23.952,
+    "y": 23.994,
+    "png_x": 23.952,
+    "png_y": 24.006
+   },
+   "n_coadded": {
+    "D2": 6,
+    "D3": 3,
+    "D5": 6,
+    "D6": 3
+   }
+  },
+  {
+   "id": "v4",
+   "mjd_mean": 61161.92419799161,
+   "mjd_min": 61151.198599395,
+   "mjd_max": 61174.287883944,
+   "date_start": "2026-04-21",
+   "date_end": "2026-05-14",
+   "n_images": 99,
+   "n_images_per_band": {
+    "D1": 13,
+    "D2": 15,
+    "D3": 21,
+    "D4": 14,
+    "D5": 15,
+    "D6": 21
+   },
+   "bands_present": [
+    "D1",
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6"
+   ],
+   "full": true,
+   "target_radec": [
+    133.759373,
+    -7.2411945
+   ],
+   "target_px": {
+    "x": 24.456,
+    "y": 24.06,
+    "png_x": 24.456,
+    "png_y": 23.94
+   },
+   "n_coadded": {
+    "D1": 13,
+    "D2": 15,
+    "D3": 21,
+    "D4": 14,
+    "D5": 15,
+    "D6": 21
+   }
+  }
+ ],
+ "comparison_star": null,
+ "stretch": {
+  "D1": {
+   "type": "asinh",
+   "lo": -0.009980247355997562,
+   "hi": 1.631770372390747,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.18691909313201904,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  },
+  "D2": {
+   "type": "asinh",
+   "lo": -0.008697867393493652,
+   "hi": 2.175689697265625,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.23863518238067627,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  },
+  "D3": {
+   "type": "asinh",
+   "lo": -0.008804499171674252,
+   "hi": 1.726402997970581,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.1670067310333252,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  },
+  "D4": {
+   "type": "asinh",
+   "lo": -0.007235744036734104,
+   "hi": 0.8906252980232239,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.12066680192947388,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  },
+  "D5": {
+   "type": "asinh",
+   "lo": -0.013454316183924675,
+   "hi": 0.5710213780403137,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.03766176849603653,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  },
+  "D6": {
+   "type": "asinh",
+   "lo": -0.024866558611392975,
+   "hi": 0.41583552956581116,
+   "a": 0.1,
+   "unit": "MJy/sr (local-median-subtracted)",
+   "diff": {
+    "type": "asinh_diverging",
+    "scale": 0.052443504333496094,
+    "a": 0.1,
+    "mid": 128,
+    "pair": [
+     "v2",
+     "v4"
+    ],
+    "definition": "v4 minus v2"
+   }
+  }
+ },
+ "paths": {
+  "D1": {
+   "v1": {
+    "png": "frames/D1/v1.png",
+    "f32": "frames/D1/v1.f32",
+    "mask": "mask/D1/v1.png"
+   },
+   "v2": {
+    "png": "frames/D1/v2.png",
+    "f32": "frames/D1/v2.f32",
+    "mask": "mask/D1/v2.png"
+   },
+   "v4": {
+    "png": "frames/D1/v4.png",
+    "f32": "frames/D1/v4.f32",
+    "mask": "mask/D1/v4.png"
+   },
+   "diff": "diff/D1/v2_v4.png"
+  },
+  "D2": {
+   "v1": {
+    "png": "frames/D2/v1.png",
+    "f32": "frames/D2/v1.f32",
+    "mask": "mask/D2/v1.png"
+   },
+   "v2": {
+    "png": "frames/D2/v2.png",
+    "f32": "frames/D2/v2.f32",
+    "mask": "mask/D2/v2.png"
+   },
+   "v3": {
+    "png": "frames/D2/v3.png",
+    "f32": "frames/D2/v3.f32",
+    "mask": "mask/D2/v3.png"
+   },
+   "v4": {
+    "png": "frames/D2/v4.png",
+    "f32": "frames/D2/v4.f32",
+    "mask": "mask/D2/v4.png"
+   },
+   "diff": "diff/D2/v2_v4.png"
+  },
+  "D3": {
+   "v1": {
+    "png": "frames/D3/v1.png",
+    "f32": "frames/D3/v1.f32",
+    "mask": "mask/D3/v1.png"
+   },
+   "v2": {
+    "png": "frames/D3/v2.png",
+    "f32": "frames/D3/v2.f32",
+    "mask": "mask/D3/v2.png"
+   },
+   "v3": {
+    "png": "frames/D3/v3.png",
+    "f32": "frames/D3/v3.f32",
+    "mask": "mask/D3/v3.png"
+   },
+   "v4": {
+    "png": "frames/D3/v4.png",
+    "f32": "frames/D3/v4.f32",
+    "mask": "mask/D3/v4.png"
+   },
+   "diff": "diff/D3/v2_v4.png"
+  },
+  "D4": {
+   "v1": {
+    "png": "frames/D4/v1.png",
+    "f32": "frames/D4/v1.f32",
+    "mask": "mask/D4/v1.png"
+   },
+   "v2": {
+    "png": "frames/D4/v2.png",
+    "f32": "frames/D4/v2.f32",
+    "mask": "mask/D4/v2.png"
+   },
+   "v4": {
+    "png": "frames/D4/v4.png",
+    "f32": "frames/D4/v4.f32",
+    "mask": "mask/D4/v4.png"
+   },
+   "diff": "diff/D4/v2_v4.png"
+  },
+  "D5": {
+   "v1": {
+    "png": "frames/D5/v1.png",
+    "f32": "frames/D5/v1.f32",
+    "mask": "mask/D5/v1.png"
+   },
+   "v2": {
+    "png": "frames/D5/v2.png",
+    "f32": "frames/D5/v2.f32",
+    "mask": "mask/D5/v2.png"
+   },
+   "v3": {
+    "png": "frames/D5/v3.png",
+    "f32": "frames/D5/v3.f32",
+    "mask": "mask/D5/v3.png"
+   },
+   "v4": {
+    "png": "frames/D5/v4.png",
+    "f32": "frames/D5/v4.f32",
+    "mask": "mask/D5/v4.png"
+   },
+   "diff": "diff/D5/v2_v4.png"
+  },
+  "D6": {
+   "v1": {
+    "png": "frames/D6/v1.png",
+    "f32": "frames/D6/v1.f32",
+    "mask": "mask/D6/v1.png"
+   },
+   "v2": {
+    "png": "frames/D6/v2.png",
+    "f32": "frames/D6/v2.f32",
+    "mask": "mask/D6/v2.png"
+   },
+   "v3": {
+    "png": "frames/D6/v3.png",
+    "f32": "frames/D6/v3.f32",
+    "mask": "mask/D6/v3.png"
+   },
+   "v4": {
+    "png": "frames/D6/v4.png",
+    "f32": "frames/D6/v4.f32",
+    "mask": "mask/D6/v4.png"
+   },
+   "diff": "diff/D6/v2_v4.png"
+  }
+ },
+ "full_visits": [
+  "v2",
+  "v4"
+ ],
+ "photometry": {
+  "aperture_radius_px": 2.5,
+  "annulus_px": [
+   6.0,
+   10.0
+  ],
+  "flux_unit": "uJy"
+ },
+ "checks": {
+  "motion_first_last_full_visit": {
+   "pair": [
+    "v2",
+    "v4"
+   ],
+   "predicted_dx_px": 0.631,
+   "predicted_dy_px": 0.082,
+   "predicted_shift_px": 0.636,
+   "per_band": {
+    "D1": {
+     "fit_A": {
+      "x": 25.162346367139296,
+      "y": 24.086484179425746,
+      "sigma": 0.6520552704413871,
+      "amp": 0.48894207930713107,
+      "ex": 0.010516329887512145,
+      "ey": 0.010860407586829206,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 25.183378682481596,
+      "y": 24.110051116693946,
+      "sigma": 0.6852745254640131,
+      "amp": 0.4615356487840546,
+      "ex": 0.022732844985118378,
+      "ey": 0.023347571884332723,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": 0.021,
+     "measured_dy_px": 0.024,
+     "measured_shift_px": 0.032,
+     "offset_from_pred_A_px": 1.342,
+     "offset_from_pred_B_px": 0.729
+    },
+    "D2": {
+     "fit_A": {
+      "x": 25.195036193375223,
+      "y": 24.046655893793925,
+      "sigma": 0.6322869782507182,
+      "amp": 0.4716605803322237,
+      "ex": 0.013718085681843888,
+      "ey": 0.014749443472488471,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 25.194336646024514,
+      "y": 24.050459268277994,
+      "sigma": 0.5883842525169334,
+      "amp": 0.47818638141687764,
+      "ex": 0.045349664209341625,
+      "ey": 0.05028175203011791,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": -0.001,
+     "measured_dy_px": 0.004,
+     "measured_shift_px": 0.004,
+     "offset_from_pred_A_px": 1.372,
+     "offset_from_pred_B_px": 0.738
+    },
+    "D3": {
+     "fit_A": {
+      "x": 25.144256018849443,
+      "y": 24.042419508645004,
+      "sigma": 0.6311417409041994,
+      "amp": 0.3071792039995629,
+      "ex": 0.016333091877524006,
+      "ey": 0.016983954843416756,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 25.14258826435711,
+      "y": 24.064438272510316,
+      "sigma": 0.6320639395230799,
+      "amp": 0.3054057847055848,
+      "ex": 0.05210383126395475,
+      "ey": 0.05385397541603943,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": -0.002,
+     "measured_dy_px": 0.022,
+     "measured_shift_px": 0.022,
+     "offset_from_pred_A_px": 1.321,
+     "offset_from_pred_B_px": 0.687
+    },
+    "D4": {
+     "fit_A": {
+      "x": 25.069453058405696,
+      "y": 24.00935124004184,
+      "sigma": 0.7082696582325547,
+      "amp": 0.11867134377014009,
+      "ex": 0.03331339072757242,
+      "ey": 0.033474292047166204,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 25.220434482123444,
+      "y": 24.03707920369319,
+      "sigma": 0.6352260252730959,
+      "amp": 0.1402257583466848,
+      "ex": 0.06019156462741156,
+      "ey": 0.06601759392274167,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": 0.151,
+     "measured_dy_px": 0.028,
+     "measured_shift_px": 0.154,
+     "offset_from_pred_A_px": 1.245,
+     "offset_from_pred_B_px": 0.765
+    },
+    "D5": {
+     "fit_A": {
+      "x": 24.386971995615607,
+      "y": 23.731288182529198,
+      "sigma": 0.8430386602833453,
+      "amp": 0.11859128162414635,
+      "ex": 0.06706860560545319,
+      "ey": 0.06764548804650627,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 24.91765298420714,
+      "y": 23.722668371488577,
+      "sigma": 0.730590414754865,
+      "amp": 0.17066918172481152,
+      "ex": 0.04889227176312235,
+      "ey": 0.0464558799451795,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": 0.531,
+     "measured_dy_px": -0.009,
+     "measured_shift_px": 0.531,
+     "offset_from_pred_A_px": 0.614,
+     "offset_from_pred_B_px": 0.572
+    },
+    "D6": {
+     "fit_A": {
+      "x": 24.267096447415977,
+      "y": 23.50996866146876,
+      "sigma": 0.8670871468692231,
+      "amp": 0.15784628674907275,
+      "ex": 0.06254257777639922,
+      "ey": 0.06202101263894046,
+      "npix": 77,
+      "n_masked_in_r": 0
+     },
+     "fit_B": {
+      "x": 24.84058127969426,
+      "y": 23.675047546011875,
+      "sigma": 0.6425907780841986,
+      "amp": 0.2352018066224741,
+      "ex": 0.0411304270142407,
+      "ey": 0.03575843744335959,
+      "npix": 80,
+      "n_masked_in_r": 0
+     },
+     "measured_dx_px": 0.573,
+     "measured_dy_px": 0.165,
+     "measured_shift_px": 0.597,
+     "offset_from_pred_A_px": 0.644,
+     "offset_from_pred_B_px": 0.544
+    }
+   }
+  },
+  "coadd_forced_aperture": {
+   "v1/D1": {
+    "sum_MJy_sr_px": 0.78469,
+    "noise": 0.04566,
+    "sn": 17.19,
+    "peak_over_sigma": 8.13
+   },
+   "v1/D2": {
+    "sum_MJy_sr_px": 0.75595,
+    "noise": 0.03295,
+    "sn": 22.94,
+    "peak_over_sigma": 8.67
+   },
+   "v1/D3": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D4": {
+    "sn": null,
+    "note": "masked pixels in aperture"
+   },
+   "v1/D5": {
+    "sum_MJy_sr_px": 0.50225,
+    "noise": 0.05711,
+    "sn": 8.79,
+    "peak_over_sigma": 7.58
+   },
+   "v1/D6": {
+    "sum_MJy_sr_px": 0.33666,
+    "noise": 0.15636,
+    "sn": 2.15,
+    "peak_over_sigma": 2.83
+   },
+   "v2/D1": {
+    "sum_MJy_sr_px": 1.26267,
+    "noise": 0.02278,
+    "sn": 55.42,
+    "peak_over_sigma": 93.66
+   },
+   "v2/D2": {
+    "sum_MJy_sr_px": 1.1322,
+    "noise": 0.02375,
+    "sn": 47.67,
+    "peak_over_sigma": 86.59
+   },
+   "v2/D3": {
+    "sum_MJy_sr_px": 0.72681,
+    "noise": 0.02898,
+    "sn": 25.08,
+    "peak_over_sigma": 47.23
+   },
+   "v2/D4": {
+    "sum_MJy_sr_px": 0.35681,
+    "noise": 0.0253,
+    "sn": 14.11,
+    "peak_over_sigma": 21.58
+   },
+   "v2/D5": {
+    "sum_MJy_sr_px": 0.53225,
+    "noise": 0.04247,
+    "sn": 12.53,
+    "peak_over_sigma": 10.5
+   },
+   "v2/D6": {
+    "sum_MJy_sr_px": 0.66507,
+    "noise": 0.06335,
+    "sn": 10.5,
+    "peak_over_sigma": 9.23
+   },
+   "v3/D2": {
+    "sum_MJy_sr_px": 1.02803,
+    "noise": 0.02982,
+    "sn": 34.47,
+    "peak_over_sigma": 57.21
+   },
+   "v3/D3": {
+    "sum_MJy_sr_px": 0.73899,
+    "noise": 0.04393,
+    "sn": 16.82,
+    "peak_over_sigma": 29.94
+   },
+   "v3/D5": {
+    "sum_MJy_sr_px": 0.52597,
+    "noise": 0.05214,
+    "sn": 10.09,
+    "peak_over_sigma": 10.19
+   },
+   "v3/D6": {
+    "sum_MJy_sr_px": 0.79931,
+    "noise": 0.11238,
+    "sn": 7.11,
+    "peak_over_sigma": 6.87
+   },
+   "v4/D1": {
+    "sum_MJy_sr_px": 1.30783,
+    "noise": 0.02234,
+    "sn": 58.55,
+    "peak_over_sigma": 85.05
+   },
+   "v4/D2": {
+    "sum_MJy_sr_px": 1.06893,
+    "noise": 0.0222,
+    "sn": 48.16,
+    "peak_over_sigma": 89.45
+   },
+   "v4/D3": {
+    "sum_MJy_sr_px": 0.80498,
+    "noise": 0.022,
+    "sn": 36.6,
+    "peak_over_sigma": 59.62
+   },
+   "v4/D4": {
+    "sum_MJy_sr_px": 0.35445,
+    "noise": 0.02093,
+    "sn": 16.94,
+    "peak_over_sigma": 27.61
+   },
+   "v4/D5": {
+    "sum_MJy_sr_px": 0.58783,
+    "noise": 0.039,
+    "sn": 15.07,
+    "peak_over_sigma": 17.2
+   },
+   "v4/D6": {
+    "sum_MJy_sr_px": 0.60447,
+    "noise": 0.05698,
+    "sn": 10.61,
+    "peak_over_sigma": 15.4
+   }
+  },
+  "masked_core_area_px_within_6px": {
+   "note": "Count of co-add mask pixels (saturated or flagged in >=50% of frames, or no data) within 6 grid px of the predicted target position. For saturated stars this grows with brightness, so it is a qualitative brightness proxy, NOT a flux.",
+   "values": {
+    "D1": {
+     "v1": 1,
+     "v2": 0,
+     "v4": 0
+    },
+    "D2": {
+     "v1": 0,
+     "v2": 0,
+     "v3": 1,
+     "v4": 0
+    },
+    "D3": {
+     "v1": 6,
+     "v2": 1,
+     "v3": 2,
+     "v4": 0
+    },
+    "D4": {
+     "v1": 2,
+     "v2": 0,
+     "v4": 0
+    },
+    "D5": {
+     "v1": 0,
+     "v2": 0,
+     "v3": 0,
+     "v4": 0
+    },
+    "D6": {
+     "v1": 0,
+     "v2": 0,
+     "v3": 1,
+     "v4": 0
+    }
+   }
+  },
+  "variability_same_channel": {
+   "v1->v2": {
+    "n_channels_compared": 7,
+    "n_channels_skipped_saturated": 1,
+    "n_channels_skipped_flagged_or_nonpositive": 22,
+    "median_dmag": -0.257,
+    "max_abs_dmag": 0.651,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 14,
+      "wavelength_um": 1.05,
+      "flux_A": 682.8843,
+      "flux_B": 1029.6515,
+      "ratio_B_over_A": 1.5078,
+      "ratio_err": 0.2172,
+      "dmag": -0.446,
+      "signif": 2.3
+     },
+     {
+      "channel": 15,
+      "wavelength_um": 1.075,
+      "flux_A": 794.2417,
+      "flux_B": 875.1563,
+      "ratio_B_over_A": 1.1019,
+      "ratio_err": 0.4928,
+      "dmag": -0.105,
+      "signif": 0.2
+     },
+     {
+      "channel": 33,
+      "wavelength_um": 1.631,
+      "flux_A": 768.1026,
+      "flux_B": 818.7173,
+      "ratio_B_over_A": 1.0659,
+      "ratio_err": 0.1427,
+      "dmag": -0.069,
+      "signif": 0.5
+     },
+     {
+      "channel": 46,
+      "wavelength_um": 2.189,
+      "flux_A": 354.4651,
+      "flux_B": 645.6268,
+      "ratio_B_over_A": 1.8214,
+      "ratio_err": 0.3777,
+      "dmag": -0.651,
+      "signif": 2.2
+     },
+     {
+      "channel": 74,
+      "wavelength_um": 4.04,
+      "flux_A": 262.5779,
+      "flux_B": 332.6825,
+      "ratio_B_over_A": 1.267,
+      "ratio_err": 0.8605,
+      "dmag": -0.257,
+      "signif": 0.3
+     },
+     {
+      "channel": 75,
+      "wavelength_um": 4.076,
+      "flux_A": 216.6144,
+      "flux_B": 213.5969,
+      "ratio_B_over_A": 0.9861,
+      "ratio_err": 0.9346,
+      "dmag": 0.015,
+      "signif": 0.0
+     },
+     {
+      "channel": 76,
+      "wavelength_um": 4.112,
+      "flux_A": 388.1877,
+      "flux_B": 678.1153,
+      "ratio_B_over_A": 1.7469,
+      "ratio_err": 0.7612,
+      "dmag": -0.606,
+      "signif": 1.0
+     }
+    ]
+   },
+   "v1->v3": {
+    "n_channels_compared": 5,
+    "n_channels_skipped_saturated": 0,
+    "n_channels_skipped_flagged_or_nonpositive": 3,
+    "median_dmag": -0.06,
+    "max_abs_dmag": 0.429,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 24,
+      "wavelength_um": 1.315,
+      "flux_A": 898.6047,
+      "flux_B": 949.5552,
+      "ratio_B_over_A": 1.0567,
+      "ratio_err": 0.1282,
+      "dmag": -0.06,
+      "signif": 0.4
+     },
+     {
+      "channel": 25,
+      "wavelength_um": 1.346,
+      "flux_A": 646.1425,
+      "flux_B": 957.6002,
+      "ratio_B_over_A": 1.482,
+      "ratio_err": 0.2199,
+      "dmag": -0.427,
+      "signif": 2.2
+     },
+     {
+      "channel": 26,
+      "wavelength_um": 1.378,
+      "flux_A": 727.2734,
+      "flux_B": 1079.2327,
+      "ratio_B_over_A": 1.4839,
+      "ratio_err": 0.1868,
+      "dmag": -0.429,
+      "signif": 2.6
+     },
+     {
+      "channel": 76,
+      "wavelength_um": 4.112,
+      "flux_A": 388.1877,
+      "flux_B": 386.215,
+      "ratio_B_over_A": 0.9949,
+      "ratio_err": 0.4946,
+      "dmag": 0.006,
+      "signif": 0.0
+     },
+     {
+      "channel": 77,
+      "wavelength_um": 4.148,
+      "flux_A": 688.1496,
+      "flux_B": 639.4214,
+      "ratio_B_over_A": 0.9292,
+      "ratio_err": 0.2778,
+      "dmag": 0.08,
+      "signif": 0.3
+     }
+    ]
+   },
+   "v1->v4": {
+    "n_channels_compared": 3,
+    "n_channels_skipped_saturated": 0,
+    "n_channels_skipped_flagged_or_nonpositive": 7,
+    "median_dmag": -0.536,
+    "max_abs_dmag": 3.89,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 46,
+      "wavelength_um": 2.189,
+      "flux_A": 354.4651,
+      "flux_B": 580.8338,
+      "ratio_B_over_A": 1.6386,
+      "ratio_err": 0.3474,
+      "dmag": -0.536,
+      "signif": 1.8
+     },
+     {
+      "channel": 82,
+      "wavelength_um": 4.331,
+      "flux_A": 746.4718,
+      "flux_B": 960.7716,
+      "ratio_B_over_A": 1.2871,
+      "ratio_err": 0.4059,
+      "dmag": -0.274,
+      "signif": 0.7
+     },
+     {
+      "channel": 100,
+      "wavelength_um": 4.951,
+      "flux_A": 13.6162,
+      "flux_B": 489.637,
+      "ratio_B_over_A": 35.9599,
+      "ratio_err": 719.1265,
+      "dmag": -3.89,
+      "signif": 0.0
+     }
+    ]
+   },
+   "v2->v3": {
+    "n_channels_compared": 5,
+    "n_channels_skipped_saturated": 0,
+    "n_channels_skipped_flagged_or_nonpositive": 13,
+    "median_dmag": -0.077,
+    "max_abs_dmag": 0.611,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 27,
+      "wavelength_um": 1.412,
+      "flux_A": 813.2601,
+      "flux_B": 975.8378,
+      "ratio_B_over_A": 1.1999,
+      "ratio_err": 0.1523,
+      "dmag": -0.198,
+      "signif": 1.3
+     },
+     {
+      "channel": 40,
+      "wavelength_um": 1.905,
+      "flux_A": 648.3584,
+      "flux_B": 749.1373,
+      "ratio_B_over_A": 1.1554,
+      "ratio_err": 0.1714,
+      "dmag": -0.157,
+      "signif": 0.9
+     },
+     {
+      "channel": 43,
+      "wavelength_um": 2.041,
+      "flux_A": 677.6456,
+      "flux_B": 727.7576,
+      "ratio_B_over_A": 1.074,
+      "ratio_err": 0.1459,
+      "dmag": -0.077,
+      "signif": 0.5
+     },
+     {
+      "channel": 76,
+      "wavelength_um": 4.112,
+      "flux_A": 678.1153,
+      "flux_B": 386.215,
+      "ratio_B_over_A": 0.5695,
+      "ratio_err": 0.2303,
+      "dmag": 0.611,
+      "signif": 1.9
+     },
+     {
+      "channel": 91,
+      "wavelength_um": 4.635,
+      "flux_A": 784.6487,
+      "flux_B": 824.7927,
+      "ratio_B_over_A": 1.0512,
+      "ratio_err": 0.4083,
+      "dmag": -0.054,
+      "signif": 0.1
+     }
+    ]
+   },
+   "v2->v4": {
+    "n_channels_compared": 35,
+    "n_channels_skipped_saturated": 0,
+    "n_channels_skipped_flagged_or_nonpositive": 46,
+    "median_dmag": 0.01,
+    "max_abs_dmag": 1.236,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 0,
+      "wavelength_um": 0.753,
+      "flux_A": 1264.1462,
+      "flux_B": 1152.3248,
+      "ratio_B_over_A": 0.9115,
+      "ratio_err": 0.0902,
+      "dmag": 0.101,
+      "signif": 1.0
+     },
+     {
+      "channel": 5,
+      "wavelength_um": 0.848,
+      "flux_A": 1210.2665,
+      "flux_B": 1141.0757,
+      "ratio_B_over_A": 0.9428,
+      "ratio_err": 0.0956,
+      "dmag": 0.064,
+      "signif": 0.6
+     },
+     {
+      "channel": 8,
+      "wavelength_um": 0.91,
+      "flux_A": 1036.7046,
+      "flux_B": 1218.5847,
+      "ratio_B_over_A": 1.1754,
+      "ratio_err": 0.1268,
+      "dmag": -0.176,
+      "signif": 1.4
+     },
+     {
+      "channel": 10,
+      "wavelength_um": 0.955,
+      "flux_A": 984.3401,
+      "flux_B": 1162.2554,
+      "ratio_B_over_A": 1.1807,
+      "ratio_err": 0.1323,
+      "dmag": -0.18,
+      "signif": 1.4
+     },
+     {
+      "channel": 16,
+      "wavelength_um": 1.102,
+      "flux_A": 1666.3543,
+      "flux_B": 1309.6301,
+      "ratio_B_over_A": 0.7859,
+      "ratio_err": 0.1639,
+      "dmag": 0.262,
+      "signif": 1.3
+     },
+     {
+      "channel": 18,
+      "wavelength_um": 1.139,
+      "flux_A": 1060.7928,
+      "flux_B": 1087.1224,
+      "ratio_B_over_A": 1.0248,
+      "ratio_err": 0.1119,
+      "dmag": -0.027,
+      "signif": 0.2
+     },
+     {
+      "channel": 19,
+      "wavelength_um": 1.167,
+      "flux_A": 1159.3064,
+      "flux_B": 1177.5719,
+      "ratio_B_over_A": 1.0158,
+      "ratio_err": 0.1018,
+      "dmag": -0.017,
+      "signif": 0.2
+     },
+     {
+      "channel": 22,
+      "wavelength_um": 1.254,
+      "flux_A": 1059.6597,
+      "flux_B": 1182.7371,
+      "ratio_B_over_A": 1.1161,
+      "ratio_err": 0.1164,
+      "dmag": -0.119,
+      "signif": 1.0
+     },
+     {
+      "channel": 27,
+      "wavelength_um": 1.412,
+      "flux_A": 813.2601,
+      "flux_B": 1110.1642,
+      "ratio_B_over_A": 1.3651,
+      "ratio_err": 0.1678,
+      "dmag": -0.338,
+      "signif": 2.2
+     },
+     {
+      "channel": 28,
+      "wavelength_um": 1.446,
+      "flux_A": 1079.362,
+      "flux_B": 932.0833,
+      "ratio_B_over_A": 0.8636,
+      "ratio_err": 0.0824,
+      "dmag": 0.159,
+      "signif": 1.7
+     },
+     {
+      "channel": 30,
+      "wavelength_um": 1.517,
+      "flux_A": 998.572,
+      "flux_B": 989.4634,
+      "ratio_B_over_A": 0.9909,
+      "ratio_err": 0.1117,
+      "dmag": 0.01,
+      "signif": 0.1
+     },
+     {
+      "channel": 34,
+      "wavelength_um": 1.656,
+      "flux_A": 842.9021,
+      "flux_B": 987.0045,
+      "ratio_B_over_A": 1.171,
+      "ratio_err": 0.1471,
+      "dmag": -0.171,
+      "signif": 1.2
+     },
+     {
+      "channel": 35,
+      "wavelength_um": 1.695,
+      "flux_A": 756.0792,
+      "flux_B": 941.6411,
+      "ratio_B_over_A": 1.2454,
+      "ratio_err": 0.1515,
+      "dmag": -0.238,
+      "signif": 1.6
+     },
+     {
+      "channel": 36,
+      "wavelength_um": 1.735,
+      "flux_A": 741.7345,
+      "flux_B": 814.9188,
+      "ratio_B_over_A": 1.0987,
+      "ratio_err": 0.1497,
+      "dmag": -0.102,
+      "signif": 0.7
+     },
+     {
+      "channel": 39,
+      "wavelength_um": 1.861,
+      "flux_A": 637.8033,
+      "flux_B": 658.6863,
+      "ratio_B_over_A": 1.0327,
+      "ratio_err": 0.1653,
+      "dmag": -0.035,
+      "signif": 0.2
+     },
+     {
+      "channel": 40,
+      "wavelength_um": 1.905,
+      "flux_A": 648.3584,
+      "flux_B": 626.8047,
+      "ratio_B_over_A": 0.9668,
+      "ratio_err": 0.1526,
+      "dmag": 0.037,
+      "signif": 0.2
+     },
+     {
+      "channel": 44,
+      "wavelength_um": 2.089,
+      "flux_A": 670.6635,
+      "flux_B": 628.6235,
+      "ratio_B_over_A": 0.9373,
+      "ratio_err": 0.1364,
+      "dmag": 0.07,
+      "signif": 0.5
+     },
+     {
+      "channel": 45,
+      "wavelength_um": 2.139,
+      "flux_A": 647.3002,
+      "flux_B": 659.7244,
+      "ratio_B_over_A": 1.0192,
+      "ratio_err": 0.1291,
+      "dmag": -0.021,
+      "signif": 0.1
+     },
+     {
+      "channel": 46,
+      "wavelength_um": 2.189,
+      "flux_A": 645.6268,
+      "flux_B": 580.8338,
+      "ratio_B_over_A": 0.8996,
+      "ratio_err": 0.1419,
+      "dmag": 0.115,
+      "signif": 0.7
+     },
+     {
+      "channel": 47,
+      "wavelength_um": 2.24,
+      "flux_A": 545.1881,
+      "flux_B": 573.6317,
+      "ratio_B_over_A": 1.0522,
+      "ratio_err": 0.152,
+      "dmag": -0.055,
+      "signif": 0.3
+     },
+     {
+      "channel": 55,
+      "wavelength_um": 2.719,
+      "flux_A": 398.7325,
+      "flux_B": 294.9408,
+      "ratio_B_over_A": 0.7397,
+      "ratio_err": 0.1454,
+      "dmag": 0.327,
+      "signif": 1.8
+     },
+     {
+      "channel": 56,
+      "wavelength_um": 2.794,
+      "flux_A": 412.2118,
+      "flux_B": 334.334,
+      "ratio_B_over_A": 0.8111,
+      "ratio_err": 0.1677,
+      "dmag": 0.227,
+      "signif": 1.1
+     },
+     {
+      "channel": 57,
+      "wavelength_um": 2.871,
+      "flux_A": 205.9605,
+      "flux_B": 388.0501,
+      "ratio_B_over_A": 1.8841,
+      "ratio_err": 0.5841,
+      "dmag": -0.688,
+      "signif": 1.5
+     },
+     {
+      "channel": 58,
+      "wavelength_um": 2.951,
+      "flux_A": 257.7929,
+      "flux_B": 427.2058,
+      "ratio_B_over_A": 1.6572,
+      "ratio_err": 0.4106,
+      "dmag": -0.548,
+      "signif": 1.6
+     },
+     {
+      "channel": 61,
+      "wavelength_um": 3.204,
+      "flux_A": 252.0062,
+      "flux_B": 194.0828,
+      "ratio_B_over_A": 0.7702,
+      "ratio_err": 0.38,
+      "dmag": 0.284,
+      "signif": 0.6
+     },
+     {
+      "channel": 62,
+      "wavelength_um": 3.293,
+      "flux_A": 248.4705,
+      "flux_B": 200.8837,
+      "ratio_B_over_A": 0.8085,
+      "ratio_err": 0.2734,
+      "dmag": 0.231,
+      "signif": 0.7
+     },
+     {
+      "channel": 67,
+      "wavelength_um": 3.768,
+      "flux_A": 212.6904,
+      "flux_B": 341.9266,
+      "ratio_B_over_A": 1.6076,
+      "ratio_err": 0.415,
+      "dmag": -0.515,
+      "signif": 1.5
+     },
+     {
+      "channel": 68,
+      "wavelength_um": 3.833,
+      "flux_A": 452.0119,
+      "flux_B": 144.8183,
+      "ratio_B_over_A": 0.3204,
+      "ratio_err": 0.2988,
+      "dmag": 1.236,
+      "signif": 2.3
+     },
+     {
+      "channel": 70,
+      "wavelength_um": 3.901,
+      "flux_A": 241.5982,
+      "flux_B": 275.6117,
+      "ratio_B_over_A": 1.1408,
+      "ratio_err": 0.8378,
+      "dmag": -0.143,
+      "signif": 0.2
+     },
+     {
+      "channel": 78,
+      "wavelength_um": 4.184,
+      "flux_A": 700.0979,
+      "flux_B": 607.1836,
+      "ratio_B_over_A": 0.8673,
+      "ratio_err": 0.3054,
+      "dmag": 0.155,
+      "signif": 0.4
+     },
+     {
+      "channel": 79,
+      "wavelength_um": 4.22,
+      "flux_A": 797.416,
+      "flux_B": 548.0315,
+      "ratio_B_over_A": 0.6873,
+      "ratio_err": 0.2297,
+      "dmag": 0.407,
+      "signif": 1.4
+     },
+     {
+      "channel": 85,
+      "wavelength_um": 4.435,
+      "flux_A": 730.2012,
+      "flux_B": 580.3846,
+      "ratio_B_over_A": 0.7948,
+      "ratio_err": 0.3007,
+      "dmag": 0.249,
+      "signif": 0.7
+     },
+     {
+      "channel": 90,
+      "wavelength_um": 4.6,
+      "flux_A": 625.1343,
+      "flux_B": 623.6926,
+      "ratio_B_over_A": 0.9977,
+      "ratio_err": 0.4359,
+      "dmag": 0.003,
+      "signif": 0.0
+     },
+     {
+      "channel": 91,
+      "wavelength_um": 4.635,
+      "flux_A": 784.6487,
+      "flux_B": 689.0425,
+      "ratio_B_over_A": 0.8782,
+      "ratio_err": 0.3721,
+      "dmag": 0.141,
+      "signif": 0.3
+     },
+     {
+      "channel": 95,
+      "wavelength_um": 4.773,
+      "flux_A": 672.9195,
+      "flux_B": 533.1188,
+      "ratio_B_over_A": 0.7922,
+      "ratio_err": 0.4481,
+      "dmag": 0.253,
+      "signif": 0.5
+     }
+    ]
+   },
+   "v3->v4": {
+    "n_channels_compared": 3,
+    "n_channels_skipped_saturated": 0,
+    "n_channels_skipped_flagged_or_nonpositive": 7,
+    "median_dmag": 0.194,
+    "max_abs_dmag": 0.195,
+    "n_channels_gt5sigma": 0,
+    "channels": [
+     {
+      "channel": 27,
+      "wavelength_um": 1.412,
+      "flux_A": 975.8378,
+      "flux_B": 1110.1642,
+      "ratio_B_over_A": 1.1377,
+      "ratio_err": 0.1185,
+      "dmag": -0.14,
+      "signif": 1.2
+     },
+     {
+      "channel": 40,
+      "wavelength_um": 1.905,
+      "flux_A": 749.1373,
+      "flux_B": 626.8047,
+      "ratio_B_over_A": 0.8367,
+      "ratio_err": 0.1183,
+      "dmag": 0.194,
+      "signif": 1.4
+     },
+     {
+      "channel": 91,
+      "wavelength_um": 4.635,
+      "flux_A": 824.7927,
+      "flux_B": 689.0425,
+      "ratio_B_over_A": 0.8354,
+      "ratio_err": 0.3219,
+      "dmag": 0.195,
+      "signif": 0.5
+     }
+    ]
+   }
+  },
+  "ch4_3p3um_dip": {
+   "flux_3p03": 301.5324,
+   "flux_3p29": 221.6946,
+   "flux_4p00": 168.1581,
+   "ratio_3p29_to_mean_3p03_4p00": 0.944,
+   "ratio_3p29_to_3p03": 0.735,
+   "min_channel_3p0_3p6": [
+    3.57,
+    127.887
+   ]
+  },
+  "default_band_weighted_mean_flux": {
+   "band": "D6",
+   "n": 28,
+   "flux_uJy": 541.9,
+   "err_uJy": 42.55,
+   "sn": 12.7,
+   "per_visit": {
+    "v1": {
+     "n": 2,
+     "flux_uJy": 167.27,
+     "err_uJy": 201.77
+    },
+    "v2": {
+     "n": 8,
+     "flux_uJy": 618.33,
+     "err_uJy": 81.3
+    },
+    "v3": {
+     "n": 1,
+     "flux_uJy": 824.79,
+     "err_uJy": 201.85
+    },
+    "v4": {
+     "n": 17,
+     "flux_uJy": 515.47,
+     "err_uJy": 53.3
+    }
+   }
+  },
+  "psf_wing_ratio_first_last_full": {
+   "pair": [
+    "v2",
+    "v4"
+   ],
+   "note": "Sum of co-add surface brightness (MJy/sr, local-median-subtracted) in a 4-10 px annulus around the target, pixels unmasked in both visits. Band-averaged (each visit's co-add mixes the LVF wavelengths it sampled), assumes an unchanged PSF and includes any neighbours in the annulus: a variability indicator for saturated stars, not calibrated photometry.",
+   "values": {
+    "D1": {
+     "n_pix": 260,
+     "wing_sum_A": 2.001,
+     "wing_sum_B": 1.849,
+     "ratio_B_over_A": 0.9241,
+     "dmag": 0.086
+    },
+    "D2": {
+     "n_pix": 258,
+     "wing_sum_A": 2.957,
+     "wing_sum_B": 2.808,
+     "ratio_B_over_A": 0.9496,
+     "dmag": 0.056
+    },
+    "D3": {
+     "n_pix": 258,
+     "wing_sum_A": 2.479,
+     "wing_sum_B": 2.354,
+     "ratio_B_over_A": 0.9499,
+     "dmag": 0.056
+    },
+    "D4": {
+     "n_pix": 258,
+     "wing_sum_A": 1.141,
+     "wing_sum_B": 1.158,
+     "ratio_B_over_A": 1.0147,
+     "dmag": -0.016
+    },
+    "D5": {
+     "n_pix": 260,
+     "wing_sum_A": 0.275,
+     "wing_sum_B": 0.132,
+     "ratio_B_over_A": 0.4782,
+     "dmag": 0.801
+    }
+   }
+  }
+ },
+ "notes": [
+  "Frames: 256 used of 258 fetched; rejected {'wl_out_of_band': 2, 'offdetector': 0}. 0 frames had the target within 10.0 px of the strip/detector edge, so no forced photometry for them.",
+  "Input coordinate (challenge brief (Planet X and SPHEREx)) is 125.7 arcsec (20.4 px) from the mean-epoch (2025-12-26) proper-motion-corrected position the grid is centred on.",
+  "Proper motion from CatWISE2020 J085507.96-071439.3 (pmcode 2N047, the smallest PM errors of three CatWISE rows for this object; the others have pmra -7.965 and -7.920 arcsec/yr). No usable parallax in the CatWISE row (par_pm null, par_stat negative), so parallax (about 0.45 arcsec, <0.1 px) is not applied.",
+  "BLEND: Gaia DR3 5756956644387831296 (G=16.31, BP-RP 0.72, PM about 6.5 mas/yr) lies 7.8 arcsec (1.3 px) from WISE 0855's mean-epoch position. The 0.75-2.5 um flux in spectrum.json (about 500-1200 uJy) is this star: its D1-D3 centroid is stationary between v2 and v4 (0.004-0.03 px). In D5/D6 the centroid moves 0.53/0.60 px against a predicted 0.64 px, so the light at 4-5 um is dominated by WISE 0855, though the star still contributes some unknown fraction. Do not read the short-wavelength spectrum as WISE 0855.",
+  "No isolated Gaia comparison star with 10<=G<=16.5 and PM<10 mas/yr passed the cuts inside the grid (comparison_star = null). The stationary Gaia star above works as a natural control in D1-D3.",
+  "v1 (May 2025) and v3 (Dec 2025) are partial (3 D6 frames each). The default diff is v2 (Oct-Nov 2025) vs v4 (Apr-May 2026), only about 6 months apart (0.64 px predicted motion).",
+  "Pixel data: SPHEREx Level-2 spectral images (spherex_dr1, plus spherex_qr3 where SIA returned them), read by HTTP range requests from s3://nasa-irsa-spherex (IMAGE and VARIANCE strips, row-tiled RICE FLAGS decompressed locally, WCS-WAVE table, EPSF row). One frame was checked byte-identical to the IRSA cutout service for IMAGE, FLAGS and VARIANCE.",
+  "Frame filter: the wavelength at the target pixel comes from the 'W' WCS (WAVE-TAB, sip=None) and must lie inside the detector's em_min..em_max. Visits are clusters with no gap >20 days. A visit is 'full' when every band D1-D6 has >=5 frames.",
+  "Co-adds: each frame has its sigma-clipped median subtracted (local zodi/background removal) and pixels with any of SUR_ERROR, TRANSIENT, OVERFLOW, NONLINEAR, NONFUNC, DICHROIC, MISSING_DATA, HOT, COLD, PHANMISS, PERSIST, OUTLIER, CROSSTALK, GHOST, GHOST_FPA, GHOST_EXT, STREAK, BLOOM, SNOWBALL or HALO masked. Frames are bilinearly resampled (normalised by the good-pixel weight, needing weight >=0.5) through the full SIP WCS onto the common grid, then median-combined per visit per band."
+ ],
+ "citation": "../CITATION.md"
+}
