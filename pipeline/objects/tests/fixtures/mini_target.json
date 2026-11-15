@@ -1,0 +1,85 @@
+{
+ "id": "mini",
+ "name": "Mini Target",
+ "catalog": {
+  "catalog": "Gaia DR3",
+  "source_id": "1000000000000000001",
+  "ra": 149.99175518738483,
+  "dec": 2.0,
+  "pmra": 3000.0,
+  "pmdec": 0.0,
+  "pmra_err": 0.5,
+  "pmdec_err": 0.5,
+  "G": 9.5,
+  "ref_epoch": "J2016.0 (TCB)",
+  "ref_epoch_mjd": 57388.5
+ },
+ "mean_epoch": {
+  "mjd": 61000.0,
+  "ra_deg": 150.0,
+  "dec_deg": 2.0
+ },
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 150.0,
+  "CRVAL2": 2.0,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "CUNIT1": "deg",
+  "CUNIT2": "deg",
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15
+ },
+ "visits": [
+  {
+   "id": "v1",
+   "mjd_mean": 60800.0,
+   "full": true,
+   "target_radec": [
+    149.9995434,
+    2.0
+   ],
+   "target_px": {
+    "x": 24.267,
+    "y": 24.0,
+    "png_x": 24.267,
+    "png_y": 24.0
+   }
+  },
+  {
+   "id": "v2",
+   "mjd_mean": 61200.0,
+   "full": true,
+   "target_radec": [
+    150.0004566,
+    2.0
+   ],
+   "target_px": {
+    "x": 23.733,
+    "y": 24.0,
+    "png_x": 23.733,
+    "png_y": 24.0
+   }
+  }
+ ],
+ "full_visits": [
+  "v1",
+  "v2"
+ ],
+ "comparison_star": {
+  "gaia_dr3_source_id": "1000000000000000002",
+  "ra": 150.02734953651256,
+  "dec": 1.9726664441788044,
+  "G": 12.0,
+  "pm_total_mas_yr": 2.0,
+  "x": 8.0,
+  "y": 8.0,
+  "png_x": 8.0,
+  "png_y": 40.0
+ }
+}
