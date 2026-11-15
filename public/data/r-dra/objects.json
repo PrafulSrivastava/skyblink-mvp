@@ -1,7 +1,7 @@
 {
  "version": 1,
  "patch": "r-dra",
- "generated": "2026-11-15T10:54:07Z",
+ "generated": "2026-11-15T11:04:16Z",
  "mean_epoch_mjd": 61022.87266,
  "detection_frames": [
   "D1/v1",

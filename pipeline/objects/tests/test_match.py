@@ -545,3 +545,86 @@ def test_absorb_follows_the_target_track(mini):
     assert {r.name for r in kept} == {"N", "F"}
     # the point at the CatWISE epoch alone would have kept all four
     assert min(sep_arcsec(epoch_ra, epoch_dec, r.ra, r.dec) for r in rows) > 20.0
+
+
+# ------------------------------------------------- PM consistency (older rows) ---
+
+def _fast_row(name="J1", pos=(12.0, 20.0), pm=(1500.0, 0.0)):
+    """A CatWISE row that is at png `pos` at the mean epoch and moves `pm` mas/yr (loader units)."""
+    r = make_fixtures._catwise_row(name, *make_fixtures._sky(*pos), pm=pm, sig=0.01, w1=13.0)
+    return CatwiseRow(name, r["ra_pm"], r["dec_pm"], pm[0], pm[1], 14.1, 13.0, 12.9, "", "00")
+
+
+def _with_rows(mini, catwise_row, tmass=(), allwise=()):
+    m = {**mini, "tmass": mini["tmass"] + list(tmass), "allwise": mini["allwise"] + list(allwise)}
+    return m, mini["catwise"] + [catwise_row]
+
+
+def _tmass_at_static(pos=(12.0, 20.0), mjd=51400.0, name="J1T"):
+    r = make_fixtures._tmass_row(name, *make_fixtures._sky(*pos), mjd)
+    return load_tmass_row(r)
+
+
+def load_tmass_row(r):
+    from catalogs import TmassRow
+    return TmassRow(r["designation"], r["ra"], r["dec"], r["jdate"] - 2400000.5, r["j_m"], r["h_m"], r["k_m"])
+
+
+def test_pm_contradicted_by_older_row_is_not_moving(mini):
+    m, cw = _with_rows(mini, _fast_row(), tmass=[_tmass_at_static()])
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    o = at(m, objs, 12, 20)
+    assert o.kind == "known" and o.catalogs[0].catalog == "CatWISE2020" and o.catalogs[0].id == "J1"
+    assert o.reason.startswith("CatWISE2020 match within")
+    assert o.moving is False and o.motion_basis == "none" and o.pm_mas_yr is None
+    assert o.positions["v1"] == o.positions["v2"]
+    assert (o.positions["v1"].png_x, o.positions["v1"].png_y) == (12.0, 20.0)
+    assert [c.catalog for c in o.catalogs] == ["CatWISE2020", "2MASS"] and o.catalogs[1].id == "J1T"
+    assert o.catalog_ra is not None
+
+
+def test_fast_mover_with_linked_older_rows_stays_moving(mini):
+    objs, _ = run(mini)
+    o = at(mini, objs, 30, 15)
+    assert o.moving is True and o.motion_basis == "catalog" and o.pm_mas_yr is not None
+    assert [c.catalog for c in o.catalogs] == ["CatWISE2020", "AllWISE", "2MASS"]
+    assert o.positions["v1"] != o.positions["v2"]
+
+
+def test_high_pm_row_without_older_rows_stays_moving(mini):
+    m, cw = _with_rows(mini, _fast_row())
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    o = at(m, objs, 12, 20)
+    assert o.moving is True and o.motion_basis == "catalog" and o.pm_mas_yr.total == pytest.approx(1500.0)
+    assert o.positions["v1"] != o.positions["v2"]
+
+
+def test_allwise_row_under_five_years_does_not_contradict(mini):
+    from catalogs import AllwiseRow
+    ra, dec = make_fixtures._sky(12.0, 20.0)
+    aw = AllwiseRow("J1A", ra, dec, 55400.0, 13.0, 12.9, 12.0)  # 4.85 years before the CatWISE epoch
+    m, cw = _with_rows(mini, _fast_row(), allwise=[aw])
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    assert at(m, objs, 12, 20).moving is True
+
+
+def test_older_row_that_follows_the_motion_does_not_contradict(mini):
+    row = _fast_row()
+    ra, dec = propagate(row.ra, row.dec, row.pmra, row.pmdec, CATWISE_EPOCH_MJD, 51400.0)
+    from catalogs import TmassRow
+    t = TmassRow("J1T", ra, dec, 51400.0, 14.0, 13.5, 13.0)
+    m, cw = _with_rows(mini, row, tmass=[t])
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    o = at(m, objs, 12, 20)
+    assert o.moving is True and [c.catalog for c in o.catalogs] == ["CatWISE2020", "2MASS"]
+
+
+def test_static_catwise_row_never_loses_its_pm(mini):
+    # a 2MASS row 7 arcsec away from a static CatWISE row is just a neighbour: motion is not "contradicted"
+    row = _fast_row(pm=(5.0, 5.0))
+    ra, dec = make_fixtures._sky(12.0, 20.0)
+    from catalogs import TmassRow
+    t = TmassRow("J1T", ra, dec + 7.0 / 3600, 51400.0, 14.0, 13.5, 13.0)
+    m, cw = _with_rows(mini, row, tmass=[t])
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    assert at(m, objs, 12, 20).pm_mas_yr is not None

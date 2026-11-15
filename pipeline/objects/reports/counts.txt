@@ -1,5 +1,5 @@
 patch          detected  known  unidentified  moving  forced_undetected  unid_frac  median_sep_px  catwise_in_grid  chance_per_circle  bright_recovery  comp_offset_px  target_detected  target_moving  status
-barnards-star  46        47     0             4       1                  0.000      0.268          353              1.039              0.875            0.098           False            True           PASS
+barnards-star  46        47     0             1       1                  0.000      0.268          353              1.039              0.875            0.098           False            True           PASS
 eps-indi-b     31        28     3             1       0                  0.097      0.239          184              0.542              1.000            0.115           True             True           PASS
 wise-0855      45        45     0             1       0                  0.000      0.107          245              0.721              1.000            -               True             True           PASS
 rw-aur         62        61     2             0       1                  0.032      0.106          272              0.801              0.833            0.105           False            False          PASS

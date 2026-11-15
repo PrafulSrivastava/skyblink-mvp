@@ -1,7 +1,7 @@
 {
  "version": 1,
  "patch": "wise-0855",
- "generated": "2026-11-15T10:54:06Z",
+ "generated": "2026-11-15T11:04:15Z",
  "mean_epoch_mjd": 61035.04184,
  "detection_frames": [
   "D1/v1",

@@ -25,6 +25,7 @@ DEFAULT_SHIFT_FLOOR_PX = 0.5
 MIN_FLOOR_SAMPLES = 3
 CATWISE_SPAN_MJD = (55200.0, 58500.0)  # CatWISE2020 observing span, 2010-01 to 2018-12
 TRACK_SAMPLES = 67
+MIN_BASELINE_YR = 5.0  # older rows closer than this to the CatWISE epoch cannot contradict its motion
 
 
 @dataclass
@@ -87,6 +88,33 @@ def link_older(
         if sep <= radius and (best is None or sep < best[1]):
             best = (i, sep)
     return best if best else (None, None)
+
+
+def contradicting_older(
+    cw: CatwiseRow, det_ra: float, det_dec: float,
+    allwise: Sequence[AllwiseRow], tmass: Sequence[TmassRow], th: Mapping[str, float],
+) -> list[tuple[str, int, float]]:
+    """Older rows that disprove the CatWISE motion -> [(catalog label, row index, sep arcsec to the detection)].
+
+    A row counts when its epoch is at least MIN_BASELINE_YR from the CatWISE epoch, it lies within
+    `match_radius_arcsec` of the detection's static mean-epoch position, and it is farther than
+    `link_radius_max_arcsec` from where the CatWISE proper motion predicts it (the `link_older` back-propagation).
+    Rows without an epoch are ignored. Per catalog, the row nearest the detection is returned."""
+    out = []
+    for label, rows in (("AllWISE", allwise), ("2MASS", tmass)):
+        best: tuple[int, float] | None = None
+        for i, row in enumerate(rows):
+            if not math.isfinite(row.epoch_mjd) or abs(row.epoch_mjd - CATWISE_EPOCH_MJD) / MJD_PER_YEAR < MIN_BASELINE_YR:
+                continue
+            sep = float(sep_arcsec(det_ra, det_dec, row.ra, row.dec))
+            if sep > th["match_radius_arcsec"]:
+                continue
+            ra, dec = propagate(cw.ra, cw.dec, cw.pmra, cw.pmdec, CATWISE_EPOCH_MJD, row.epoch_mjd)
+            if float(sep_arcsec(ra, dec, row.ra, row.dec)) > th["link_radius_max_arcsec"] and (best is None or sep < best[1]):
+                best = (i, sep)
+        if best:
+            out.append((label, best[0], best[1]))
+    return out
 
 
 def _mags(**kw: float | None) -> dict[str, float]:
@@ -236,16 +264,33 @@ def build_objects(
         det_ra, det_dec = det_radec(det)
         catalogs = take_catwise(j, det_ra, det_dec)
         seps_px.append(float(d[j]))
-        pos = {}
-        for v in visits:
-            vx, vy = cw_png_at(row, v["mjd_mean"])
-            pos[v["id"]] = PixelPos(det.png_x + vx - cw_x[j], det.png_y + vy - cw_y[j])
         total = math.hypot(row.pmra, row.pmdec)
         err = row.sigpm if row.sigpm > 0 else None
+        moving = catalog_moving(total, err, th)
+        contra = contradicting_older(row, det_ra, det_dec, allwise, tmass, th) if moving else []
+        if contra:  # an older measurement sits at the static position: the CatWISE motion is not credible
+            moving = False
+            for label, k, sep in contra:
+                if any(c.catalog == label for c in catalogs) or k in (used_aw if label == "AllWISE" else used_tm):
+                    continue
+                if label == "AllWISE":
+                    used_aw.add(k)
+                    a = allwise[k]
+                    catalogs.append(CatalogMatch(label, a.name, sep, _mags(W1=a.w1, W2=a.w2, W3=a.w3)))
+                else:
+                    used_tm.add(k)
+                    t = tmass[k]
+                    catalogs.append(CatalogMatch(label, t.name, sep, _mags(J=t.j, H=t.h, K=t.k)))
+            pos = const_positions(det.png_x, det.png_y)
+        else:
+            pos = {}
+            for v in visits:
+                vx, vy = cw_png_at(row, v["mjd_mean"])
+                pos[v["id"]] = PixelPos(det.png_x + vx - cw_x[j], det.png_y + vy - cw_y[j])
         o = SkyObject(
-            id="", kind="known", moving=catalog_moving(total, err, th), motion_basis="catalog",
+            id="", kind="known", moving=moving, motion_basis="catalog" if not contra else "none",
             reason=f"CatWISE2020 match within {catalogs[0].sep_arcsec:.1f} arcsec", name="CWISE " + row.name,
-            catalogs=catalogs, pm_mas_yr=ProperMotion(row.pmra, row.pmdec, total, err),
+            catalogs=catalogs, pm_mas_yr=None if contra else ProperMotion(row.pmra, row.pmdec, total, err),
             ra=det_ra, dec=det_dec, catalog_ra=float(cw_ra[j]), catalog_dec=float(cw_dec[j]),
             snr=det.snr, detected=True, forced=None, image_shift_px=None, positions=pos)
         objs.append(o)
