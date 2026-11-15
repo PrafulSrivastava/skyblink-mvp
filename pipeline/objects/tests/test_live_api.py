@@ -17,19 +17,20 @@ GOOD_QR3 = "https://irsa.ipac.caltech.edu/ibe/data/spherex/qr3/level2/2026W33_2A
 GOOD_DR1_D6 = GOOD_DR1.replace("1D3", "1D6").replace("/3/", "/6/")
 GOOD_DR1_D6_B = GOOD_DR1_D6.replace("2025W19_1B_0116", "2024W40_1A_0010")
 
-# Header column set follows the IRSA SIA CSV (subset); like the real one it ends with a trailing comma.
+# Subset of the IRSA SIA columns. The header ends with a trailing comma (an unnamed "" column) and each data row
+# carries one more field than the header, so DictReader puts the extra field under a None key, as in the real response.
 CSV = (
     "obs_id,energy_bandpassname,t_min,access_url,access_estsize,s_ra,s_dec,\n"
-    f"2025W19_1B_0116_1,SPHEREx-D3,60800.700028,{GOOD_DR1},62000,133.76,-7.24,\n"
-    f"2025W19_1B_0116_1,SPHEREx-D6,60800.700028,{GOOD_DR1_D6},62001,133.76,-7.24,\n"
-    f"2024W40_1A_0010_1,SPHEREx-D6,60500.1,{GOOD_DR1_D6_B},61999,133.76,-7.24,\n"
-    "2025W20_1B_0001_1,SPHEREx-D6,60810.5,https://evil.example/x.fits,62000,133.76,-7.24,\n"
+    f"2025W19_1B_0116_1,SPHEREx-D3,60800.700028,{GOOD_DR1},62000,133.76,-7.24,x,\n"
+    f"2025W19_1B_0116_1,SPHEREx-D6,60800.700028,{GOOD_DR1_D6},62001,133.76,-7.24,x,\n"
+    f"2024W40_1A_0010_1,SPHEREx-D6,60500.1,{GOOD_DR1_D6_B},61999,133.76,-7.24,x,\n"
+    "2025W20_1B_0001_1,SPHEREx-D6,60810.5,https://evil.example/x.fits,62000,133.76,-7.24,x,\n"
 )
 
 
 def test_parse_sia_csv_drops_trailing_none_key():
     rows = live.parse_sia_csv(CSV)
-    assert len(rows) == 4 and None not in rows[0]
+    assert len(rows) == 4 and None not in rows[0] and "" not in rows[0]
     assert rows[0]["energy_bandpassname"] == "SPHEREx-D3"
 
 
@@ -49,6 +50,13 @@ def test_rows_to_exposures_dedupes_on_obs_and_band():
     rows = live.parse_sia_csv(CSV)
     ex = live.rows_to_exposures(rows + [rows[1]], "D6", "dr1")
     assert len(ex) == 2
+
+
+def test_rows_to_exposures_skips_absurd_t_min():
+    rows = live.parse_sia_csv(CSV)
+    rows[2] = {**rows[2], "t_min": "1e12"}
+    ex = live.rows_to_exposures(rows, "D6", "dr1")
+    assert [e["tMin"] for e in ex] == [60800.700028]
 
 
 def test_band_counts_has_all_bands():
@@ -105,6 +113,14 @@ def test_whitelist_accepts_irsa(url):
     GOOD_DR1.replace("caltech.edu/", "caltech.edu:8443/"),
     GOOD_DR1 + "?center=1,1",
     GOOD_DR1 + "#x",
+    GOOD_DR1 + "?",
+    GOOD_DR1 + "\n",
+    GOOD_DR1.replace("/level2/", "/level2/a\n/"),
+    GOOD_DR1.replace("/level2/", "/level2/a\t/"),
+    GOOD_DR1.replace("/level2/", "/level2/a\r/"),
+    GOOD_DR1.replace("/level2/", "/level2/%2e%2e/"),
+    GOOD_DR1.replace("irsa.ipac.caltech.edu", "IRSA.IPAC.CALTECH.EDU"),
+    GOOD_DR1.replace("https://irsa.ipac.caltech.edu/", "https://irsa.ipac.caltech.edu@evil.com/"),
     GOOD_DR1.replace("/level2/", "/level2/../../../"),
     GOOD_DR1.replace("spherex/dr1", "spherex/dr2"),
     GOOD_DR1[:-5] + ".txt",

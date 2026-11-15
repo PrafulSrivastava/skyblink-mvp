@@ -108,6 +108,8 @@ def fmt_coord(x):
 def is_allowed_access_url(url):
     if not isinstance(url, str) or len(url) > MAX_URL_LEN:
         return False
+    if not re.fullmatch(r"[\x21-\x7e]+", url):  # printable ASCII only: urlsplit silently strips \t \r \n
+        return False
     try:
         u = urllib.parse.urlsplit(url)
         port = u.port
@@ -141,7 +143,8 @@ def build_cutout_url(access_url, ra, dec):
 def parse_sia_csv(text):
     rows = []
     for r in csv.DictReader(io.StringIO(text)):
-        r.pop(None, None)  # trailing comma in the header yields a None key
+        r.pop(None, None)  # data rows with more fields than the header land under None
+        r.pop("", None)    # the header's trailing comma names a column ""
         rows.append(r)
     return rows
 
@@ -166,6 +169,10 @@ def rows_to_exposures(rows, band, collection):
             continue
         if not math.isfinite(t_min):
             continue
+        try:
+            date = mjd_to_iso(t_min)
+        except (OverflowError, ValueError):
+            continue
         key = (r.get("obs_id"), band)
         if key in seen:
             continue
@@ -179,7 +186,7 @@ def rows_to_exposures(rows, band, collection):
             "band": band,
             "collection": collection,
             "tMin": t_min,
-            "date": mjd_to_iso(t_min),
+            "date": date,
             "accessUrl": url,
             "estSizeKb": size,
         })
