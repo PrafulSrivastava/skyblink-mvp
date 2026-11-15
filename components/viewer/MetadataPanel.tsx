@@ -103,7 +103,7 @@ export default function MetadataPanel({ loaded, currentFrame }: MetadataPanelPro
             </div>
             <div className="flex justify-between">
               <span className="text-sky-inkDim">Measured</span>
-              <span className="font-mono text-sky-ink">{motionBand.measured_shift_px.toFixed(2)} px</span>
+              <span className="font-mono text-sky-ink">{typeof motionBand.measured_shift_px === 'number' ? `${motionBand.measured_shift_px.toFixed(2)} px` : 'not measured'}</span>
             </div>
             {motionBand.comparison_shift_px !== undefined && (
               <div className="flex justify-between">
