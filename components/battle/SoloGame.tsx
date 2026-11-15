@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useState, useRef, useEffect, useCallback } from 'react'
-import { Target, Clock, Star, Award, ArrowRight, RotateCcw, ExternalLink } from 'lucide-react'
+import React, { useState, useRef, useEffect, useCallback, useImperativeHandle } from 'react'
+import { Target, Clock, Star, Award, ArrowRight, RotateCcw, ExternalLink, Trophy } from 'lucide-react'
+import { formatMonth } from '@/lib/long-baseline'
 
-interface Round {
+export interface Round {
   id: string
   type: 'asteroid' | 'fast-star'
   frames: string[]
@@ -25,384 +26,334 @@ interface Score {
   points: number
 }
 
-// Scoring: max 1000 pts/round
-// Distance: 1000 * exp(-dist/20)
-// Time: multiplier 1.0 at <5s, decays to 0.3 at 30s
+// Scoring (unchanged): max 1000 pts/round. Distance in image pixels; time multiplier decays to a 0.3 floor.
 function scoreRound(distPx: number, timeSec: number): number {
   const distScore = 1000 * Math.exp(-distPx / 25)
   const timeMult = Math.max(0.3, Math.exp(-(timeSec - 3) / 15))
   return Math.round(distScore * timeMult)
 }
 
-// Game state
 type GameState = 'intro' | 'playing' | 'reveal' | 'gameover'
+
+export interface SoloGameHandle {
+  /** Start a new game (used by the page's Play button) */
+  start: () => void
+}
 
 interface SoloGameProps {
   rounds: Round[]
+  ref?: React.Ref<SoloGameHandle>
 }
 
-export default function SoloGame({ rounds }: SoloGameProps) {
+const CANVAS = 392 // 49 × 8: sharp pixels, room for clear markers
+const BLINK_MS = 500
+const ACCENT = '#bda38b'
+const TRUTH = '#5ab9fc'
+
+function grade(pct: number) {
+  if (pct >= 80) return 'Expert observer'
+  if (pct >= 60) return 'Sharp-eyed'
+  if (pct >= 40) return 'Getting there'
+  return 'Keep practising'
+}
+
+export default function SoloGame({ rounds, ref }: SoloGameProps) {
   const [gameState, setGameState] = useState<GameState>('intro')
   const [currentRound, setCurrentRound] = useState(0)
   const [scores, setScores] = useState<Score[]>([])
-  const [currentFrameIdx, setCurrentFrameIdx] = useState(0)
+  const [frameIdx, setFrameIdx] = useState(0)
   const [tapped, setTapped] = useState<{ x: number; y: number } | null>(null)
+  const [cursor, setCursor] = useState({ x: 24, y: 24 })
+  const [focused, setFocused] = useState(false)
   const [elapsed, setElapsed] = useState(0)
-  const [startTime, setStartTime] = useState(0)
-  const [blinking, setBlinking] = useState(true)
-  
+  const [imagesReady, setImagesReady] = useState(0)
+
+  const rootRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const imgCacheRef = useRef<Map<string, HTMLImageElement>>(new Map())
-  const blinkIntervalRef = useRef<NodeJS.Timeout | null>(null)
-  const timerIntervalRef = useRef<NodeJS.Timeout | null>(null)
+  const blinkRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const startTimeRef = useRef(0)
 
   const round = rounds[currentRound]
   const totalScore = scores.reduce((s, r) => s + r.points, 0)
-
-  const preloadImages = useCallback((r: Round) => {
-    r.frames.forEach(src => {
-      if (!imgCacheRef.current.has(src)) {
-        const img = new Image()
-        img.src = src
-        imgCacheRef.current.set(src, img)
-      }
-    })
-  }, [])
+  const lastScore = scores[scores.length - 1]
 
   useEffect(() => {
-    if (round) preloadImages(round)
-  }, [round, preloadImages])
+    rounds.forEach(r => r.frames.forEach(src => {
+      if (imgCacheRef.current.has(src)) return
+      const img = new Image()
+      img.onload = () => setImagesReady(n => n + 1)
+      img.src = src
+      imgCacheRef.current.set(src, img)
+    }))
+  }, [rounds])
 
-  const drawFrame = useCallback((idx: number) => {
+  const draw = useCallback(() => {
     const canvas = canvasRef.current
     if (!canvas || !round) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-
-    const src = round.frames[idx % round.frames.length]
-    const img = imgCacheRef.current.get(src)
-    if (!img?.complete) return
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.imageSmoothingEnabled = false   // pixelated upscale for 49px images
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-
-    // Date label
-    ctx.fillStyle = 'rgba(0,0,0,0.65)'
-    ctx.fillRect(0, canvas.height - 20, canvas.width, 20)
-    ctx.fillStyle = '#e4e2da'
-    ctx.font = '10px JetBrains Mono, monospace'
-    ctx.textAlign = 'left'
-    ctx.fillText(round.dates[idx % round.dates.length] || '', 6, canvas.height - 6)
-    ctx.textAlign = 'right'
-    ctx.fillText(`${idx % round.frames.length + 1}/${round.frames.length}`, canvas.width - 6, canvas.height - 6)
-
-    // Show tap
-    if (tapped) {
-      const scale = canvas.width / round.imageWidth
-      const tx = tapped.x * scale
-      const ty = tapped.y * scale
-      ctx.strokeStyle = '#ef4444'
-      ctx.lineWidth = 2
-      ctx.beginPath()
-      ctx.arc(tx, ty, 8, 0, Math.PI * 2)
-      ctx.stroke()
-      ctx.beginPath()
-      ctx.moveTo(tx - 12, ty)
-      ctx.lineTo(tx + 12, ty)
-      ctx.moveTo(tx, ty - 12)
-      ctx.lineTo(tx, ty + 12)
-      ctx.stroke()
+    const img = imgCacheRef.current.get(round.frames[frameIdx % round.frames.length])
+    ctx.fillStyle = '#0a0d14'
+    ctx.fillRect(0, 0, CANVAS, CANVAS)
+    if (img?.complete && img.naturalWidth) {
+      ctx.imageSmoothingEnabled = false
+      ctx.drawImage(img, 0, 0, CANVAS, CANVAS)
     }
-  }, [round, tapped])
+    const s = CANVAS / round.imageWidth
+    const ring = (x: number, y: number, color: string, r: number, dash?: number[]) => {
+      ctx.strokeStyle = color
+      ctx.lineWidth = 2.5
+      ctx.setLineDash(dash ?? [])
+      ctx.beginPath()
+      ctx.arc((x + 0.5) * s, (y + 0.5) * s, r, 0, Math.PI * 2)
+      ctx.stroke()
+      ctx.setLineDash([])
+    }
+    // Keyboard reticle
+    if (focused && !tapped && gameState === 'playing') {
+      ring(cursor.x, cursor.y, '#e9edf3', 14, [5, 4])
+    }
+    if (tapped) ring(tapped.x, tapped.y, ACCENT, 14)
+    if (gameState === 'reveal') {
+      ring(round.truthPx.x, round.truthPx.y, TRUTH, 20)
+      if (tapped) {
+        ctx.strokeStyle = 'rgba(233,237,243,0.7)'
+        ctx.lineWidth = 1.5
+        ctx.beginPath()
+        ctx.moveTo((tapped.x + 0.5) * s, (tapped.y + 0.5) * s)
+        ctx.lineTo((round.truthPx.x + 0.5) * s, (round.truthPx.y + 0.5) * s)
+        ctx.stroke()
+      }
+    }
+  }, [round, frameIdx, tapped, gameState, cursor, focused])
 
-  useEffect(() => {
-    drawFrame(currentFrameIdx)
-  }, [drawFrame, currentFrameIdx, tapped])
+  useEffect(() => { draw() }, [draw, imagesReady])
 
-  const startBlink = useCallback(() => {
-    if (blinkIntervalRef.current) clearInterval(blinkIntervalRef.current)
-    blinkIntervalRef.current = setInterval(() => {
-      setCurrentFrameIdx(i => i + 1)
-    }, 500)
+  const stopAll = useCallback(() => {
+    if (blinkRef.current) clearInterval(blinkRef.current)
+    if (timerRef.current) clearInterval(timerRef.current)
   }, [])
 
-  const stopBlink = useCallback(() => {
-    if (blinkIntervalRef.current) clearInterval(blinkIntervalRef.current)
-  }, [])
-
-  const startTimer = useCallback(() => {
-    const t = Date.now()
-    setStartTime(t)
-    setElapsed(0)
-    if (timerIntervalRef.current) clearInterval(timerIntervalRef.current)
-    timerIntervalRef.current = setInterval(() => {
-      setElapsed((Date.now() - t) / 1000)
-    }, 100)
-  }, [])
-
-  const stopTimer = useCallback(() => {
-    if (timerIntervalRef.current) clearInterval(timerIntervalRef.current)
-  }, [])
+  useEffect(() => stopAll, [stopAll])
 
   const startRound = useCallback(() => {
     setTapped(null)
-    setCurrentFrameIdx(0)
-    setBlinking(true)
-    startBlink()
-    startTimer()
-  }, [startBlink, startTimer])
+    setFrameIdx(0)
+    setCursor({ x: 24, y: 24 })
+    // Bring the image fully into view before the clock starts
+    rootRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+    stopAll()
+    blinkRef.current = setInterval(() => setFrameIdx(i => i + 1), BLINK_MS)
+    setTimeout(() => {
+      startTimeRef.current = Date.now()
+      setElapsed(0)
+      timerRef.current = setInterval(() => setElapsed((Date.now() - startTimeRef.current) / 1000), 100)
+      canvasRef.current?.focus({ preventScroll: true })
+    }, 450)
+  }, [stopAll])
 
-  const beginGame = () => {
+  const beginGame = useCallback(() => {
     setGameState('playing')
     setCurrentRound(0)
     setScores([])
-    setTimeout(startRound, 100)
-  }
+    setTimeout(startRound, 50)
+  }, [startRound])
 
-  const restartGame = () => {
-    setGameState('intro')
-    setCurrentRound(0)
-    setScores([])
-    stopBlink()
-    stopTimer()
-  }
+  useImperativeHandle(ref, () => ({ start: beginGame }), [beginGame])
 
-  useEffect(() => {
-    return () => {
-      stopBlink()
-      stopTimer()
-    }
-  }, [stopBlink, stopTimer])
+  const submit = (x: number, y: number) => {
+    if (gameState !== 'playing' || tapped || !round || !startTimeRef.current) return
+    const timeSec = (Date.now() - startTimeRef.current) / 1000
+    stopAll()
+    setTapped({ x, y })
+    const dist = Math.hypot(x - round.truthPx.x, y - round.truthPx.y)
+    setScores(s => [...s, { round: currentRound, tapPx: { x, y }, truthPx: round.truthPx, distancePx: dist, timeSec, points: scoreRound(dist, timeSec) }])
+    setTimeout(() => setGameState('reveal'), 300)
+  }
 
   const handleTap = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (gameState !== 'playing' || tapped) return
-    
-    const canvas = canvasRef.current
-    if (!canvas) return
-    
-    const rect = canvas.getBoundingClientRect()
-    const scale = round.imageWidth / canvas.width
-    const x = (e.clientX - rect.left) * (canvas.width / rect.width) * scale
-    const y = (e.clientY - rect.top) * (canvas.height / rect.height) * scale
-    
-    const timeSec = (Date.now() - startTime) / 1000
-    stopTimer()
-    stopBlink()
-    
-    setTapped({ x, y })
-    
-    const dist = Math.sqrt((x - round.truthPx.x) ** 2 + (y - round.truthPx.y) ** 2)
-    const pts = scoreRound(dist, timeSec)
-    
-    setScores(s => [...s, {
-      round: currentRound,
-      tapPx: { x, y },
-      truthPx: round.truthPx,
-      distancePx: dist,
-      timeSec,
-      points: pts,
-    }])
-    
-    setTimeout(() => setGameState('reveal'), 400)
+    if (!round) return
+    const rect = e.currentTarget.getBoundingClientRect()
+    const x = ((e.clientX - rect.left) / rect.width) * round.imageWidth - 0.5
+    const y = ((e.clientY - rect.top) / rect.height) * round.imageHeight - 0.5
+    submit(x, y)
+  }
+
+  const handleKey = (e: React.KeyboardEvent<HTMLCanvasElement>) => {
+    if (gameState !== 'playing' || tapped || !round) return
+    setFocused(true) // show the keyboard ring only once the keyboard is in use
+    const step = e.shiftKey ? 4 : 1
+    const clamp = (v: number) => Math.max(0, Math.min(round.imageWidth - 1, v))
+    const moves: Record<string, [number, number]> = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] }
+    if (moves[e.key]) {
+      e.preventDefault()
+      setCursor(c => ({ x: clamp(c.x + moves[e.key][0]), y: clamp(c.y + moves[e.key][1]) }))
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      submit(cursor.x, cursor.y)
+    }
   }
 
   const nextRound = () => {
-    if (currentRound + 1 >= rounds.length) {
-      setGameState('gameover')
-      return
-    }
+    if (currentRound + 1 >= rounds.length) { setGameState('gameover'); return }
     setCurrentRound(r => r + 1)
     setGameState('playing')
-    setTimeout(startRound, 100)
+    setTimeout(startRound, 50)
   }
 
-  // Show reveal overlay
-  const lastScore = scores[scores.length - 1]
+  const restartGame = () => {
+    stopAll()
+    setGameState('intro')
+    setCurrentRound(0)
+    setScores([])
+  }
 
   if (gameState === 'intro') {
     return (
-      <div className="bg-battle-surface rounded-2xl border border-battle-border p-8 max-w-lg mx-auto text-center space-y-6">
+      <div ref={rootRef} className="mx-auto max-w-lg space-y-6 text-center">
         <div>
-          <div className="text-5xl mb-3">🎯</div>
-          <h2 className="text-2xl font-epilogue font-black text-battle-ink mb-2">
-            Solo Challenge
-          </h2>
-          <p className="text-battle-inkDim text-sm">
-            {rounds.length} rounds — spot the moving star in real SPHEREx data.
-            Tap where you see motion. Score by accuracy × speed.
+          <Target className="mx-auto mb-3 h-10 w-10 text-battle-accent" aria-hidden="true" />
+          <h2 className="mb-2 text-2xl font-black text-sky-ink">Solo challenge</h2>
+          <p className="text-sky-inkDim">
+            {rounds.length} rounds. Two real SPHEREx images flip back and forth: tap the object that moved.
+            Closer and faster scores more.
           </p>
         </div>
-        
-        <div className="grid grid-cols-3 gap-3">
+        <ul className="grid grid-cols-3 gap-3">
           {[
             { icon: Star, label: `${rounds.length} rounds` },
-            { icon: Clock, label: '30s each' },
-            { icon: Award, label: `${rounds.length * 1000} pts max` },
+            { icon: Clock, label: 'Faster scores more' },
+            { icon: Award, label: `${(rounds.length * 1000).toLocaleString()} points max` },
           ].map(({ icon: Icon, label }) => (
-            <div key={label} className="bg-battle-bg/50 rounded-lg p-3">
-              <Icon className="w-5 h-5 text-battle-accent mx-auto mb-1" />
-              <div className="text-battle-inkDim text-xs">{label}</div>
-            </div>
+            <li key={label} className="rounded-lg bg-sky-bg/60 p-3">
+              <Icon className="mx-auto mb-1 h-5 w-5 text-battle-accent" aria-hidden="true" />
+              <span className="text-sm text-sky-inkDim">{label}</span>
+            </li>
           ))}
-        </div>
-        
-        <button
-          onClick={beginGame}
-          className="w-full py-3 rounded-xl bg-battle-accent text-battle-bg font-epilogue font-bold text-lg hover:bg-battle-accent/90 transition-colors"
-        >
-          Start Game
+        </ul>
+        <button type="button" onClick={beginGame}
+          className="min-h-12 w-full rounded-xl bg-battle-accent text-lg font-bold text-sky-bg transition-colors hover:bg-battle-accent/90">
+          Start game
         </button>
+        <p className="text-sm text-sky-inkDim">Keyboard: arrow keys move the target ring (Shift for bigger steps), Enter to choose.</p>
       </div>
     )
   }
 
   if (gameState === 'gameover') {
-    const pct = Math.round(totalScore / (rounds.length * 1000) * 100)
-    const grade = pct >= 80 ? '🌟 Expert' : pct >= 60 ? '🔭 Observer' : pct >= 40 ? '👀 Beginner' : '📚 Keep practicing'
-    
+    const pct = Math.round((totalScore / (rounds.length * 1000)) * 100)
     return (
-      <div className="bg-battle-surface rounded-2xl border border-battle-border p-8 max-w-lg mx-auto text-center space-y-6">
+      <div ref={rootRef} className="mx-auto max-w-lg space-y-6 text-center">
         <div>
-          <div className="text-5xl mb-3">{pct >= 60 ? '🏆' : '🎉'}</div>
-          <h2 className="text-2xl font-epilogue font-black text-battle-ink">{grade}</h2>
-          <div className="text-5xl font-mono font-black text-battle-accent mt-2">
-            {totalScore.toLocaleString()}
-          </div>
-          <div className="text-battle-inkDim text-sm mt-1">
-            out of {(rounds.length * 1000).toLocaleString()} points
-          </div>
+          <Trophy className="mx-auto mb-3 h-10 w-10 text-battle-accent" aria-hidden="true" />
+          <h2 className="text-2xl font-black text-sky-ink">{grade(pct)}</h2>
+          <p className="mt-2 font-mono text-5xl font-black text-battle-accent">{totalScore.toLocaleString()}</p>
+          <p className="mt-1 text-sky-inkDim">out of {(rounds.length * 1000).toLocaleString()} points</p>
         </div>
-        
-        {/* Per-round breakdown */}
-        <div className="space-y-2 text-left">
-          {scores.map((s, i) => (
-            <div key={i} className="flex items-center justify-between text-sm bg-battle-bg/50 rounded-lg px-3 py-2">
-              <span className="text-battle-inkDim font-mono">R{i+1}</span>
-              <span className="text-battle-inkDim">{s.distancePx.toFixed(0)} px off</span>
-              <span className="text-battle-inkDim">{s.timeSec.toFixed(1)}s</span>
-              <span className="font-mono font-bold text-battle-accent">{s.points}</span>
-            </div>
-          ))}
-        </div>
-        
+        <table className="w-full text-left text-sm">
+          <caption className="sr-only">Score for each round</caption>
+          <thead className="text-sky-inkDim">
+            <tr><th scope="col" className="py-1 font-medium">Round</th><th scope="col" className="font-medium">Object</th><th scope="col" className="font-medium">Off by</th><th scope="col" className="font-medium">Time</th><th scope="col" className="text-right font-medium">Points</th></tr>
+          </thead>
+          <tbody>
+            {scores.map((s, i) => (
+              <tr key={i} className="border-t border-sky-border">
+                <td className="py-2 font-mono text-sky-inkDim">{i + 1}</td>
+                <td className="text-sky-ink">{rounds[s.round]?.revealName}</td>
+                <td className="text-sky-inkDim">{s.distancePx.toFixed(1)} px</td>
+                <td className="text-sky-inkDim">{s.timeSec.toFixed(1)} s</td>
+                <td className="text-right font-mono font-bold text-battle-accent">{s.points}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
         <div className="flex gap-3">
-          <button
-            onClick={restartGame}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl border border-battle-border text-battle-inkDim hover:text-battle-ink transition-colors text-sm"
-          >
-            <RotateCcw className="w-4 h-4" />
-            Play again
+          <button type="button" onClick={beginGame}
+            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl border border-sky-border text-sky-ink transition-colors hover:border-battle-accent/60">
+            <RotateCcw className="h-4 w-4" aria-hidden="true" /> Play again
           </button>
-          <a
-            href="/viewer?target=barnards-star"
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl bg-battle-accent/20 text-battle-accent border border-battle-accent/30 hover:bg-battle-accent/30 transition-colors text-sm"
-          >
-            Open SkyBlink
-            <ArrowRight className="w-4 h-4" />
+          <a href="/viewer" className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-xl bg-battle-accent font-semibold text-sky-bg transition-colors hover:bg-battle-accent/90">
+            Explore in the viewer <ArrowRight className="h-4 w-4" aria-hidden="true" />
           </a>
         </div>
       </div>
     )
   }
 
+  const shownDate = round?.dates[frameIdx % (round?.dates.length || 1)]
+
   return (
-    <div className="max-w-lg mx-auto space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div className="text-battle-inkDim text-sm font-mono">
-          Round <span className="text-battle-ink font-bold">{currentRound + 1}</span> / {rounds.length}
-        </div>
-        <div className="flex items-center gap-2 text-battle-accent font-mono text-lg font-bold">
-          <Award className="w-4 h-4" />
-          {totalScore}
-        </div>
-        <div className={`flex items-center gap-1.5 font-mono text-sm tabular-nums ${elapsed > 20 ? 'text-red-400' : 'text-battle-inkDim'}`}>
-          <Clock className="w-4 h-4" />
-          {elapsed.toFixed(1)}s
-        </div>
+    <div ref={rootRef} className="mx-auto max-w-lg space-y-3">
+      <div className="flex items-center justify-between text-sm">
+        <span className="text-sky-inkDim">Round <span className="font-bold text-sky-ink">{currentRound + 1}</span> of {rounds.length}</span>
+        <span className="flex items-center gap-1.5 font-mono text-lg font-bold text-battle-accent">
+          <Award className="h-4 w-4" aria-hidden="true" /><span className="sr-only">Score </span>{totalScore}
+        </span>
+        <span className={`flex items-center gap-1.5 font-mono tabular-nums ${elapsed > 20 ? 'text-amber-300' : 'text-sky-inkDim'}`}>
+          <Clock className="h-4 w-4" aria-hidden="true" /><span className="sr-only">Time </span>{elapsed.toFixed(1)} s
+        </span>
       </div>
 
-      {/* Canvas */}
-      <div className="relative rounded-xl overflow-hidden border-2 border-battle-border">
+      <div className="relative overflow-hidden rounded-xl border-2 border-sky-border">
         <canvas
           ref={canvasRef}
-          width={round?.imageWidth || 256}
-          height={round?.imageHeight || 256}
-          className="w-full cursor-crosshair block"
-          style={{ imageRendering: 'pixelated', aspectRatio: '1', background: '#2b2216' }}
+          width={CANVAS}
+          height={CANVAS}
+          tabIndex={0}
+          role="application"
+          aria-label="Game image. Tap the object that moved, or use the arrow keys to move the ring and press Enter."
+          className="block aspect-square w-full cursor-crosshair bg-sky-bg"
+          style={{ imageRendering: 'pixelated' }}
           onClick={handleTap}
+          onKeyDown={handleKey}
+          onBlur={() => setFocused(false)}
         />
-        
-        {/* Type badge */}
-        <div className="absolute top-2 left-2">
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-battle-accent border border-battle-accent/30">
-            {round?.type === 'fast-star' ? '⭐ fast-star' : '☄ asteroid'}
-          </span>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 flex justify-between bg-black/70 px-3 py-1.5 text-sm">
+          <span className="text-sky-ink">{shownDate ? formatMonth(shownDate) : ''}</span>
+          <span className="font-mono text-sky-inkDim">image {(frameIdx % (round?.frames.length || 1)) + 1} of {round?.frames.length}</span>
         </div>
-        
         {gameState === 'reveal' && lastScore && (
-          <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-4xl font-mono font-black text-battle-accent mb-1">
-                +{lastScore.points}
-              </div>
-              <div className="text-battle-inkDim text-sm">
-                {lastScore.distancePx.toFixed(0)} px · {lastScore.timeSec.toFixed(1)}s
-              </div>
-            </div>
+          <div className="pointer-events-none absolute right-3 top-3 rounded-lg bg-black/75 px-3 py-2 text-right">
+            <div className="font-mono text-3xl font-black text-battle-accent">+{lastScore.points}</div>
+            <div className="text-sm text-sky-inkDim">{lastScore.distancePx.toFixed(1)} px · {lastScore.timeSec.toFixed(1)} s</div>
           </div>
         )}
       </div>
 
-      {/* Instructions / hint */}
       {gameState === 'playing' && !tapped && (
-        <div className="text-battle-inkDim text-xs text-center font-mono">
-          Tap the object that moved between frames.
-          {round?.hint && <span className="ml-1 text-battle-accent/70">{round.hint}</span>}
-        </div>
+        <p className="text-center text-sm text-sky-inkDim">Tap the object that moved between the two images.</p>
       )}
 
-      {/* Reveal panel */}
-      {gameState === 'reveal' && round && (
-        <div className="bg-battle-surface rounded-xl border border-battle-border p-4">
-          <div className="flex items-center justify-between mb-3">
-            <div>
-              <div className="text-battle-ink font-semibold">{round.revealName}</div>
-              <div className="text-battle-inkDim text-xs mt-0.5">
-                {round.type === 'fast-star' ? 'High proper-motion star' : 'Solar system asteroid'}
+      <div aria-live="polite">
+        {gameState === 'reveal' && round && lastScore && (
+          <div className="rounded-xl border border-sky-border bg-sky-surface p-4">
+            <div className="mb-3 flex items-start justify-between gap-3">
+              <div>
+                <h3 className="font-semibold text-sky-ink">{round.revealName}</h3>
+                <p className="text-sm text-sky-inkDim">{round.hint}</p>
+                <p className="mt-1 text-sm text-sky-inkDim">
+                  {lastScore.distancePx < 10 ? 'Spot on.' : lastScore.distancePx < 25 ? 'Close.' : 'Missed.'}{' '}
+                  The blue ring shows where it was.
+                </p>
               </div>
+              <div className="text-right font-mono text-xl font-bold text-battle-accent">+{lastScore.points}</div>
             </div>
-            {lastScore && (
-              <div className="text-right">
-                <div className="text-battle-accent font-mono font-bold text-xl">+{lastScore.points}</div>
-                <div className="text-battle-inkDim text-xs">
-                  {lastScore.distancePx < 10 ? 'Perfect!' : lastScore.distancePx < 25 ? 'Close!' : 'Miss'}
-                </div>
-              </div>
-            )}
+            <div className="flex flex-wrap items-center gap-3">
+              <a href={round.revealUrl} target="_blank" rel="noopener noreferrer"
+                className="inline-flex min-h-11 items-center gap-1.5 text-sm text-battle-accent hover:underline">
+                <ExternalLink className="h-4 w-4" aria-hidden="true" /> More about {round.revealName}<span className="sr-only"> (opens in a new tab)</span>
+              </a>
+              <button type="button" onClick={nextRound} autoFocus
+                className="ml-auto inline-flex min-h-11 items-center gap-1.5 rounded-lg bg-battle-accent px-4 font-semibold text-sky-bg transition-colors hover:bg-battle-accent/90">
+                {currentRound + 1 < rounds.length ? 'Next round' : 'See results'}
+                <ArrowRight className="h-4 w-4" aria-hidden="true" />
+              </button>
+            </div>
           </div>
-          
-          <div className="flex gap-3">
-            <a
-              href={round.revealUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1 text-xs text-battle-accent hover:underline"
-            >
-              <ExternalLink className="w-3 h-3" />
-              More info
-            </a>
-            <button
-              onClick={nextRound}
-              className="ml-auto flex items-center gap-1.5 px-4 py-1.5 rounded-lg bg-battle-accent text-battle-bg font-semibold text-sm hover:bg-battle-accent/90 transition-colors"
-            >
-              {currentRound + 1 < rounds.length ? 'Next round' : 'See results'}
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   )
 }
