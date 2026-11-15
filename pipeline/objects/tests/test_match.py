@@ -628,3 +628,32 @@ def test_static_catwise_row_never_loses_its_pm(mini):
     m, cw = _with_rows(mini, row, tmass=[t])
     objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
     assert at(m, objs, 12, 20).pm_mas_yr is not None
+
+
+def test_linked_fast_mover_ignores_unrelated_field_star_at_static_position(mini):
+    """A linked older row corroborates the CatWISE motion; a field star at the static position must not undo it."""
+    field = _tmass_at_static(pos=(30.0, 15.0), mjd=51400.0, name="FIELD")
+    m = {**mini, "tmass": mini["tmass"] + [field]}
+    ra, dec = png_to_radec(m["target"]["grid"], 30.0, 15.0)
+    assert sep_arcsec(ra, dec, field.ra, field.dec) < TH["match_radius_arcsec"]  # the trap is really set
+    objs, _ = run(m)
+    o = at(m, objs, 30, 15)
+    assert o.moving is True and o.motion_basis == "catalog"
+    assert o.pm_mas_yr.total == pytest.approx(2000.0, abs=1e-6)
+    assert o.positions["v1"] != o.positions["v2"]
+    assert [c.catalog for c in o.catalogs] == ["CatWISE2020", "AllWISE", "2MASS"]
+    assert next(c for c in o.catalogs if c.catalog == "2MASS").id == "C2_2MASS"
+    assert not any(c.id == "FIELD" for o2 in objs for c in o2.catalogs)  # not attached to C2 or anything else
+
+
+def test_contradiction_ignores_rows_used_by_another_object(mini):
+    """A 2MASS row already claimed by another object never counts as contradicting evidence."""
+    row = _fast_row()
+    t = _tmass_at_static()
+    m, cw = _with_rows(mini, row, tmass=[t])
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
+    assert at(m, objs, 12, 20).moving is False  # baseline: unclaimed row contradicts
+    from match import contradicting_older
+    ra, dec = make_fixtures._sky(12.0, 20.0)
+    assert contradicting_older(row, ra, dec, [], [t], TH, set(), {0}) == []
+    assert [x[:2] for x in contradicting_older(row, ra, dec, [], [t], TH, set(), set())] == [("2MASS", 0)]

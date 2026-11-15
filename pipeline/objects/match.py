@@ -90,21 +90,28 @@ def link_older(
     return best if best else (None, None)
 
 
+def _long_baseline(epoch_mjd: float) -> bool:
+    """True when an older row's epoch is known and at least MIN_BASELINE_YR from the CatWISE epoch."""
+    return math.isfinite(epoch_mjd) and abs(epoch_mjd - CATWISE_EPOCH_MJD) / MJD_PER_YEAR >= MIN_BASELINE_YR
+
+
 def contradicting_older(
     cw: CatwiseRow, det_ra: float, det_dec: float,
     allwise: Sequence[AllwiseRow], tmass: Sequence[TmassRow], th: Mapping[str, float],
+    used_aw: set[int], used_tm: set[int],
 ) -> list[tuple[str, int, float]]:
     """Older rows that disprove the CatWISE motion -> [(catalog label, row index, sep arcsec to the detection)].
 
     A row counts when its epoch is at least MIN_BASELINE_YR from the CatWISE epoch, it lies within
     `match_radius_arcsec` of the detection's static mean-epoch position, and it is farther than
     `link_radius_max_arcsec` from where the CatWISE proper motion predicts it (the `link_older` back-propagation).
-    Rows without an epoch are ignored. Per catalog, the row nearest the detection is returned."""
+    Rows without an epoch and rows already used by an object are ignored. Per catalog, the row nearest the
+    detection is returned."""
     out = []
-    for label, rows in (("AllWISE", allwise), ("2MASS", tmass)):
+    for label, rows, used in (("AllWISE", allwise, used_aw), ("2MASS", tmass, used_tm)):
         best: tuple[int, float] | None = None
         for i, row in enumerate(rows):
-            if not math.isfinite(row.epoch_mjd) or abs(row.epoch_mjd - CATWISE_EPOCH_MJD) / MJD_PER_YEAR < MIN_BASELINE_YR:
+            if i in used or not _long_baseline(row.epoch_mjd):
                 continue
             sep = float(sep_arcsec(det_ra, det_dec, row.ra, row.dec))
             if sep > th["match_radius_arcsec"]:
@@ -181,24 +188,28 @@ def build_objects(
         ra, dec = propagate(row.ra, row.dec, row.pmra, row.pmdec, CATWISE_EPOCH_MJD, mjd)
         return radec_to_png(grid, ra, dec)
 
-    def take_catwise(j: int, det_ra: float, det_dec: float) -> list[CatalogMatch]:
-        """CatWISE row j plus its linked AllWISE and 2MASS rows; marks all of them used."""
+    def take_catwise(j: int, det_ra: float, det_dec: float) -> tuple[list[CatalogMatch], bool]:
+        """CatWISE row j plus its linked AllWISE and 2MASS rows (marked used), and whether a linked older row
+        with a baseline of at least MIN_BASELINE_YR corroborates the CatWISE motion."""
         row = kept[j]
         used_cw.add(j)
         matched_cw.add(j)
         out = [CatalogMatch("CatWISE2020", row.name, float(sep_arcsec(det_ra, det_dec, cw_ra[j], cw_dec[j])),
                             _mags(W1=row.w1, W2=row.w2))]
+        corroborated = False
         i, sep = link_older(row, allwise, th, used_aw)
         if i is not None:
             used_aw.add(i)
             a = allwise[i]
+            corroborated |= _long_baseline(a.epoch_mjd)
             out.append(CatalogMatch("AllWISE", a.name, sep, _mags(W1=a.w1, W2=a.w2, W3=a.w3)))
         i, sep = link_older(row, tmass, th, used_tm)
         if i is not None:
             used_tm.add(i)
             t = tmass[i]
+            corroborated |= _long_baseline(t.epoch_mjd)
             out.append(CatalogMatch("2MASS", t.name, sep, _mags(J=t.j, H=t.h, K=t.k)))
-        return out
+        return out, corroborated
 
     # 2. bundle target
     cat = target["catalog"]
@@ -236,7 +247,7 @@ def build_objects(
             d = np.hypot(cw_x - rx, cw_y - ry)
             cands = [int(j) for j in np.nonzero(d <= r_px)[0] if int(j) not in used_cw]
             if cands:
-                catalogs += take_catwise(min(cands, key=lambda j: d[j]), ra, dec)
+                catalogs += take_catwise(min(cands, key=lambda j: d[j]), ra, dec)[0]
         total = float(comp["pm_total_mas_yr"])
         objs.append(SkyObject(
             id="", kind="known", moving=catalog_moving(total, None, th), motion_basis="catalog",
@@ -262,12 +273,13 @@ def build_objects(
         claimed.add(i)
         row = kept[j]
         det_ra, det_dec = det_radec(det)
-        catalogs = take_catwise(j, det_ra, det_dec)
+        catalogs, corroborated = take_catwise(j, det_ra, det_dec)
         seps_px.append(float(d[j]))
         total = math.hypot(row.pmra, row.pmdec)
         err = row.sigpm if row.sigpm > 0 else None
         moving = catalog_moving(total, err, th)
-        contra = contradicting_older(row, det_ra, det_dec, allwise, tmass, th) if moving else []
+        contra = (contradicting_older(row, det_ra, det_dec, allwise, tmass, th, used_aw, used_tm)
+                  if moving and not corroborated else [])
         if contra:  # an older measurement sits at the static position: the CatWISE motion is not credible
             moving = False
             for label, k, sep in contra:
