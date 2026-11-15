@@ -13,6 +13,7 @@ import json
 import math
 import os
 import re
+import socket
 import statistics
 import struct
 import time
@@ -37,7 +38,8 @@ CUTOUT_MAX_ATTEMPTS = 3
 CUTOUT_PAUSE_S = 1.5
 CUTOUT_PREFIX_BYTES = 262144
 
-CUTOUT_SIZE_DEG = 0.0836
+# 0.12° is about 70 SPHEREx pixels: enough for any rotation to fill the viewer's 49 × 49 north-up grid
+CUTOUT_SIZE_DEG = 0.12
 SIA_RADIUS_DEG = 0.001
 MAX_EXPOSURES_CAP = 24
 DEFAULT_MAX_EXPOSURES = 8
@@ -321,12 +323,48 @@ def _decode_image(cards, data, size):
     for r in range(height - 1, -1, -1):  # FITS rows run bottom-up; return top row first
         for v in vals[r * width:(r + 1) * width]:
             pixels.append(round_sig(v) if math.isfinite(v) else None)
-    return {"width": width, "height": height, "pixels": pixels, "bunit": cards.get("BUNIT")}
+    return {"width": width, "height": height, "pixels": pixels, "bunit": cards.get("BUNIT"), "wcs": extract_wcs(cards)}
+
+
+_WCS_NUM_RE = re.compile(r"^(CRPIX[12]|CRVAL[12]|CDELT[12]|CD[12]_[12]|PC[12]_[12]|LONPOLE|[AB]_ORDER|[AB]_\d+_\d+)$")
+
+
+def _float(text):
+    try:
+        v = float(str(text).strip().replace("D", "E").replace("d", "e"))
+    except ValueError:
+        return None
+    return v if math.isfinite(v) else None
+
+
+def extract_wcs(cards):
+    """The celestial WCS of an image header (TAN, optionally with SIP), or None if it has none.
+
+    Keeps only what the viewer needs to turn a detector-oriented cutout north-up: CTYPE, CRPIX, CRVAL,
+    the CD (or PC and CDELT) matrix and the forward SIP polynomial. Values are numbers; CTYPEs are strings.
+    """
+    c1, c2 = str(cards.get("CTYPE1", "")).strip(), str(cards.get("CTYPE2", "")).strip()
+    if not (c1.startswith("RA---TAN") and c2.startswith("DEC--TAN")):
+        return None
+    wcs = {"CTYPE1": c1, "CTYPE2": c2}
+    for key, raw in cards.items():
+        if _WCS_NUM_RE.match(key):
+            v = _float(raw)
+            if v is not None:
+                wcs[key] = v
+    if not all(k in wcs for k in ("CRPIX1", "CRPIX2", "CRVAL1", "CRVAL2")):
+        return None
+    has_cd = all(k in wcs for k in ("CD1_1", "CD1_2", "CD2_1", "CD2_2"))
+    if not has_cd and not all(k in wcs for k in ("CDELT1", "CDELT2")):
+        return None
+    return wcs
 
 
 # --- network ---------------------------------------------------------------
 _RETRY_STATUSES = frozenset({502, 503, 504})
 _USER_AGENT = "SkyBlink-live/0.1"
+# socket.timeout is an alias of TimeoutError from Python 3.10; on 3.9 (macOS's system Python) it is separate
+_TIMEOUTS = (TimeoutError, socket.timeout)
 
 
 class UpstreamError(Exception):
@@ -371,10 +409,10 @@ def _http_get(url, timeout, max_bytes):
             body = b""
         return e.code, body
     except urllib.error.URLError as e:
-        if isinstance(e.reason, TimeoutError):
+        if isinstance(e.reason, _TIMEOUTS):
             raise UpstreamError("upstream_timeout", None, "timed out") from None
         raise UpstreamError("upstream_network", None, f"network error: {type(e.reason).__name__}") from None
-    except TimeoutError:  # socket.timeout is TimeoutError on Python 3.10+
+    except _TIMEOUTS:
         raise UpstreamError("upstream_timeout", None, "timed out") from None
     except (OSError, http.client.HTTPException) as e:
         raise UpstreamError("upstream_network", None, f"network error: {type(e).__name__}") from None
@@ -487,6 +525,7 @@ def _cutout(params, opener, sleep, clock, started):
         "width": img["width"],
         "height": img["height"],
         "bunit": img["bunit"],
+        "wcs": img["wcs"],
         "pixels": img["pixels"],
         **pixel_stats(img["pixels"]),
     }

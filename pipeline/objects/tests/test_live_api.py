@@ -142,15 +142,17 @@ def test_validate_cutout_accepts_good():
 
 
 def test_build_urls():
-    assert live.build_cutout_url(GOOD_DR1, 133.7601588, -7.2412971) == GOOD_DR1 + "?center=133.760159,-7.241297&size=0.0836"
+    assert live.build_cutout_url(GOOD_DR1, 133.7601588, -7.2412971) == GOOD_DR1 + "?center=133.760159,-7.241297&size=0.12"
     u = live.build_sia_url(133.7601588, -7.2412971, "qr3")
     assert u.startswith("https://irsa.ipac.caltech.edu/SIA?") and "COLLECTION=spherex_qr3" in u
     assert "RESPONSEFORMAT=csv" in u and "0.001" in u
 
 
-def _mef(image: np.ndarray) -> bytes:
+def _mef(image: np.ndarray, wcs_cards=None) -> bytes:
     img = fits.ImageHDU(image.astype(">f4"), name="IMAGE")
     img.header["BUNIT"] = "MJy / sr"
+    for k, v in (wcs_cards or {}).items():
+        img.header[k] = v
     img.header["COMMENT2"] = "a/b"
     tbl = fits.BinTableHDU.from_columns(
         [fits.Column(name="X", format="E", array=np.arange(10, dtype=np.float32))], name="EPSF"
@@ -174,6 +176,48 @@ def test_parse_image_hdu_flips_rows_and_maps_nan():
     assert len(out["pixels"]) == 2401
     assert out["pixels"][48 * 49 + 0] is None          # bottom row is last
     assert out["pixels"][2] == float(48 * 49 + 2)      # FITS top row (index 48) is first
+
+
+SPHEREX_WCS = {
+    "CTYPE1": "RA---TAN-SIP", "CTYPE2": "DEC--TAN-SIP", "CRPIX1": -116.5, "CRPIX2": -927.5,
+    "CRVAL1": 269.236070549, "CRVAL2": 6.40102765807, "CDELT1": 1.0, "CDELT2": 1.0,
+    "PC1_1": 0.00170227082786, "PC1_2": -3.36422975169e-05, "PC2_1": -3.44705144342e-05, "PC2_2": -0.00170668970143,
+    "LONPOLE": 180.0, "A_ORDER": 3, "A_0_0": -0.110309104245, "A_1_0": 0.000418630318125,
+    "B_ORDER": 3, "B_0_0": -0.893081814522, "B_2_0": 6.54942093687e-06,
+    "AP_ORDER": 3, "AP_0_0": 0.110382318042, "CRPIX1A": -1136.0, "CTYPE1A": "LINEAR",
+}
+
+
+def test_parse_image_hdu_returns_wcs():
+    out = live.parse_image_hdu(_mef(np.ones((49, 49), np.float32), SPHEREX_WCS))
+    w = out["wcs"]
+    assert w["CTYPE1"] == "RA---TAN-SIP" and w["CTYPE2"] == "DEC--TAN-SIP"
+    assert w["CRPIX1"] == -116.5 and w["CRVAL2"] == 6.40102765807 and w["PC2_2"] == -0.00170668970143
+    assert w["A_ORDER"] == 3 and w["B_2_0"] == 6.54942093687e-06 and w["A_0_0"] == -0.110309104245
+    # inverse SIP, alternate WCS and other keywords are left out
+    assert not any(k.startswith(("AP_", "BP_")) for k in w)
+    assert "BUNIT" not in w and "CRPIX1A" not in w and "CTYPE1A" not in w
+    assert all(isinstance(v, float) for k, v in w.items() if not k.startswith("CTYPE"))
+
+
+def test_extract_wcs_needs_a_celestial_tan_projection():
+    assert live.parse_image_hdu(_mef(np.ones((4, 4), np.float32)))["wcs"] is None
+    assert live.extract_wcs({**{k: str(v) for k, v in SPHEREX_WCS.items()}, "CTYPE1": "GLON-TAN"}) is None
+    no_ref = {k: str(v) for k, v in SPHEREX_WCS.items() if k != "CRVAL1"}
+    assert live.extract_wcs(no_ref) is None
+    no_scale = {k: str(v) for k, v in SPHEREX_WCS.items() if not k.startswith(("CDELT", "PC"))}
+    assert live.extract_wcs(no_scale) is None
+    cd_only = {**no_scale, "CD1_1": "1.7D-03", "CD1_2": "0", "CD2_1": "0", "CD2_2": "-1.7E-03"}
+    assert live.extract_wcs(cd_only)["CD1_1"] == 1.7e-03
+    assert live.extract_wcs({**cd_only, "CRPIX1": "nan"}) is None
+
+
+def test_cutout_response_carries_wcs():
+    body = _mef(np.ones((49, 49), np.float32), SPHEREX_WCS)
+    code, out = live.handle({"action": "cutout", "ra": "269.4", "dec": "4.7", "url": GOOD_DR1},
+                            opener=lambda url, timeout: (200, body), sleep=lambda s: None)
+    assert code == 200 and out["ok"] and out["wcs"]["CTYPE1"] == "RA---TAN-SIP"
+    json.dumps(out, allow_nan=False)
 
 
 def test_parse_image_hdu_truncated_raises():
@@ -300,7 +344,7 @@ def test_cutout_retries_503_and_parses():
     code, body = live.handle({"action": "cutout", "ra": "133.7601588", "dec": "-7.2412971", "url": GOOD_DR1},
                              opener=op, sleep=op.clock.sleep, clock=op.clock.now)
     assert code == 200 and body["width"] == 49 and body["finite"] == 2401 and len(body["attempts"]) == 2
-    assert op.calls[0][0] == GOOD_DR1 + "?center=133.760159,-7.241297&size=0.0836"
+    assert op.calls[0][0] == GOOD_DR1 + "?center=133.760159,-7.241297&size=0.12"
 
 
 def test_cutout_html_body_is_bad_fits():
