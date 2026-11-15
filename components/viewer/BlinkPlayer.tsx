@@ -150,22 +150,17 @@ export default function BlinkPlayer({
 
   useEffect(() => { draw(currentIndex) }, [draw, currentIndex, imagesReady])
 
-  const goTo = useCallback((i: number) => {
-    setInternalFrame(i)
-    onFrameChange?.(i)
-  }, [onFrameChange])
+  const goTo = useCallback((i: number) => setInternalFrame(i), [])
 
   useEffect(() => {
     if (still || !playing || frames.length <= 1) return
-    const t = setInterval(() => {
-      setInternalFrame(prev => {
-        const next = (prev + 1) % frames.length
-        onFrameChange?.(next)
-        return next
-      })
-    }, 1000 / fps)
+    const t = setInterval(() => setInternalFrame(prev => (prev + 1) % frames.length), 1000 / fps)
     return () => clearInterval(t)
-  }, [still, playing, frames.length, fps, onFrameChange])
+  }, [still, playing, frames.length, fps])
+
+  // Tell the page which frame is showing. Not from inside the state updater: updaters run during
+  // render, and setting the page's state there is the "update while rendering" error.
+  useEffect(() => { onFrameChange?.(internalFrame) }, [internalFrame, onFrameChange])
 
   const step = (d: number) => {
     setPlaying(false)
