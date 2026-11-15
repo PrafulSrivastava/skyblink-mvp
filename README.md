@@ -79,7 +79,7 @@ A game at `/battle`. Spot the moving star in real SPHEREx data and tap where you
 
 ## What it does not do (yet)
 
-- **Five fixed patches only.** Searching by arbitrary coordinates needs live archive services and is not part of the static site. The home page text mentions coordinate search, but that is not available on the current static deployment.
+- **Five fixed patches only.** Searching by arbitrary coordinates needs live archive services and is not part of the static site. `/live/` is an experimental test harness that fetches raw cutouts from IRSA for any position, but it is not the viewer and does no detection or matching. The home page text mentions coordinate search, but that is not available on the current static deployment.
 - **"Moving" comes from catalog proper motion.** It is not measured from the SPHEREx frames, because the visits are only months apart.
 - **No solar-system layer.** Comets, asteroids and planets are not identified.
 - **Native resolution.** Images are upscaled in the viewer from 6.15″ per pixel.
@@ -109,6 +109,13 @@ Pipeline details and tunable thresholds: [`pipeline/objects/README.md`](pipeline
 npm install
 npm run dev            # http://localhost:3000
 npm run build          # static export to out/
+```
+
+Live fetch test harness (experimental), at `/live/`. The Python backend is separate because `next dev` does not run Vercel functions:
+
+```bash
+pipeline/objects/.venv/Scripts/python.exe scripts/live_dev_server.py          # backend on http://127.0.0.1:8787/api/live/
+NEXT_PUBLIC_LIVE_API_BASE=http://127.0.0.1:8787/api/live/ npm run dev         # http://localhost:3000/live/
 ```
 
 Checks:

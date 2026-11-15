@@ -20,6 +20,7 @@ export default function HomePage() {
           >
             Blink Battle
           </Link>
+          <Link href="/live/" className="text-sm text-sky-inkDim hover:text-sky-ink transition-colors">Live fetch (experimental)</Link>
           <Link
             href="/viewer"
             className="px-4 py-2 rounded-lg bg-sky-accent text-sky-bg text-sm font-semibold hover:bg-sky-accent/90 transition-colors"
