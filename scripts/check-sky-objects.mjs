@@ -117,3 +117,30 @@ try {
 }
 
 console.log('ok sky-objects')
+
+// ── Overlay geometry, hit test, selection ────────────────────────────────────
+import { imageToCanvas, canvasToImage, clientToCanvas, markerGeometry, hitTest, MARKER_STYLE } from '../lib/object-overlay.ts'
+
+const obj = (id, kind, moving, snr, positions) => ({
+  id, kind, moving, motion_basis: moving ? 'image' : 'none', reason: '', name: id, catalogs: [], pm_mas_yr: null,
+  ra: 0, dec: 0, catalog_ra: null, catalog_dec: null, snr, detected: snr !== null, forced: null, image_shift_px: null, positions,
+})
+
+assert.deepEqual(imageToCanvas({ png_x: 0, png_y: 0 }, 6), { x: 3, y: 3 })
+assert.deepEqual(imageToCanvas({ png_x: 48, png_y: 48 }, 6), { x: 291, y: 291 })
+assert.deepEqual(canvasToImage(3, 291, 6), { png_x: 0, png_y: 48 })
+// clientToCanvas half-size: canvas 294 drawn at 147 css px
+assert.deepEqual(clientToCanvas(100 + 73.5, 50 + 73.5, { left: 100, top: 50, width: 147, height: 147 }, 294, 294), { x: 147, y: 147 })
+const A = obj('A', 'known', false, 30, { v1: { png_x: 10, png_y: 10 } })
+const B = obj('B', 'unidentified', true, 5, { v1: { png_x: 11, png_y: 10 }, v2: { png_x: 11, png_y: 10 } })
+assert.equal(hitTest([A, B], 'v1', 63, 63, 6), 'A')
+assert.equal(hitTest([A, B], 'v1', 68, 63, 6), 'B')
+assert.equal(hitTest([A, B], 'v1', 63, 90, 6), null)
+assert.equal(hitTest([A], 'v2', 63, 63, 6), null)          // no position for v2
+const A2 = obj('A2', 'known', false, 99, { v1: { png_x: 10, png_y: 10 } })
+assert.equal(hitTest([A, A2], 'v1', 63, 63, 6), 'A2')      // tie -> higher snr
+assert.equal(markerGeometry(A, 'v2', 6, null), null)       // markerGeometry missing visit
+const gB = markerGeometry(B, 'v1', 6, 'B')
+assert.equal(gB.color, MARKER_STYLE.unidentified); assert.equal(gB.movingRingR, 10); assert.equal(gB.selected, true)
+assert.equal(markerGeometry(A, 'v1', 6, null).movingRingR, null)
+console.log('ok overlay')

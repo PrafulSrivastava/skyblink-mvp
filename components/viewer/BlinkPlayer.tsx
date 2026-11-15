@@ -3,14 +3,30 @@
 import React, { useRef, useEffect, useCallback, useState } from 'react'
 import { Play, Pause, ChevronLeft, ChevronRight } from 'lucide-react'
 import type { LoadedPlayerFrame } from '@/lib/bundle-loader'
+import type { SkyObject } from '@/lib/sky-objects'
+import {
+  MARKER_STYLE, markerGeometry, hitTest, clientToCanvas, canvasToImage,
+} from '@/lib/object-overlay'
+
+export interface PixelClick {
+  png_x: number
+  png_y: number
+  visitId: string
+  /** Id of the marker under the click, or null for empty sky (or when markers are hidden) */
+  objectId: string | null
+}
 
 interface BlinkPlayerProps {
   frames: LoadedPlayerFrame[]
   isLoading?: boolean
   onFrameChange?: (index: number) => void
-  onPixelClick?: () => void
+  onPixelClick?: (click: PixelClick) => void
   currentFrame?: number
   showCrosshair?: boolean
+  /** Sky objects to mark on each frame (Blink mode only) */
+  objects?: readonly SkyObject[]
+  selectedObjectId?: string | null
+  showMarkers?: boolean
   fps?: number
   /** Display size for the canvas; images are 49×49 and upscaled */
   displaySize?: number
@@ -25,6 +41,9 @@ export default function BlinkPlayer({
   onPixelClick,
   currentFrame: externalFrame,
   showCrosshair = true,
+  objects,
+  selectedObjectId = null,
+  showMarkers = true,
   fps = 2,
   displaySize = DISPLAY,
 }: BlinkPlayerProps) {
@@ -102,8 +121,31 @@ export default function BlinkPlayer({
       ctx.stroke()
     }
 
-    // Comparison star marker (orange circle)
-    // We don't have it per-frame but it's same for all frames; skip unless passed
+    // Sky-object markers for this frame's visit
+    if (showMarkers && objects) {
+      ctx.lineWidth = MARKER_STYLE.lineWidth
+      for (const obj of objects) {
+        const g = markerGeometry(obj, f.visitId, scale, selectedObjectId)
+        if (!g) continue
+        ctx.strokeStyle = g.color
+        ctx.beginPath()
+        ctx.arc(g.cx, g.cy, g.r, 0, Math.PI * 2)
+        ctx.stroke()
+        if (g.movingRingR !== null) {
+          ctx.setLineDash([...MARKER_STYLE.movingDash])
+          ctx.beginPath()
+          ctx.arc(g.cx, g.cy, g.movingRingR, 0, Math.PI * 2)
+          ctx.stroke()
+          ctx.setLineDash([])
+        }
+        if (g.selected) {
+          ctx.strokeStyle = MARKER_STYLE.selected
+          ctx.beginPath()
+          ctx.arc(g.cx, g.cy, MARKER_STYLE.selectedRadius, 0, Math.PI * 2)
+          ctx.stroke()
+        }
+      }
+    }
 
     // HUD: date, band, visit type, partial warning
     const hud = `${f.dateStart}  ${f.band}  ${f.visitType === 'partial' ? '⚠ partial' : ''}`
@@ -116,7 +158,7 @@ export default function BlinkPlayer({
     ctx.textAlign = 'right'
     ctx.fillStyle = '#8b96a8'
     ctx.fillText(`${idx + 1}/${frames.length}`, displaySize - 5, displaySize - 6)
-  }, [frames, showCrosshair, scale, displaySize])
+  }, [frames, showCrosshair, scale, displaySize, objects, selectedObjectId, showMarkers])
 
   useEffect(() => { draw(currentIndex) }, [draw, currentIndex])
 
@@ -135,6 +177,16 @@ export default function BlinkPlayer({
   const step = (d: number) => {
     const next = (currentIndex + d + frames.length) % frames.length
     setInternalFrame(next); onFrameChange?.(next)
+  }
+
+  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = e.currentTarget
+    const f = frames[currentIndex]
+    if (!f) return
+    const { x, y } = clientToCanvas(e.clientX, e.clientY, canvas.getBoundingClientRect(), canvas.width, canvas.height)
+    const { png_x, png_y } = canvasToImage(x, y, scale)
+    const objectId = showMarkers && objects ? hitTest(objects, f.visitId, x, y, scale) : null
+    onPixelClick?.({ png_x, png_y, visitId: f.visitId, objectId })
   }
 
   if (isLoading) {
@@ -163,7 +215,7 @@ export default function BlinkPlayer({
           height={displaySize}
           className="block cursor-crosshair"
           style={{ imageRendering: 'pixelated', maxWidth: '100%', height: 'auto' }}
-          onClick={() => onPixelClick?.()}
+          onClick={handleCanvasClick}
         />
         {/* Band badge */}
         {frame && (

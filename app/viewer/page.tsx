@@ -13,8 +13,11 @@ import {
   type BundleTargetId, type LoadedBundleTarget, type LoadedPlayerFrame,
 } from '@/lib/bundle-loader'
 import { serializeState, deserializeState } from '@/lib/api'
+import type { SkyObject } from '@/lib/sky-objects'
 import { Layers, ArrowLeftRight, Activity, Info, Zap, ExternalLink, Search, Loader2 } from 'lucide-react'
 import Link from 'next/link'
+
+const NO_OBJECTS: readonly SkyObject[] = []
 
 function ViewerContent() {
   const searchParams = useSearchParams()
@@ -26,6 +29,7 @@ function ViewerContent() {
   const [currentFrameIndex, setCurrentFrameIndex] = useState(0)
   const [mode, setMode] = useState<'blink' | 'diff'>('blink')
   const [showSpectrum, setShowSpectrum] = useState(false)
+  const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -39,6 +43,7 @@ function ViewerContent() {
 
   const loadTarget = useCallback(async (targetId: BundleTargetId) => {
     setLoading(true); setError('')
+    setSelectedObjectId(null)
     try {
       const data = await loadBundleTarget(targetId)
       setLoaded(data)
@@ -182,7 +187,9 @@ function ViewerContent() {
                   frames={displayFrames}
                   isLoading={loading}
                   onFrameChange={setCurrentFrameIndex}
-                  onPixelClick={() => setShowSpectrum(s => !s)}
+                  objects={loaded?.objects?.objects ?? NO_OBJECTS}
+                  selectedObjectId={selectedObjectId}
+                  onPixelClick={c => setSelectedObjectId(c.objectId)}
                   showCrosshair
                 />
               ) : (
