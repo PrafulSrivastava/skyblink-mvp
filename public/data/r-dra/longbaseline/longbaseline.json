@@ -1,0 +1,192 @@
+{
+ "id": "r-dra",
+ "name": "R Draconis",
+ "wise": {
+  "survey": "WISE All-Sky Atlas (cryogenic, 4-band)",
+  "mjd_mean": 55351.1876,
+  "mjd_min": 55348.7553,
+  "mjd_max": 55353.6504,
+  "date": "2010-06-04",
+  "date_start": "2010-06-01",
+  "date_end": "2010-06-06",
+  "n_l1b_frames_w1": 39,
+  "target_radec": [
+   248.1674594,
+   66.7549976
+  ]
+ },
+ "pairs": {
+  "W1": {
+   "usable": true,
+   "wise_band": "W1",
+   "wise_um": 3.4,
+   "spherex_label": "SPHEREx 2.9-3.8 \u00b5m (D4)",
+   "spherex_window_um": [
+    2.9,
+    3.8
+   ],
+   "spherex_visit": "v3",
+   "spherex_n_frames": 15,
+   "spherex_mjd_mean": 61231.7679,
+   "spherex_date_start": "2026-07-06",
+   "spherex_date_end": "2026-07-16",
+   "spherex_wl_um": [
+    2.912,
+    3.76
+   ],
+   "wise_px": {
+    "x": 23.973,
+    "y": 23.992,
+    "png_x": 23.973,
+    "png_y": 24.008
+   },
+   "spherex_px": {
+    "x": 24.027,
+    "y": 24.008,
+    "png_x": 24.027,
+    "png_y": 23.992
+   },
+   "shift_arcsec": 0.3,
+   "masked_px_within_3px": {
+    "wise": 0,
+    "spherex": 27
+   },
+   "snr_peak": {
+    "wise": 99.2,
+    "spherex": null
+   },
+   "fit": {
+    "wise": {
+     "x": 23.918554559320253,
+     "y": 23.994706520380504,
+     "sigma": 3.9999999999999996,
+     "amp": 7354.731194462856,
+     "ex": 0.07099525617584569,
+     "ey": 0.0714781098302816,
+     "npix": 47,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.05
+    },
+    "spherex": null
+   },
+   "stretch": {
+    "wise": {
+     "lo": -2.860708920955658,
+     "hi": 2787.452031004429,
+     "unit": "WISE DN (local-median-subtracted)"
+    },
+    "spherex": {
+     "lo": 0.11772848665714264,
+     "hi": 10.383670806884766,
+     "unit": "MJy/sr (local-median-subtracted)"
+    },
+    "a": 0.1,
+    "type": "asinh, own 10th-99.5th percentile per image"
+   },
+   "paths": {
+    "wise": "longbaseline/W1/wise.png",
+    "spherex": "longbaseline/W1/spherex.png",
+    "wise_mask": "longbaseline/W1/wise_mask.png",
+    "spherex_mask": "longbaseline/W1/spherex_mask.png"
+   }
+  },
+  "W2": {
+   "usable": true,
+   "wise_band": "W2",
+   "wise_um": 4.6,
+   "spherex_label": "SPHEREx 4.0-5.0 \u00b5m (D5/D6)",
+   "spherex_window_um": [
+    4.0,
+    5.0
+   ],
+   "spherex_visit": "v3",
+   "spherex_n_frames": 58,
+   "spherex_mjd_mean": 61183.7095,
+   "spherex_date_start": "2026-04-22",
+   "spherex_date_end": "2026-06-23",
+   "spherex_wl_um": [
+    4.014,
+    5.0
+   ],
+   "wise_px": {
+    "x": 23.973,
+    "y": 23.992,
+    "png_x": 23.973,
+    "png_y": 24.008
+   },
+   "spherex_px": {
+    "x": 24.027,
+    "y": 24.008,
+    "png_x": 24.027,
+    "png_y": 23.992
+   },
+   "shift_arcsec": 0.3,
+   "masked_px_within_3px": {
+    "wise": 0,
+    "spherex": 27
+   },
+   "snr_peak": {
+    "wise": 87.1,
+    "spherex": null
+   },
+   "fit": {
+    "wise": {
+     "x": 23.91487805397216,
+     "y": 24.06606574266621,
+     "sigma": 3.9999999999999094,
+     "amp": 6232.267675563968,
+     "ex": 0.134669863108425,
+     "ey": 0.13728266495167424,
+     "npix": 47,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.09
+    },
+    "spherex": null
+   },
+   "stretch": {
+    "wise": {
+     "lo": -2.2541424512863166,
+     "hi": 2690.879105839522,
+     "unit": "WISE DN (local-median-subtracted)"
+    },
+    "spherex": {
+     "lo": 0.07049141079187393,
+     "hi": 100.62837219238281,
+     "unit": "MJy/sr (local-median-subtracted)"
+    },
+    "a": 0.1,
+    "type": "asinh, own 10th-99.5th percentile per image"
+   },
+   "paths": {
+    "wise": "longbaseline/W2/wise.png",
+    "spherex": "longbaseline/W2/spherex.png",
+    "wise_mask": "longbaseline/W2/wise_mask.png",
+    "spherex_mask": "longbaseline/W2/spherex_mask.png"
+   }
+  }
+ },
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 248.16734278,
+  "CRVAL2": 66.75501126,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15,
+  "orientation": "north up, east left",
+  "centre": "midpoint between the WISE-epoch and SPHEREx-epoch positions"
+ },
+ "motion": {
+  "baseline_years": 16.03,
+  "expected_shift_arcsec": 0.3,
+  "expected_shift_px": 0.06,
+  "position_angle_deg": 286.6,
+  "pm_total_mas_yr": 21.5,
+  "source": "Gaia DR3 pmra*cosdec=-20.6, pmdec=6.1 mas/yr, parallax 1.3 mas"
+ }
+}
