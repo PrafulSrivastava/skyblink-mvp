@@ -6,7 +6,10 @@
   "regions": ["iad1"],
   "functions": {
     "api/sky.py": {
-      "runtime": "vercel-python@3.0.0",
+      "maxDuration": 60,
+      "memory": 1024
+    },
+    "api/live.py": {
       "maxDuration": 60,
       "memory": 1024
     }
@@ -15,6 +18,10 @@
     {
       "source": "/api/sky",
       "destination": "/api/sky.py"
+    },
+    {
+      "source": "/api/live",
+      "destination": "/api/live.py"
     }
   ],
   "headers": [
