@@ -121,8 +121,8 @@ console.log('ok sky-objects')
 // ── Overlay geometry, hit test, selection ────────────────────────────────────
 import { imageToCanvas, canvasToImage, clientToCanvas, markerGeometry, hitTest, MARKER_STYLE } from '../lib/object-overlay.ts'
 
-const obj = (id, kind, moving, snr, positions) => ({
-  id, kind, moving, motion_basis: moving ? 'image' : 'none', reason: '', name: id, catalogs: [], pm_mas_yr: null,
+const obj = (id, kind, moving, snr, positions, pm = null) => ({
+  id, kind, moving, motion_basis: moving ? 'image' : 'none', reason: '', name: id, catalogs: [], pm_mas_yr: pm === null ? null : { pmra: null, pmdec: null, total: pm, total_err: null },
   ra: 0, dec: 0, catalog_ra: null, catalog_dec: null, snr, detected: snr !== null, forced: null, image_shift_px: null, positions,
 })
 
@@ -144,3 +144,16 @@ const gB = markerGeometry(B, 'v1', 6, 'B')
 assert.equal(gB.color, MARKER_STYLE.unidentified); assert.equal(gB.movingRingR, 10); assert.equal(gB.selected, true)
 assert.equal(markerGeometry(A, 'v1', 6, null).movingRingR, null)
 console.log('ok overlay')
+
+// ── Objects list: sorting, formatting, link-out URLs ─────────────────────────
+import { sortObjects, formatPm, simbadUrl, irsaUrl } from '../lib/object-list.ts'
+const X = obj('X', 'known', false, 30, {}, 500), Y = obj('Y', 'unidentified', false, null, {}, null), Z = obj('Z', 'known', true, 50, {}, 2000)
+assert.deepEqual(sortObjects([X, Y, Z], 'snr', 'desc').map(o => o.id), ['Z', 'X', 'Y'])
+assert.deepEqual(sortObjects([X, Y, Z], 'snr', 'asc').map(o => o.id), ['X', 'Z', 'Y'])
+assert.deepEqual(sortObjects([X, Y, Z], 'pm', 'asc').map(o => o.id), ['X', 'Z', 'Y'])
+assert.deepEqual(sortObjects([Y, X, Z], 'kind', 'asc').map(o => o.id), ['Z', 'X', 'Y'])
+assert.equal(formatPm(null), '—')
+assert.equal(simbadUrl(269.4463742, 4.7686831), 'https://simbad.cds.unistra.fr/simbad/sim-coo?Coord=269.446374%20%2B4.768683&CooFrame=ICRS&CooEpoch=2000&CooEqui=2000&Radius=10&Radius.unit=arcsec')
+assert.ok(simbadUrl(133.76, -7.24).includes('Coord=133.760000%20-7.240000'))
+assert.equal(irsaUrl(269.4463742, 4.7686831), 'https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?catalog=catwise_2020&spatial=cone&objstr=269.446374%204.768683&radius=10&radunits=arcsec&outfmt=1')
+console.log('ok list')

@@ -7,6 +7,8 @@ import DifferenceView from '@/components/viewer/DifferenceView'
 import SpectrumPanel from '@/components/viewer/SpectrumPanel'
 import MetadataPanel from '@/components/viewer/MetadataPanel'
 import BandPicker from '@/components/viewer/BandPicker'
+import ObjectsPanel from '@/components/viewer/ObjectsPanel'
+import ObjectsLegend from '@/components/viewer/ObjectsLegend'
 import {
   loadBundleTarget, isBundleTarget, framesForBand,
   BUNDLE_TARGET_IDS, TARGET_DISPLAY,
@@ -30,6 +32,7 @@ function ViewerContent() {
   const [mode, setMode] = useState<'blink' | 'diff'>('blink')
   const [showSpectrum, setShowSpectrum] = useState(false)
   const [selectedObjectId, setSelectedObjectId] = useState<string | null>(null)
+  const [showMarkers, setShowMarkers] = useState(true)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
@@ -183,15 +186,19 @@ function ViewerContent() {
               </div>
 
               {mode === 'blink' ? (
-                <BlinkPlayer
-                  frames={displayFrames}
-                  isLoading={loading}
-                  onFrameChange={setCurrentFrameIndex}
-                  objects={loaded?.objects?.objects ?? NO_OBJECTS}
-                  selectedObjectId={selectedObjectId}
-                  onPixelClick={c => setSelectedObjectId(c.objectId)}
-                  showCrosshair
-                />
+                <>
+                  <BlinkPlayer
+                    frames={displayFrames}
+                    isLoading={loading}
+                    onFrameChange={setCurrentFrameIndex}
+                    objects={loaded?.objects?.objects ?? NO_OBJECTS}
+                    selectedObjectId={selectedObjectId}
+                    showMarkers={showMarkers}
+                    onPixelClick={c => setSelectedObjectId(c.objectId)}
+                    showCrosshair
+                  />
+                  {loaded && <ObjectsLegend />}
+                </>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {/* Reference frame (visit A) */}
@@ -262,6 +269,15 @@ function ViewerContent() {
 
         {/* Right: metadata */}
         <div className="space-y-4">
+          {mode === 'blink' && loaded && (
+            <ObjectsPanel
+              file={loaded.objects}
+              selectedObjectId={selectedObjectId}
+              onSelect={setSelectedObjectId}
+              showMarkers={showMarkers}
+              onToggleMarkers={setShowMarkers}
+            />
+          )}
           <MetadataPanel loaded={loaded} currentFrame={currentFrame} />
 
           {/* SPHEREx info card */}
