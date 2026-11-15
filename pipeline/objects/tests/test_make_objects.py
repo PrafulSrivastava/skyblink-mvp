@@ -24,7 +24,8 @@ FIX = Path(__file__).parent / "fixtures"
 SCHEMA_KEYS = {"version", "patch", "generated", "mean_epoch_mjd", "detection_frames", "catalog_snapshots",
                "thresholds", "counts", "objects"}
 OBJECT_KEYS = {"id", "kind", "moving", "motion_basis", "reason", "name", "catalogs", "pm_mas_yr", "ra", "dec",
-               "catalog_ra", "catalog_dec", "snr", "detected", "forced", "image_shift_px", "positions"}
+               "catalog_ra", "catalog_dec", "snr", "detected", "forced", "image_shift_px", "positions",
+               "undetected_note"}
 # the ObjectThresholds fields of the shared schema (lib/sky-objects.ts), spelled out on purpose
 THRESHOLD_KEYS = {
     "detect_snr", "min_sep_px", "edge_margin_px", "min_frames", "halo_dilate_px",
@@ -164,6 +165,13 @@ def test_end_to_end_minipatch(tmp_path):
     assert snrs == sorted(snrs, reverse=True)
     assert guard_failures("mini", f, stats) == []
     assert d["counts"]["moving"] == sum(o["moving"] for o in d["objects"])
+
+
+def test_json_dict_carries_undetected_note():
+    objs = [sky_obj(), sky_obj(forced="bundle target", detected=False, snr=None, undetected_note="core masked")]
+    d = to_json_dict(make_file(objs))["objects"]
+    assert d[0]["undetected_note"] is None and d[1]["undetected_note"] == "core masked"
+    assert json.loads(json.dumps(d))[1]["undetected_note"] == "core masked"
 
 
 def test_json_dict_rounding_and_nan(tmp_path):

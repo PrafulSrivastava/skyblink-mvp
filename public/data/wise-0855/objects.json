@@ -1,7 +1,7 @@
 {
  "version": 1,
  "patch": "wise-0855",
- "generated": "2026-11-15T11:04:15Z",
+ "generated": "2026-11-15T12:18:37Z",
  "mean_epoch_mjd": 61035.04184,
  "detection_frames": [
   "D1/v1",
@@ -75,10 +75,10 @@
  },
  "counts": {
   "detected": 45,
-  "known": 45,
+  "known": 46,
   "unidentified": 0,
   "moving": 1,
-  "forced_undetected": 0
+  "forced_undetected": 1
  },
  "objects": [
   {
@@ -150,7 +150,8 @@
      "png_x": 42.971,
      "png_y": 13.734
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-002",
@@ -221,7 +222,8 @@
      "png_x": 2.674,
      "png_y": 33.715
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-003",
@@ -292,7 +294,8 @@
      "png_x": 27.417,
      "png_y": 40.213
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-004",
@@ -363,7 +366,8 @@
      "png_x": 31.359,
      "png_y": 42.018
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-005",
@@ -434,7 +438,8 @@
      "png_x": 24.347,
      "png_y": 2.319
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-006",
@@ -505,7 +510,8 @@
      "png_x": 26.792,
      "png_y": 17.89
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-007",
@@ -576,58 +582,80 @@
      "png_x": 39.853,
      "png_y": 18.319
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-008",
    "kind": "known",
-   "moving": true,
+   "moving": false,
    "motion_basis": "catalog",
-   "reason": "bundle target",
-   "name": "WISE J085510.83-071442.5",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J085501.95-071428.2",
    "catalogs": [
     {
      "catalog": "CatWISE2020",
-     "id": "J085507.96-071439.3",
-     "sep_arcsec": null,
+     "id": "J085501.95-071428.2",
+     "sep_arcsec": 0.54,
      "mags": {
-      "W1": 18.288,
-      "W2": 14.059
+      "W1": 15.037,
+      "W2": 15.202
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J085501.95-071428.1",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "W1": 14.983,
+      "W2": 15.051,
+      "W3": 12.734
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "08550196-0714281",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "J": 15.42,
+      "H": 15.03,
+      "K": 15.022
      }
     }
    ],
    "pm_mas_yr": {
-    "pmra": -8021.2,
-    "pmdec": 1035.7,
-    "total": 8087.8,
-    "total_err": 167.0
+    "pmra": -5.9,
+    "pmdec": -10.4,
+    "total": 11.9,
+    "total_err": 19.8
    },
    "ra": 133.7582891,
    "dec": -7.2412664,
-   "catalog_ra": 133.7601588,
-   "catalog_dec": -7.2412971,
+   "catalog_ra": 133.758148,
+   "catalog_dec": -7.2412101,
    "snr": 175.8,
    "detected": true,
-   "forced": "bundle target",
+   "forced": null,
    "image_shift_px": null,
    "positions": {
     "v1": {
-     "png_x": 24.254,
-     "png_y": 24.088
+     "png_x": 25.085,
+     "png_y": 23.981
     },
     "v2": {
-     "png_x": 24.911,
-     "png_y": 24.004
+     "png_x": 25.086,
+     "png_y": 23.982
     },
     "v3": {
-     "png_x": 25.038,
-     "png_y": 23.988
+     "png_x": 25.086,
+     "png_y": 23.982
     },
     "v4": {
-     "png_x": 25.542,
-     "png_y": 23.922
+     "png_x": 25.086,
+     "png_y": 23.983
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-009",
@@ -698,7 +726,8 @@
      "png_x": 21.994,
      "png_y": 40.273
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-010",
@@ -769,7 +798,8 @@
      "png_x": 43.838,
      "png_y": 2.28
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-011",
@@ -840,7 +870,8 @@
      "png_x": 44.271,
      "png_y": 38.987
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-012",
@@ -911,7 +942,8 @@
      "png_x": 16.926,
      "png_y": 41.654
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-013",
@@ -982,7 +1014,8 @@
      "png_x": 16.03,
      "png_y": 5.634
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-014",
@@ -1053,7 +1086,8 @@
      "png_x": 4.887,
      "png_y": 12.834
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-015",
@@ -1124,7 +1158,8 @@
      "png_x": 36.917,
      "png_y": 25.91
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-016",
@@ -1185,43 +1220,68 @@
      "png_x": 41.046,
      "png_y": 29.363
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-017",
    "kind": "known",
    "moving": false,
-   "motion_basis": "none",
-   "reason": "AllWISE match within 0.7 arcsec (no CatWISE2020 row)",
-   "name": "WISEA J085511.38-071427.5",
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.4 arcsec",
+   "name": "CWISE J085511.37-071427.6",
    "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J085511.37-071427.6",
+     "sep_arcsec": 1.41,
+     "mags": {
+      "W1": 15.678,
+      "W2": 15.937
+     }
+    },
     {
      "catalog": "AllWISE",
      "id": "J085511.38-071427.5",
-     "sep_arcsec": 0.74,
+     "sep_arcsec": 0.2,
      "mags": {
       "W1": 15.671,
       "W2": 15.864,
       "W3": 12.717
      }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "08551139-0714276",
+     "sep_arcsec": 0.74,
+     "mags": {
+      "J": 16.462,
+      "H": 15.7,
+      "K": 15.435
+     }
     }
    ],
-   "pm_mas_yr": null,
+   "pm_mas_yr": {
+    "pmra": -56.3,
+    "pmdec": -7.8,
+    "total": 56.8,
+    "total_err": 30.2
+   },
    "ra": 133.7976393,
    "dec": -7.2410116,
-   "catalog_ra": 133.7974342,
-   "catalog_dec": -7.2409883,
+   "catalog_ra": 133.7972458,
+   "catalog_dec": -7.2410342,
    "snr": 73.4,
    "detected": true,
    "forced": null,
    "image_shift_px": null,
    "positions": {
     "v1": {
-     "png_x": 2.235,
-     "png_y": 23.834
+     "png_x": 2.229,
+     "png_y": 23.833
     },
     "v2": {
-     "png_x": 2.235,
+     "png_x": 2.234,
      "png_y": 23.834
     },
     "v3": {
@@ -1229,10 +1289,11 @@
      "png_y": 23.834
     },
     "v4": {
-     "png_x": 2.235,
+     "png_x": 2.238,
      "png_y": 23.834
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-018",
@@ -1303,7 +1364,8 @@
      "png_x": 6.012,
      "png_y": 41.429
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-019",
@@ -1374,7 +1436,8 @@
      "png_x": 22.74,
      "png_y": 16.409
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-020",
@@ -1445,7 +1508,8 @@
      "png_x": 29.158,
      "png_y": 22.759
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-021",
@@ -1516,7 +1580,8 @@
      "png_x": 23.252,
      "png_y": 42.739
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-022",
@@ -1577,7 +1642,8 @@
      "png_x": 34.612,
      "png_y": 2.101
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-023",
@@ -1638,7 +1704,8 @@
      "png_x": 6.952,
      "png_y": 29.599
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-024",
@@ -1709,7 +1776,8 @@
      "png_x": 35.048,
      "png_y": 17.008
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-025",
@@ -1770,7 +1838,8 @@
      "png_x": 8.806,
      "png_y": 46.397
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-026",
@@ -1831,7 +1900,8 @@
      "png_x": 16.64,
      "png_y": 20.763
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-027",
@@ -1878,7 +1948,8 @@
      "png_x": 11.091,
      "png_y": 23.947
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-028",
@@ -1939,7 +2010,8 @@
      "png_x": 37.889,
      "png_y": 42.079
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-029",
@@ -2000,7 +2072,8 @@
      "png_x": 36.028,
      "png_y": 15.416
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-030",
@@ -2061,7 +2134,8 @@
      "png_x": 26.978,
      "png_y": 31.939
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-031",
@@ -2122,7 +2196,8 @@
      "png_x": 6.98,
      "png_y": 37.694
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-032",
@@ -2183,54 +2258,60 @@
      "png_x": 15.591,
      "png_y": 9.874
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-033",
    "kind": "known",
    "moving": false,
-   "motion_basis": "none",
-   "reason": "AllWISE match within 0.2 arcsec (no CatWISE2020 row)",
-   "name": "WISEA J085510.74-071442.5",
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 5.4 arcsec",
+   "name": "CWISE J085510.83-071444.6",
    "catalogs": [
     {
-     "catalog": "AllWISE",
-     "id": "J085510.74-071442.5",
-     "sep_arcsec": 0.22,
+     "catalog": "CatWISE2020",
+     "id": "J085510.83-071444.6",
+     "sep_arcsec": 5.37,
      "mags": {
-      "W1": 16.231,
-      "W2": 13.704,
-      "W3": 11.143
+      "W1": 16.523,
+      "W2": 15.716
      }
     }
    ],
-   "pm_mas_yr": null,
+   "pm_mas_yr": {
+    "pmra": 85.5,
+    "pmdec": -257.0,
+    "total": 270.8,
+    "total_err": 46.5
+   },
    "ra": 133.7947015,
    "dec": -7.2451299,
-   "catalog_ra": 133.7947597,
-   "catalog_dec": -7.2451456,
+   "catalog_ra": 133.7953495,
+   "catalog_dec": -7.2464763,
    "snr": 19.7,
    "detected": true,
    "forced": null,
    "image_shift_px": null,
    "positions": {
     "v1": {
-     "png_x": 3.941,
-     "png_y": 26.244
+     "png_x": 3.95,
+     "png_y": 26.218
     },
     "v2": {
-     "png_x": 3.941,
-     "png_y": 26.244
+     "png_x": 3.943,
+     "png_y": 26.239
     },
     "v3": {
-     "png_x": 3.941,
-     "png_y": 26.244
+     "png_x": 3.942,
+     "png_y": 26.243
     },
     "v4": {
-     "png_x": 3.941,
-     "png_y": 26.244
+     "png_x": 3.937,
+     "png_y": 26.259
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-034",
@@ -2291,7 +2372,8 @@
      "png_x": 8.769,
      "png_y": 18.002
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-035",
@@ -2352,7 +2434,8 @@
      "png_x": 24.147,
      "png_y": 30.866
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-036",
@@ -2413,7 +2496,8 @@
      "png_x": 33.815,
      "png_y": 33.71
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-037",
@@ -2474,7 +2558,8 @@
      "png_x": 43.212,
      "png_y": 20.053
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-038",
@@ -2535,7 +2620,8 @@
      "png_x": 14.626,
      "png_y": 30.56
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-039",
@@ -2596,7 +2682,8 @@
      "png_x": 15.744,
      "png_y": 13.738
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-040",
@@ -2643,7 +2730,8 @@
      "png_x": 9.959,
      "png_y": 28.395
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-041",
@@ -2704,7 +2792,8 @@
      "png_x": 26.715,
      "png_y": 11.523
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-042",
@@ -2765,7 +2854,8 @@
      "png_x": 46.425,
      "png_y": 24.418
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-043",
@@ -2826,7 +2916,8 @@
      "png_x": 20.311,
      "png_y": 1.502
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-044",
@@ -2887,7 +2978,8 @@
      "png_x": 10.511,
      "png_y": 38.013
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "wise-0855-045",
@@ -2948,7 +3040,70 @@
      "png_x": 11.529,
      "png_y": 8.779
     }
-   }
+   },
+   "undetected_note": null
+  },
+  {
+   "id": "wise-0855-046",
+   "kind": "known",
+   "moving": true,
+   "motion_basis": "catalog",
+   "reason": "bundle target",
+   "name": "WISE J085510.83-071442.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J085507.96-071439.3",
+     "sep_arcsec": null,
+     "mags": {
+      "W1": 18.288,
+      "W2": 14.059
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J085510.74-071442.5",
+     "sep_arcsec": 2.09,
+     "mags": {
+      "W1": 16.231,
+      "W2": 13.704,
+      "W3": 11.143
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -8021.2,
+    "pmdec": 1035.7,
+    "total": 8087.8,
+    "total_err": 167.0
+   },
+   "ra": 133.7601588,
+   "dec": -7.2412971,
+   "catalog_ra": 133.7601588,
+   "catalog_dec": -7.2412971,
+   "snr": null,
+   "detected": false,
+   "forced": "bundle target",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 23.168,
+     "png_y": 24.106
+    },
+    "v2": {
+     "png_x": 23.825,
+     "png_y": 24.022
+    },
+    "v3": {
+     "png_x": 23.952,
+     "png_y": 24.006
+    },
+    "v4": {
+     "png_x": 24.456,
+     "png_y": 23.94
+    }
+   },
+   "undetected_note": "no detection above the S/N threshold in the frame stack"
   }
  ]
 }

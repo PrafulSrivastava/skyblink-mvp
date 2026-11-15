@@ -52,6 +52,7 @@ class SkyObject:
     forced: ForcedReason | None
     image_shift_px: float | None  # first -> last full visit, unidentified objects only
     positions: dict[str, PixelPos]  # key = every visit id in target.json visits
+    undetected_note: str | None = None  # why a forced object is not detected ("core masked" or no detection)
 
 
 @dataclass

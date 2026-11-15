@@ -7,10 +7,11 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from catalogs import AllwiseRow, CatwiseRow, load_allwise, load_catwise, load_tmass
+from catalogs import AllwiseRow, CatwiseRow, TmassRow, load_allwise, load_catwise, load_tmass
 from config import CATWISE_EPOCH_MJD, NPIX, PIXEL_SCALE_ARCSEC, THRESHOLDS
 from detect import Detection, Frame
 from geometry import png_to_radec, propagate, radec_to_png, sep_arcsec
+from schema import PixelPos
 from match import MatchStats, absorb_target_rows, build_objects, catalog_moving, link_older
 
 FIX = Path(__file__).parent / "fixtures"
@@ -191,13 +192,13 @@ def test_absorption_protects_neighbour_match(mini):
 
 
 def test_absorb_target_rows_unit(mini):
-    kept, absorbed = absorb_target_rows(mini["catwise"], mini["target"], 20.0)
+    kept, absorbed = absorb_target_rows(mini["catwise"], mini["target"], 20.0, 1000.0)
     assert {r.name for r in absorbed} == {"S1", "S2"}
     assert {r.name for r in kept} == {"C1", "C2", "C3", "B1", "B2"}
-    kept, absorbed = absorb_target_rows(mini["catwise"], mini["target"], 10.0)
+    kept, absorbed = absorb_target_rows(mini["catwise"], mini["target"], 10.0, 1000.0)
     assert {r.name for r in absorbed} == {"S1"}
     assert len(kept) + len(absorbed) == len(mini["catwise"])
-    kept, absorbed = absorb_target_rows([], mini["target"], 20.0)
+    kept, absorbed = absorb_target_rows([], mini["target"], 20.0, 1000.0)
     assert kept == [] and absorbed == []
 
 
@@ -279,15 +280,12 @@ def test_comparison_star_links_catwise_row(mini):
 
 
 def test_forced_detections_are_not_reclaimed_by_catwise(mini):
-    # bright CatWISE rows on the forced detections: the target never takes one (and no extra object appears);
-    # the comparison star may link its own
+    # a bright CatWISE row on the comparison star's detection: no extra object appears, the star may link its own
     g = mini["target"]["grid"]
-    rows = [CatwiseRow(n, *png_to_radec(g, x, y), 0.0, 0.0, 10.0, 9.0, 9.0, "0000", "00")
-            for n, (x, y) in {"ONTARGET": (24.2, 23.9), "ONCOMP": (8.0, 40.1)}.items()]
-    objs, _ = run(mini, catwise=mini["catwise"] + rows)
+    row = CatwiseRow("ONCOMP", *png_to_radec(g, 8.0, 40.1), 0.0, 0.0, 10.0, 9.0, 9.0, "0000", "00")
+    objs, _ = run(mini, catwise=mini["catwise"] + [row])
     assert len(objs) == len(DETS)
-    assert [c.catalog for c in at(mini, objs, 24.2, 23.9).catalogs] == ["Gaia DR3"]
-    assert not any(c.id == "ONTARGET" for o in objs for c in o.catalogs)
+    assert [c.catalog for c in at(mini, objs, 8.0, 40.1).catalogs] == ["Gaia DR3", "CatWISE2020"]
 
 
 def test_no_comparison_star(mini):
@@ -522,29 +520,50 @@ def test_no_frames_means_no_image_shift(mini):
     assert stats.shift_floor_px == 0.5
 
 
-def test_absorb_follows_the_target_track(mini):
-    """CatWISE splits a fast mover into rows along its whole 2010-2018 track, not only at the mean epoch."""
-    t = mini["target"]
+def _track_rows(t):
+    """Rows 25 arcsec east / west of the target's CatWISE-epoch position (both on its 2010-2018 track)."""
     c = t["catalog"]
     epoch_ra, epoch_dec = propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], CATWISE_EPOCH_MJD)
     arc = 1 / 3600 / math.cos(math.radians(epoch_dec))
+    return epoch_ra, epoch_dec, arc
 
-    def row(name, ra, dec):
-        return CatwiseRow(name, ra, dec, 0.0, 0.0, 10.0, 12.0, 12.0, "", "00")
+
+def test_absorb_follows_the_target_track_only_for_high_pm_rows(mini):
+    """CatWISE splits a fast mover into rows along its whole 2010-2018 track, and the junk fragments carry large
+    motions. A row near the track (but not at the CatWISE-epoch point) is absorbed only with pm >= 1000 mas/yr."""
+    t = mini["target"]
+    epoch_ra, epoch_dec, arc = _track_rows(t)
+
+    def row(name, ra, dec, pm=(0.0, 0.0)):
+        return CatwiseRow(name, ra, dec, pm[0], pm[1], 10.0, 12.0, 12.0, "", "00")
 
     # the target moves east at 3 arcsec/yr: its track runs from -16 arcsec (2010) to +11 arcsec (2018) of the
     # CatWISE-epoch position, so a row 25 arcsec east is 14 arcsec from the track end, and one 25 arcsec
     # west is 9 arcsec from the 2010 end.
-    on_track_east = row("E", epoch_ra + 25 * arc, epoch_dec)
-    on_track_west = row("W", epoch_ra - 25 * arc, epoch_dec)
-    off_track_north = row("N", epoch_ra, epoch_dec + 25 / 3600)
-    far_east = row("F", epoch_ra + 40 * arc, epoch_dec)
-    rows = [on_track_east, on_track_west, off_track_north, far_east]
-    kept, absorbed = absorb_target_rows(rows, t, 20.0)
-    assert {r.name for r in absorbed} == {"E", "W"}
-    assert {r.name for r in kept} == {"N", "F"}
-    # the point at the CatWISE epoch alone would have kept all four
-    assert min(sep_arcsec(epoch_ra, epoch_dec, r.ra, r.dec) for r in rows) > 20.0
+    east_fast = row("E", epoch_ra + 25 * arc, epoch_dec, (0.0, 1500.0))
+    west_fast = row("W", epoch_ra - 25 * arc, epoch_dec, (-1200.0, 0.0))
+    east_static = row("ES", epoch_ra + 25 * arc, epoch_dec + 1 / 3600, (3.0, 4.0))
+    west_slow = row("WS", epoch_ra - 25 * arc, epoch_dec + 1 / 3600, (400.0, 300.0))
+    off_track_fast = row("N", epoch_ra, epoch_dec + 25 / 3600, (0.0, 5000.0))
+    far_fast = row("F", epoch_ra + 40 * arc, epoch_dec, (0.0, 5000.0))
+    at_epoch_static = row("P", epoch_ra + 5 * arc, epoch_dec)  # at the epoch point: absorbed whatever its pm
+    rows = [east_fast, west_fast, east_static, west_slow, off_track_fast, far_fast, at_epoch_static]
+    kept, absorbed = absorb_target_rows(rows, t, 20.0, 1000.0)
+    assert {r.name for r in absorbed} == {"E", "W", "P"}
+    assert {r.name for r in kept} == {"ES", "WS", "N", "F"}
+    # only the epoch point (not the track) reaches the fast rows' positions or the static rows' positions
+    assert min(sep_arcsec(epoch_ra, epoch_dec, r.ra, r.dec) for r in rows if r.name != "P") > 20.0
+    # the pm cut is the given threshold
+    kept, absorbed = absorb_target_rows(rows, t, 20.0, 200.0)
+    assert {r.name for r in absorbed} == {"E", "W", "P", "WS"}
+
+
+def test_absorb_epoch_point_rows_are_always_absorbed(mini):
+    t = mini["target"]
+    epoch_ra, epoch_dec, arc = _track_rows(t)
+    row = CatwiseRow("P", epoch_ra, epoch_dec + 18 / 3600, 0.0, 0.0, 10.0, 12.0, 12.0, "", "00")
+    kept, absorbed = absorb_target_rows([row], t, 20.0, 1000.0)
+    assert [r.name for r in absorbed] == ["P"] and kept == []
 
 
 # ------------------------------------------------- PM consistency (older rows) ---
@@ -570,17 +589,50 @@ def load_tmass_row(r):
     return TmassRow(r["designation"], r["ra"], r["dec"], r["jdate"] - 2400000.5, r["j_m"], r["h_m"], r["k_m"])
 
 
-def test_pm_contradicted_by_older_row_is_not_moving(mini):
+def test_pm_contradicted_catwise_row_is_released_to_the_older_row(mini):
+    # the row is ~15.7 arcsec from the detection at its own epoch: it matched only through the rejected motion
     m, cw = _with_rows(mini, _fast_row(), tmass=[_tmass_at_static()])
     objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0)], catwise=cw)
     o = at(m, objs, 12, 20)
-    assert o.kind == "known" and o.catalogs[0].catalog == "CatWISE2020" and o.catalogs[0].id == "J1"
-    assert o.reason.startswith("CatWISE2020 match within")
+    assert o.kind == "known" and o.name == "2MASS JJ1T"
+    assert o.reason.startswith("2MASS match within") and o.reason.endswith("(no CatWISE2020 or AllWISE row)")
+    assert [(c.catalog, c.id) for c in o.catalogs] == [("2MASS", "J1T")]
     assert o.moving is False and o.motion_basis == "none" and o.pm_mas_yr is None
     assert o.positions["v1"] == o.positions["v2"]
     assert (o.positions["v1"].png_x, o.positions["v1"].png_y) == (12.0, 20.0)
+    assert (o.catalog_ra, o.catalog_dec) == (m["tmass"][-1].ra, m["tmass"][-1].dec)
+    assert not any(c.id == "J1" for ob in objs for c in ob.catalogs)  # the CatWISE row is not shown anywhere
+    assert not any(ob.name.endswith(" J1") for ob in objs)
+
+
+def test_pm_contradicted_but_statically_matching_catwise_row_is_kept(mini):
+    # pm 1000 mas/yr moves the row 10.5 arcsec in 10.5 years; the detection is still 4.3 arcsec from its listed position
+    row = _fast_row(pm=(1000.0, 0.0))
+    ra, dec = make_fixtures._sky(13.0, 20.0)
+    t = TmassRow("J1T", ra, dec, 51400.0, 14.0, 13.5, 13.0)
+    m, cw = _with_rows(mini, row, tmass=[t])
+    det = Detection(13.0, 20.0, 20.0)
+    assert sep_arcsec(*png_to_radec(m["target"]["grid"], 13.0, 20.0), row.ra, row.dec) < TH["match_radius_arcsec"]
+    objs, _ = run(m, dets=[det], catwise=cw)
+    o = at(m, objs, 13, 20)
+    assert o.name == "CWISE J1" and o.catalogs[0].catalog == "CatWISE2020" and o.reason.startswith("CatWISE2020 match")
     assert [c.catalog for c in o.catalogs] == ["CatWISE2020", "2MASS"] and o.catalogs[1].id == "J1T"
-    assert o.catalog_ra is not None
+    assert o.moving is False and o.motion_basis == "none" and o.pm_mas_yr is None
+    assert o.positions["v1"] == o.positions["v2"] == PixelPos(13.0, 20.0)
+
+
+def test_released_catwise_row_returns_to_the_pool(mini):
+    row = _fast_row(pm=(1000.0, 0.0))
+    ra, dec = make_fixtures._sky(10.6, 20.0)
+    t = TmassRow("J1T", ra, dec, 51400.0, 14.0, 13.5, 13.0)
+    m, cw = _with_rows(mini, row, tmass=[t])
+    # A (brighter detection) is 1.7 px from the row's listed position: contradicted, released to the 2MASS row.
+    # B is 1.4 px from where the row's motion puts it and 2.8 px from the 2MASS row: it takes the CatWISE row.
+    objs, _ = run(m, dets=[Detection(12.0, 20.0, 20.0), Detection(13.4, 20.0, 15.0)], catwise=cw)
+    a, b = at(m, objs, 12.0, 20.0), at(m, objs, 13.4, 20.0)
+    assert a.name == "2MASS JJ1T" and a.moving is False and a.pm_mas_yr is None
+    assert b.name == "CWISE J1" and b.moving is True and b.motion_basis == "catalog" and b.pm_mas_yr is not None
+    assert [c.catalog for c in b.catalogs] == ["CatWISE2020"]
 
 
 def test_fast_mover_with_linked_older_rows_stays_moving(mini):
@@ -657,3 +709,113 @@ def test_contradiction_ignores_rows_used_by_another_object(mini):
     ra, dec = make_fixtures._sky(12.0, 20.0)
     assert contradicting_older(row, ra, dec, [], [t], TH, set(), {0}) == []
     assert [x[:2] for x in contradicting_older(row, ra, dec, [], [t], TH, set(), set())] == [("2MASS", 0)]
+
+
+# ------------------------------------------- target vs catalogued static stars ---
+
+def _star_run(mini, kind, star_xy=(25.1, 23.98), det_xy=(25.1, 23.98), **kw):
+    """Run with a catalogued static star's detection ~1.1 px from the target at (24, 24)."""
+    g = mini["target"]["grid"]
+    ra, dec = png_to_radec(g, *star_xy)
+    m, cw = dict(mini), mini["catwise"]
+    if kind == "catwise":
+        cw = cw + [CatwiseRow("STAR", ra, dec, 12.0, 0.0, 10.0, 15.0, 15.0, "0000", "00")]
+    elif kind == "allwise":
+        m["allwise"] = m["allwise"] + [AllwiseRow("STAR", ra, dec, 55400.0, 15.0, 15.0, None)]
+    else:
+        m["tmass"] = m["tmass"] + [TmassRow("STAR", ra, dec, 51400.0, 15.0, 14.5, 14.0)]
+    dets = [Detection(*det_xy, 50.0)] + [d for d in DETS if d.snr != 50.0]
+    objs, stats = run(m, dets=dets, catwise=cw, **kw)
+    return m, objs, stats
+
+
+@pytest.mark.parametrize("kind,prefix", [("catwise", "CWISE "), ("allwise", "WISEA "), ("2mass", "2MASS J")])
+def test_target_does_not_claim_a_detection_a_catalogued_star_explains(mini, kind, prefix):
+    m, objs, stats = _star_run(mini, kind)
+    t = next(o for o in objs if o.forced == "bundle target")
+    assert t.detected is False and t.snr is None and stats.target_detected is False
+    me = mini["target"]["mean_epoch"]
+    assert (t.ra, t.dec) == (me["ra_deg"], me["dec_deg"])
+    for vid in ("v1", "v2"):
+        assert (t.positions[vid].png_x, t.positions[vid].png_y) == pytest.approx(target_px(mini, vid), abs=1e-9)
+    star = at(m, [o for o in objs if o is not t], 25.1, 23.98, tol=0.05)
+    assert star.kind == "known" and star.forced is None and star.detected and star.snr == 50.0
+    assert star.name == prefix + "STAR" and star.catalogs[0].id == "STAR"
+    assert len(objs) == len(DETS) + 1  # every detection is an object, plus the undetected target
+
+
+def test_target_claims_the_detection_when_the_star_is_farther_than_the_target(mini):
+    # detection 1.1 px from the target; the catalogued star is 1.4 px from the detection: not a better explanation
+    m, objs, stats = _star_run(mini, "catwise", star_xy=(26.5, 23.98), det_xy=(25.1, 23.98))
+    t = next(o for o in objs if o.forced == "bundle target")
+    assert t.detected and t.snr == 50.0 and stats.target_detected is True
+    assert len(objs) == len(DETS)
+
+
+def test_target_own_older_rows_are_attached_and_not_reused(mini):
+    """The target's own AllWISE / 2MASS rows (2 arcsec off the back-propagated position) belong to the target."""
+    c = mini["target"]["catalog"]
+    own = {}
+    for label, mjd in (("AllWISE", 55400.0), ("2MASS", 51400.0)):
+        ra, dec = propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], mjd)
+        own[label] = (ra, dec + 2.0 / 3600)
+    aw = AllwiseRow("TGT_AW", *own["AllWISE"], 55400.0, 12.0, 11.5, 9.0)
+    tm = TmassRow("TGT_TM", *own["2MASS"], 51400.0, 11.0, 10.5, 10.0)
+    m = {**mini, "allwise": mini["allwise"] + [aw], "tmass": mini["tmass"] + [tm]}
+    g = mini["target"]["grid"]
+    xa, ya = radec_to_png(g, aw.ra, aw.dec)
+    xt, yt = radec_to_png(g, tm.ra, tm.dec)
+    assert 3 < xa < 45 and 3 < xt < 45 and abs(xa - xt) > 3  # both fall inside the patch, apart from each other
+    dets = DETS + [Detection(float(xa), float(ya), 14.0), Detection(float(xt), float(yt), 13.0)]
+    objs, _ = run(m, dets=dets)
+    t = next(o for o in objs if o.forced == "bundle target")
+    assert [(x.catalog, x.id) for x in t.catalogs] == [("Gaia DR3", "1000000000000000001"),
+                                                       ("AllWISE", "TGT_AW"), ("2MASS", "TGT_TM")]
+    assert t.catalogs[1].sep_arcsec == pytest.approx(2.0, abs=0.05) and t.catalogs[1].mags["W1"] == 12.0
+    assert t.detected and t.name == "Mini Target"
+    for x, y in ((xa, ya), (xt, yt)):
+        o = at(m, objs, x, y, tol=0.05)
+        assert o.kind == "unidentified" and not o.catalogs
+    assert sum(1 for o in objs for x in o.catalogs if x.id in ("TGT_AW", "TGT_TM")) == 2
+
+
+# ------------------------------------------------------------ undetected note ---
+
+def _masked_frames(mask_frames, n=4, pixel=(24, 24)):
+    frames = _frames({"v1": [], "v2": []}, n=n // 2)
+    out = []
+    for k, f in enumerate(frames):
+        data = f.data.copy()
+        if k < mask_frames:
+            data[pixel[1], pixel[0]] = np.nan
+        out.append(Frame(f.band, f.visit, data))
+    return out
+
+
+NO_DET = "no detection above the S/N threshold in the frame stack"
+
+
+def test_undetected_note_core_masked_vs_no_detection(mini):
+    dets = [d for d in DETS if d.snr != 50.0]
+    objs, _ = run(mini, dets=dets, frames=_masked_frames(2))   # 2 of 4 frames masked at the target pixel: 0.5
+    t = next(o for o in objs if o.forced == "bundle target")
+    assert t.detected is False and t.undetected_note == "core masked"
+    objs, _ = run(mini, dets=dets, frames=_masked_frames(1))   # 0.25
+    assert next(o for o in objs if o.forced == "bundle target").undetected_note == NO_DET
+    objs, _ = run(mini, dets=dets, frames=[])                  # nothing to measure
+    assert next(o for o in objs if o.forced == "bundle target").undetected_note == NO_DET
+
+
+def test_undetected_note_is_null_for_detected_objects(mini):
+    objs, _ = run(mini, frames=_masked_frames(4))
+    assert all(o.undetected_note is None for o in objs if o.detected)
+
+
+def test_undetected_note_for_the_comparison_star_uses_its_own_pixel(mini):
+    dets = [d for d in DETS if d.snr != 40.0]
+    frames = _masked_frames(4, pixel=(8, 40))                  # masked at the comparison star, not at the target
+    objs, _ = run(mini, dets=dets, frames=frames)
+    comp = next(o for o in objs if o.forced == "comparison star")
+    tgt = next(o for o in objs if o.forced == "bundle target")
+    assert comp.detected is False and comp.undetected_note == "core masked"
+    assert tgt.detected and tgt.undetected_note is None

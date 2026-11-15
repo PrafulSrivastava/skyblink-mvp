@@ -15,7 +15,7 @@ import numpy as np
 
 from catalogs import AllwiseRow, CatwiseRow, TmassRow
 from config import CATWISE_EPOCH_MJD, NPIX
-from detect import Detection, Frame, visit_centroid
+from detect import Detection, Frame, bad_fraction, visit_centroid
 from geometry import MJD_PER_YEAR, png_to_radec, propagate, radec_to_png, sep_arcsec
 from schema import CatalogMatch, PixelPos, ProperMotion, SkyObject
 
@@ -26,6 +26,9 @@ MIN_FLOOR_SAMPLES = 3
 CATWISE_SPAN_MJD = (55200.0, 58500.0)  # CatWISE2020 observing span, 2010-01 to 2018-12
 TRACK_SAMPLES = 67
 MIN_BASELINE_YR = 5.0  # older rows closer than this to the CatWISE epoch cannot contradict its motion
+MASKED_FRACTION = 0.5  # an undetected object whose pixel is masked in at least this fraction of frames: core masked
+NOTE_CORE_MASKED = "core masked"
+NOTE_NO_DETECTION = "no detection above the S/N threshold in the frame stack"
 
 
 @dataclass
@@ -48,16 +51,24 @@ def _target_track(target: dict) -> tuple[np.ndarray, np.ndarray]:
 
 
 def absorb_target_rows(
-    rows: list[CatwiseRow], target: dict, radius_arcsec: float
+    rows: list[CatwiseRow], target: dict, radius_arcsec: float, track_min_pm_mas_yr: float
 ) -> tuple[list[CatwiseRow], list[CatwiseRow]]:
     """Split CatWISE rows of the bundle target -> (kept, absorbed).
 
-    A fast mover is split into rows along its whole 2010-2018 track, so a row is absorbed when it lies within
-    `radius_arcsec` of that track, not only of the position at the CatWISE mean epoch."""
+    A fast mover is split into rows along its whole 2010-2018 track. A row within `radius_arcsec` of the target's
+    position at the CatWISE epoch is always absorbed. A row that is only near the rest of the track is absorbed
+    when its total proper motion is at least `track_min_pm_mas_yr`: real split fragments carry large junk
+    motions, field stars along the track do not."""
     tra, tdec = _target_track(target)
+    c = target["catalog"]
+    era, edec = propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], CATWISE_EPOCH_MJD)
     kept, absorbed = [], []
     for r in rows:
-        near = float(np.min(sep_arcsec(tra, tdec, r.ra, r.dec))) <= radius_arcsec
+        if float(sep_arcsec(era, edec, r.ra, r.dec)) <= radius_arcsec:
+            near = True
+        else:
+            near = (float(np.min(sep_arcsec(tra, tdec, r.ra, r.dec))) <= radius_arcsec
+                    and math.hypot(r.pmra, r.pmdec) >= track_min_pm_mas_yr)
         (absorbed if near else kept).append(r)
     return kept, absorbed
 
@@ -156,16 +167,28 @@ def build_objects(
     used_tm: set[int] = set()
     objs: list[SkyObject] = []
 
-    def claim_nearest(x: float, y: float, radius: float) -> int | None:
+    def nearest_unclaimed(x: float, y: float, radius: float) -> int | None:
         best, best_d = None, radius
         for i in det_order:
             if i not in claimed:
                 d = math.hypot(detections[i].png_x - x, detections[i].png_y - y)
                 if d <= best_d:
                     best, best_d = i, d
+        return best
+
+    def claim_nearest(x: float, y: float, radius: float) -> int | None:
+        best = nearest_unclaimed(x, y, radius)
         if best is not None:
             claimed.add(best)
         return best
+
+    bad = bad_fraction(frames) if frames else None
+
+    def undetected_note(x: float, y: float) -> str:
+        """Why a forced object has no detection: its pixel is masked in most frames, or simply nothing is there."""
+        ix, iy = math.floor(x + 0.5), math.floor(y + 0.5)
+        masked = bad is not None and 0 <= ix < NPIX and 0 <= iy < NPIX and bad[iy, ix] >= MASKED_FRACTION
+        return NOTE_CORE_MASKED if masked else NOTE_NO_DETECTION
 
     def const_positions(x: float, y: float) -> dict[str, PixelPos]:
         return {v: PixelPos(x, y) for v in vids}
@@ -174,7 +197,8 @@ def build_objects(
         return png_to_radec(grid, d.png_x, d.png_y)
 
     # 1. absorb the target's split rows
-    kept, absorbed = absorb_target_rows(catwise, target, th["target_absorb_radius_arcsec"])
+    kept, absorbed = absorb_target_rows(
+        catwise, target, th["target_absorb_radius_arcsec"], th["moving_pm_mas_yr"])
     if kept:
         cw_ra, cw_dec = propagate(
             np.array([r.ra for r in kept]), np.array([r.dec for r in kept]),
@@ -188,22 +212,18 @@ def build_objects(
         ra, dec = propagate(row.ra, row.dec, row.pmra, row.pmdec, CATWISE_EPOCH_MJD, mjd)
         return radec_to_png(grid, ra, dec)
 
-    def take_catwise(j: int, det_ra: float, det_dec: float) -> tuple[list[CatalogMatch], bool]:
-        """CatWISE row j plus its linked AllWISE and 2MASS rows (marked used), and whether a linked older row
-        with a baseline of at least MIN_BASELINE_YR corroborates the CatWISE motion."""
-        row = kept[j]
-        used_cw.add(j)
-        matched_cw.add(j)
-        out = [CatalogMatch("CatWISE2020", row.name, float(sep_arcsec(det_ra, det_dec, cw_ra[j], cw_dec[j])),
-                            _mags(W1=row.w1, W2=row.w2))]
+    def link_older_rows(cw: CatwiseRow) -> tuple[list[CatalogMatch], bool]:
+        """The AllWISE and 2MASS rows `link_older` ties to `cw` (marked used), and whether one of them with a
+        baseline of at least MIN_BASELINE_YR corroborates the motion."""
+        out: list[CatalogMatch] = []
         corroborated = False
-        i, sep = link_older(row, allwise, th, used_aw)
+        i, sep = link_older(cw, allwise, th, used_aw)
         if i is not None:
             used_aw.add(i)
             a = allwise[i]
             corroborated |= _long_baseline(a.epoch_mjd)
             out.append(CatalogMatch("AllWISE", a.name, sep, _mags(W1=a.w1, W2=a.w2, W3=a.w3)))
-        i, sep = link_older(row, tmass, th, used_tm)
+        i, sep = link_older(cw, tmass, th, used_tm)
         if i is not None:
             used_tm.add(i)
             t = tmass[i]
@@ -211,25 +231,55 @@ def build_objects(
             out.append(CatalogMatch("2MASS", t.name, sep, _mags(J=t.j, H=t.h, K=t.k)))
         return out, corroborated
 
+    def take_catwise(j: int, det_ra: float, det_dec: float) -> tuple[list[CatalogMatch], bool]:
+        """CatWISE row j plus its linked AllWISE and 2MASS rows (marked used), and whether a linked older row
+        corroborates the CatWISE motion."""
+        row = kept[j]
+        used_cw.add(j)
+        matched_cw.add(j)
+        out = [CatalogMatch("CatWISE2020", row.name, float(sep_arcsec(det_ra, det_dec, cw_ra[j], cw_dec[j])),
+                            _mags(W1=row.w1, W2=row.w2))]
+        linked, corroborated = link_older_rows(row)
+        return out + linked, corroborated
+
     # 2. bundle target
     cat = target["catalog"]
-    ti = claim_nearest(cx, cy, forced_px)
-    tdet = detections[ti] if ti is not None else None
-    dx, dy = (tdet.png_x - cx, tdet.png_y - cy) if tdet else (0.0, 0.0)
     pmra, pmdec = cat["pmra"], cat["pmdec"]
     total = math.hypot(pmra, pmdec)
     total_err = math.hypot(cat.get("pmra_err") or 0.0, cat.get("pmdec_err") or 0.0) or None
     mags = _mags(G=cat.get("G")) if cat["catalog"] == "Gaia DR3" else _mags(W1=cat.get("W1"), W2=cat.get("W2"))
+    tcat_ra, tcat_dec = propagate(cat["ra"], cat["dec"], pmra, pmdec, cat["ref_epoch_mjd"], CATWISE_EPOCH_MJD)
+    # the target's own AllWISE / 2MASS rows (found where its catalog motion puts them) belong to the target
+    own_older, _ = link_older_rows(
+        CatwiseRow(target["name"], float(tcat_ra), float(tcat_dec), pmra, pmdec, total_err or 0.0, None, None, "", ""))
+
+    def catalog_explains_better(det: Detection) -> bool:
+        """A catalogued static star lies closer to the detection than the target's predicted position does."""
+        det_ra, det_dec = det_radec(det)
+        target_sep = float(sep_arcsec(det_ra, det_dec, mean["ra_deg"], mean["dec_deg"]))
+        seps = [float(sep_arcsec(det_ra, det_dec, cw_ra[j], cw_dec[j])) for j in range(len(kept)) if j not in used_cw]
+        for rows, used in ((allwise, used_aw), (tmass, used_tm)):
+            seps += [float(sep_arcsec(det_ra, det_dec, r.ra, r.dec)) for k, r in enumerate(rows) if k not in used]
+        return bool(seps) and min(seps) < target_sep
+
+    ti = nearest_unclaimed(cx, cy, forced_px)
+    if ti is not None and catalog_explains_better(detections[ti]):
+        ti = None  # it is a catalogued star near the target's path, not the target
+    if ti is not None:
+        claimed.add(ti)
+    tdet = detections[ti] if ti is not None else None
+    dx, dy = (tdet.png_x - cx, tdet.png_y - cy) if tdet else (0.0, 0.0)
     ra, dec = det_radec(tdet) if tdet else (mean["ra_deg"], mean["dec_deg"])
     objs.append(SkyObject(
         id="", kind="known", moving=catalog_moving(total, total_err, th), motion_basis="catalog",
         reason="bundle target", name=target["name"],
-        catalogs=[CatalogMatch(cat["catalog"], str(cat["source_id"]), None, mags)],
+        catalogs=[CatalogMatch(cat["catalog"], str(cat["source_id"]), None, mags)] + own_older,
         pm_mas_yr=ProperMotion(pmra, pmdec, total, total_err),
         ra=ra, dec=dec, catalog_ra=mean["ra_deg"], catalog_dec=mean["dec_deg"],
         snr=tdet.snr if tdet else None, detected=tdet is not None, forced="bundle target",
         image_shift_px=None,
         positions={v["id"]: PixelPos(v["target_px"]["png_x"] + dx, v["target_px"]["png_y"] + dy) for v in visits},
+        undetected_note=None if tdet else undetected_note(cx, cy),
     ))
 
     # 3. comparison star
@@ -256,6 +306,7 @@ def build_objects(
             catalog_ra=comp["ra"], catalog_dec=comp["dec"], snr=cdet.snr if cdet else None,
             detected=cdet is not None, forced="comparison star", image_shift_px=None,
             positions=const_positions(rx, ry),
+            undetected_note=None if cdet else undetected_note(px, py),
         ))
 
     # 4. CatWISE: brightest candidate inside the match circle, ties to the nearest
@@ -270,17 +321,27 @@ def build_objects(
         if not cands:
             continue
         j = min(cands, key=lambda j: (*_brightness_key(kept[j]), d[j]))
-        claimed.add(i)
         row = kept[j]
         det_ra, det_dec = det_radec(det)
+        before = (set(used_aw), set(used_tm))
         catalogs, corroborated = take_catwise(j, det_ra, det_dec)
-        seps_px.append(float(d[j]))
         total = math.hypot(row.pmra, row.pmdec)
         err = row.sigpm if row.sigpm > 0 else None
         moving = catalog_moving(total, err, th)
         contra = (contradicting_older(row, det_ra, det_dec, allwise, tmass, th, used_aw, used_tm)
                   if moving and not corroborated else [])
-        if contra:  # an older measurement sits at the static position: the CatWISE motion is not credible
+        if contra and float(sep_arcsec(det_ra, det_dec, row.ra, row.dec)) > th["match_radius_arcsec"]:
+            # an older measurement sits at the static position and the CatWISE row is nowhere near the detection
+            # without its (rejected) motion: release the row and its links; rule 5 gives the detection to the
+            # older row
+            used_cw.discard(j)
+            matched_cw.discard(j)
+            used_aw.intersection_update(before[0])
+            used_tm.intersection_update(before[1])
+            continue
+        claimed.add(i)
+        seps_px.append(float(d[j]))
+        if contra:  # static-matching row: keep it, but its motion is not credible
             moving = False
             for label, k, sep in contra:
                 if any(c.catalog == label for c in catalogs) or k in (used_aw if label == "AllWISE" else used_tm):

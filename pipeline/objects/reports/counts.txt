@@ -1,11 +1,14 @@
 patch          detected  known  unidentified  moving  forced_undetected  unid_frac  median_sep_px  catwise_in_grid  chance_per_circle  bright_recovery  comp_offset_px  target_detected  target_moving  status
-barnards-star  46        47     0             1       1                  0.000      0.268          353              1.039              0.875            0.098           False            True           PASS
-eps-indi-b     31        28     3             1       0                  0.097      0.239          184              0.542              1.000            0.115           True             True           PASS
-wise-0855      45        45     0             1       0                  0.000      0.107          245              0.721              1.000            -               True             True           PASS
+barnards-star  46        47     0             1       1                  0.000      0.263          372              1.095              0.350            0.098           False            True           PASS
+eps-indi-b     31        28     3             1       0                  0.097      0.239          185              0.545              0.667            0.115           True             True           PASS
+wise-0855      45        46     0             1       1                  0.000      0.108          259              0.763              1.000            -               False            True           PASS
 rw-aur         62        61     2             0       1                  0.032      0.106          272              0.801              0.833            0.105           False            False          PASS
 r-dra          5         6      0             0       1                  0.000      -              0                0.000              -                0.085           False            False          PASS
 # thresholds: {"detect_snr": 5.0, "min_sep_px": 2.0, "edge_margin_px": 2, "min_frames": 3, "halo_dilate_px": 1, "match_radius_px": 1.5, "match_radius_arcsec": 9.225, "forced_radius_px": 2.0, "link_radius_arcsec": 3.0, "link_radius_max_arcsec": 6.0, "moving_pm_mas_yr": 1000.0, "moving_pm_min_significance": 5.0, "image_shift_min_px": 1.0, "image_shift_min_snr": 10.0, "target_absorb_radius_arcsec": 20.0}
 # snapshots retrieved: 2026-11-15
+# warn barnards-star: bright CatWISE recovery 0.35 < 0.7
 # warn barnards-star: bundle target not detected (forced at its catalog position)
+# warn eps-indi-b: bright CatWISE recovery 0.67 < 0.7
+# warn wise-0855: bundle target not detected (forced at its catalog position)
 # warn rw-aur: bundle target not detected (forced at its catalog position)
 # warn r-dra: bundle target not detected (forced at its catalog position)

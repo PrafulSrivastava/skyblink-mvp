@@ -1,7 +1,7 @@
 {
  "version": 1,
  "patch": "r-dra",
- "generated": "2026-11-15T11:04:16Z",
+ "generated": "2026-11-15T12:18:38Z",
  "mean_epoch_mjd": 61022.87266,
  "detection_frames": [
   "D1/v1",
@@ -121,7 +121,8 @@
      "png_x": 11.906,
      "png_y": 40.619
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "r-dra-002",
@@ -164,7 +165,8 @@
      "png_x": 17.901,
      "png_y": 10.945
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "r-dra-003",
@@ -207,7 +209,8 @@
      "png_x": 7.769,
      "png_y": 11.173
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "r-dra-004",
@@ -250,7 +253,8 @@
      "png_x": 9.759,
      "png_y": 2.651
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "r-dra-005",
@@ -293,7 +297,8 @@
      "png_x": 19.058,
      "png_y": 8.211
     }
-   }
+   },
+   "undetected_note": null
   },
   {
    "id": "r-dra-006",
@@ -309,6 +314,26 @@
      "sep_arcsec": null,
      "mags": {
       "G": 6.374
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J163240.19+664517.9",
+     "sep_arcsec": 0.04,
+     "mags": {
+      "W1": 0.393,
+      "W2": 0.129,
+      "W3": 0.599
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "16324023+6645180",
+     "sep_arcsec": 0.11,
+     "mags": {
+      "J": 3.863,
+      "H": 3.125,
+      "K": 2.438
      }
     }
    ],
@@ -339,7 +364,8 @@
      "png_x": 24.002,
      "png_y": 23.999
     }
-   }
+   },
+   "undetected_note": "core masked"
   }
  ]
 }
