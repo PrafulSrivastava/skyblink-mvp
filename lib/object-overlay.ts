@@ -8,9 +8,13 @@
  */
 import type { PixelPos, SkyObject } from './sky-objects'
 
+/**
+ * Known objects are a quiet slate so they recede; unidentified ones are a vivid orange square so
+ * they stand out. Slate vs orange and circle vs square stay distinct with any colour vision.
+ */
 export const MARKER_STYLE = {
-  known: '#34d399',
-  unidentified: '#f472b6',
+  known: '#a5b4c8',
+  unidentified: '#fb923c',
   selected: '#ffffff',
   baseRadius: 6,
   movingRadius: 10,
@@ -18,6 +22,21 @@ export const MARKER_STYLE = {
   lineWidth: 1.5,
   movingDash: [3, 2],
 } as const
+
+export type MarkerShape = 'circle' | 'square'
+
+/** Which markers to draw: none, only the notable ones (moving, unidentified, selected), or all. */
+export type MarkerMode = 'off' | 'highlights' | 'all'
+
+export function isHighlight(obj: SkyObject): boolean {
+  return obj.moving || obj.kind === 'unidentified'
+}
+
+export function visibleObjects(objects: readonly SkyObject[], mode: MarkerMode, selectedId: string | null): SkyObject[] {
+  if (mode === 'off') return objects.filter(o => o.id === selectedId)
+  if (mode === 'all') return [...objects]
+  return objects.filter(o => isHighlight(o) || o.id === selectedId)
+}
 
 /** Click tolerance in canvas pixels. */
 export const HIT_RADIUS_CANVAS_PX = 9
@@ -50,6 +69,7 @@ export interface MarkerGeometry {
   cy: number
   r: number
   color: string
+  shape: MarkerShape
   movingRingR: number | null
   selected: boolean
 }
@@ -70,6 +90,7 @@ export function markerGeometry(
     cy: y,
     r: MARKER_STYLE.baseRadius,
     color: obj.kind === 'known' ? MARKER_STYLE.known : MARKER_STYLE.unidentified,
+    shape: obj.kind === 'known' ? 'circle' : 'square',
     movingRingR: obj.moving ? MARKER_STYLE.movingRadius : null,
     selected: obj.id === selectedId,
   }

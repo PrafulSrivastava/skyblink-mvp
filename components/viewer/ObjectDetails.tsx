@@ -36,8 +36,8 @@ function fmtDec(deg: number | null | undefined): string {
   return `${sign}${d.toString().padStart(2, '0')}°${m.toString().padStart(2, '0')}′${s.toFixed(1).padStart(4, '0')}″`
 }
 
-const SECTION = 'text-sky-inkDim text-[10px] font-mono uppercase tracking-wider mb-1'
-const LINK = 'flex items-center gap-1 text-[11px] text-sky-inkDim hover:text-sky-accent transition-colors'
+const SECTION = 'text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1'
+const LINK = 'flex items-center gap-1 text-xs text-sky-inkDim hover:text-sky-accent transition-colors'
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
   return (
@@ -78,13 +78,13 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="text-sky-ink font-semibold break-words">{object.name || object.id}</div>
-          <div className="text-sky-inkDim font-mono text-[10px]">{object.id}</div>
+          <div className="text-sky-inkDim font-mono text-xs">{object.id}</div>
         </div>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close object details"
-          className="text-sky-inkDim hover:text-sky-ink transition-colors flex-shrink-0"
+          className="inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg text-sky-inkDim hover:text-sky-ink transition-colors flex-shrink-0"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -94,7 +94,7 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
         <div className="flex flex-wrap items-center gap-1.5">
           <span className="font-mono text-sky-accent">{categoryLabel}</span>
           {badge && (
-            <span className="px-1.5 py-0.5 rounded border border-sky-accent/40 bg-sky-accent/10 text-sky-accent text-[10px]">
+            <span className="px-1.5 py-0.5 rounded border border-sky-accent/40 bg-sky-accent/10 text-sky-accent text-xs">
               High proper motion · {badge}
             </span>
           )}
