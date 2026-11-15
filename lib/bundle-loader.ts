@@ -7,6 +7,9 @@
  * Bundle target IDs: barnards-star | eps-indi-b | wise-0855 | rw-aur | r-dra
  */
 
+import { loadSkyObjects } from './sky-objects'
+import type { SkyObjectsFile } from './sky-objects'
+
 export const BUNDLE_TARGET_IDS = [
   'barnards-star',
   'eps-indi-b',
@@ -38,6 +41,7 @@ export interface BundleManifestEntry {
   default_band: string
   target: string
   spectrum: string
+  objects?: string
   visits: string[]
   full_visits: string[]
   bands: string[]
@@ -207,6 +211,8 @@ export interface LoadedBundleTarget {
   defaultBandFrames: LoadedPlayerFrame[]
   /** Dict of all frames by band by visit */
   allFrames: Record<string, Record<string, LoadedPlayerFrame>>
+  /** Sky objects overlay data; null when absent or invalid (viewer works without it) */
+  objects: SkyObjectsFile | null
 }
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
@@ -232,10 +238,15 @@ export async function loadManifest(): Promise<BundleManifest> {
 }
 
 export async function loadBundleTarget(targetId: BundleTargetId): Promise<LoadedBundleTarget> {
-  const [manifest, target, spectrum] = await Promise.all([
+  // objects.json is optional: it starts once the manifest entry is known and resolves null on any failure
+  const objectsPromise = loadManifest().then(m =>
+    loadSkyObjects(m.targets.find(t => t.id === targetId)?.objects, url => fetch(url, { cache: 'force-cache' })),
+  )
+  const [manifest, target, spectrum, objects] = await Promise.all([
     loadManifest(),
     fetchJson<BundleTarget>(`/data/${targetId}/target.json`),
     fetchJson<BundleSpectrum>(`/data/${targetId}/spectrum.json`),
+    objectsPromise,
   ])
 
   const mEntry = manifest.targets.find(t => t.id === targetId)
@@ -285,7 +296,7 @@ export async function loadBundleTarget(targetId: BundleTargetId): Promise<Loaded
     }
   }
 
-  return { id: targetId, manifest: mEntry, target, spectrum, defaultBandFrames, allFrames }
+  return { id: targetId, manifest: mEntry, target, spectrum, defaultBandFrames, allFrames, objects }
 }
 
 /** Returns visits for a specific band, using the target.json paths */
