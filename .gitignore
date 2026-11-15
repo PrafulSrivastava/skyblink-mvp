@@ -46,3 +46,4 @@ uploads/
 __pycache__/
 *.pyc
 .claude/
+.env*.local
