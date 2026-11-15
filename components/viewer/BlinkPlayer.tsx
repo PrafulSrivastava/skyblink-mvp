@@ -96,8 +96,8 @@ export default function BlinkPlayer({
 
     // Crosshair at PM-corrected predicted position
     if (showCrosshair && f.targetPng) {
-      const cx = f.targetPng.png_x * scale
-      const cy = f.targetPng.png_y * scale
+      const cx = (f.targetPng.png_x + 0.5) * scale // pixel centre, same convention as the object markers
+      const cy = (f.targetPng.png_y + 0.5) * scale
 
       // Dashed reticle
       ctx.strokeStyle = 'rgba(90,185,252,0.9)'

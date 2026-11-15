@@ -39,6 +39,27 @@ for (const patch of saturated) {
   assert.ok(t, `${patch}: forced bundle target present`)
   assert.equal(t.detected, false, `${patch}: saturated target not detected`)
   assert.equal(t.snr, null, `${patch}: saturated target snr null`)
+  assert.equal(t.undetected_note, 'core masked', `${patch}: saturated target reads "core masked"`)
+}
+{
+  // WISE 0855: invisible in the detection stack, not masked; sits at its predicted position, no field star's S/N
+  const target = readJson(manifest.targets.find((t) => t.id === 'wise-0855').target)
+  const t = real['wise-0855'].objects.find((o) => o.forced === 'bundle target')
+  assert.equal(t.detected, false, 'wise-0855: target not detected')
+  assert.equal(t.snr, null)
+  assert.equal(t.undetected_note, 'no detection above the S/N threshold in the frame stack')
+  for (const v of target.visits) {
+    assert.deepEqual(t.positions[v.id], { png_x: v.target_px.png_x, png_y: v.target_px.png_y }, `wise-0855: ${v.id} at target_px`)
+  }
+  // the static CatWISE field star near the target is its own known object
+  const star = real['wise-0855'].objects.find((o) => o.catalogs.some((c) => c.id === 'J085501.95-071428.2'))
+  assert.ok(star && star.kind === 'known' && star.detected && !star.moving, 'wise-0855: field star is a known static object')
+}
+for (const patch of PATCHES) {
+  for (const o of real[patch].objects) {
+    assert.ok(o.undetected_note === null || typeof o.undetected_note === 'string', `${o.id}: undetected_note is null or a string`)
+    assert.equal(o.undetected_note !== null, !o.detected, `${o.id}: undetected_note is set exactly when not detected`)
+  }
 }
 assert.ok(real['r-dra'].objects.length > 0, 'r-dra: objects.json is normal despite empty CatWISE snapshot')
 
@@ -123,7 +144,7 @@ import { imageToCanvas, canvasToImage, clientToCanvas, markerGeometry, hitTest, 
 
 const obj = (id, kind, moving, snr, positions, pm = null) => ({
   id, kind, moving, motion_basis: moving ? 'image' : 'none', reason: '', name: id, catalogs: [], pm_mas_yr: pm === null ? null : { pmra: null, pmdec: null, total: pm, total_err: null },
-  ra: 0, dec: 0, catalog_ra: null, catalog_dec: null, snr, detected: snr !== null, forced: null, image_shift_px: null, positions,
+  ra: 0, dec: 0, catalog_ra: null, catalog_dec: null, snr, detected: snr !== null, forced: null, image_shift_px: null, positions, undetected_note: null,
 })
 
 assert.deepEqual(imageToCanvas({ png_x: 0, png_y: 0 }, 6), { x: 3, y: 3 })
@@ -157,3 +178,31 @@ assert.equal(simbadUrl(269.4463742, 4.7686831), 'https://simbad.cds.unistra.fr/s
 assert.ok(simbadUrl(133.76, -7.24).includes('Coord=133.760000%20-7.240000'))
 assert.equal(irsaUrl(269.4463742, 4.7686831), 'https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?catalog=catwise_2020&spatial=cone&objstr=269.446374%204.768683&radius=10&radunits=arcsec&outfmt=1')
 console.log('ok list')
+
+// ── Link-out positions: propagated to the epoch the target service expects ────
+import { linkPosition } from '../lib/object-list.ts'
+const J2000_MJD = 51544.5, CATWISE_MJD = 57170
+const ARCSEC_DEG = 1 / 3600
+{
+  // Barnard's Star: mean epoch MJD 61102 -> J2000 is dt = (51544.5 - 61102) / 365.25 = -26.167008 yr.
+  //   dec: 10362 mas/yr * -26.167008 yr = -271.1457 arcsec;  ra*cos(dec): -801.55 mas/yr * -26.167008 yr = +20.974 arcsec.
+  const ra0 = 269.4463742, dec0 = 4.7686831
+  const pm = { pmra: -801.55, pmdec: 10362, total: 10393.1, total_err: null }
+  const p = linkPosition(ra0, dec0, pm, 61102, J2000_MJD)
+  assert.ok(Math.abs((p.dec - dec0) / ARCSEC_DEG + 271.1457) < 0.01, `Barnard dec shift ${(p.dec - dec0) / ARCSEC_DEG}`)
+  assert.ok(Math.abs((p.ra - ra0) * Math.cos((p.dec * Math.PI) / 180) / ARCSEC_DEG - 20.974) < 0.01, 'Barnard ra shift uses cos(dec)')
+  // and to the CatWISE epoch: dt = (57170 - 61102) / 365.25 = -10.76564 yr -> dec shift -111.557 arcsec
+  const c = linkPosition(ra0, dec0, pm, 61102, CATWISE_MJD)
+  assert.ok(Math.abs((c.dec - dec0) / ARCSEC_DEG + 111.557) < 0.01, `Barnard CatWISE dec shift ${(c.dec - dec0) / ARCSEC_DEG}`)
+  // ra shift is divided by cos(dec): 60 deg, 1000 mas/yr over 10 yr = 10 arcsec on the sky = 20 arcsec of RA
+  const q = linkPosition(100, 60, { pmra: 1000, pmdec: 0, total: 1000, total_err: null }, 60000, 60000 + 3652.5)
+  assert.ok(Math.abs((q.ra - 100) / ARCSEC_DEG - 20) < 1e-6 && q.dec === 60, 'ra uses cos(dec)')
+  // zero, null and NaN proper motion, and a zero baseline, leave the position unchanged
+  assert.deepEqual(linkPosition(ra0, dec0, { pmra: 0, pmdec: 0, total: 0, total_err: null }, 61102, J2000_MJD), { ra: ra0, dec: dec0 })
+  assert.deepEqual(linkPosition(ra0, dec0, null, 61102, J2000_MJD), { ra: ra0, dec: dec0 })
+  assert.deepEqual(linkPosition(ra0, dec0, { pmra: null, pmdec: null, total: 2, total_err: null }, 61102, J2000_MJD), { ra: ra0, dec: dec0 })
+  assert.deepEqual(linkPosition(ra0, dec0, { pmra: NaN, pmdec: 5000, total: 5000, total_err: null }, 61102, J2000_MJD), { ra: ra0, dec: dec0 })
+  assert.deepEqual(linkPosition(ra0, dec0, pm, 61102, 61102), { ra: ra0, dec: dec0 })
+  assert.deepEqual(linkPosition(ra0, dec0, pm, NaN, J2000_MJD), { ra: ra0, dec: dec0 })
+}
+console.log('ok link positions')

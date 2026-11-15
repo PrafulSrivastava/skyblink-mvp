@@ -197,7 +197,7 @@ function ViewerContent() {
                     onPixelClick={c => setSelectedObjectId(c.objectId)}
                     showCrosshair
                   />
-                  {loaded && <ObjectsLegend />}
+                  {loaded?.objects && <ObjectsLegend />}
                 </>
               ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

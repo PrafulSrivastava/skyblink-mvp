@@ -171,7 +171,7 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMar
       )}
 
       {selected && (
-        <ObjectDetails object={selected} thresholds={file.thresholds} onClose={() => onSelect(null)} />
+        <ObjectDetails object={selected} thresholds={file.thresholds} meanEpochMjd={file.mean_epoch_mjd} onClose={() => onSelect(null)} />
       )}
     </div>
   )

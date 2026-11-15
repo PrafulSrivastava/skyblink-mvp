@@ -3,11 +3,15 @@
 import React from 'react'
 import { ExternalLink, X } from 'lucide-react'
 import type { SkyObject, ObjectThresholds } from '@/lib/sky-objects'
-import { formatPm, simbadUrl, irsaUrl } from '@/lib/object-list'
+import { formatPm, simbadUrl, irsaUrl, linkPosition } from '@/lib/object-list'
+
+const J2000_MJD = 51544.5
+const CATWISE_MJD = 57170
 
 interface ObjectDetailsProps {
   object: SkyObject
   thresholds: ObjectThresholds
+  meanEpochMjd: number // epoch of object.ra/dec; link-out positions are carried from it with the catalog proper motion
   onClose: () => void
 }
 
@@ -44,12 +48,15 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
   )
 }
 
-export default function ObjectDetails({ object, thresholds, onClose }: ObjectDetailsProps) {
+export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClose }: ObjectDetailsProps) {
   const catalogs = Array.isArray(object.catalogs) ? object.catalogs : []
   const pm = object.pm_mas_yr ?? null
   const radius = thresholds?.match_radius_arcsec
   const hasPos = finite(object.ra) && finite(object.dec)
   const hasCatPos = finite(object.catalog_ra) && finite(object.catalog_dec)
+  const note = object.undetected_note ?? null
+  const simbadPos = hasPos ? linkPosition(object.ra, object.dec, pm, meanEpochMjd, J2000_MJD) : null
+  const irsaPos = hasPos ? linkPosition(object.ra, object.dec, pm, meanEpochMjd, CATWISE_MJD) : null
 
   const categoryLabel = object.kind === 'known' ? 'Known' : 'Unidentified'
 
@@ -137,22 +144,24 @@ export default function ObjectDetails({ object, thresholds, onClose }: ObjectDet
       <div>
         <div className={SECTION}>Position (mean epoch)</div>
         <div className="space-y-1">
-          <Row label="Detection RA">{fmtRA(object.ra)}</Row>
-          <Row label="Detection Dec">{fmtDec(object.dec)}</Row>
-          {hasCatPos && <Row label="Catalog RA">{fmtRA(object.catalog_ra)}</Row>}
-          {hasCatPos && <Row label="Catalog Dec">{fmtDec(object.catalog_dec)}</Row>}
+          <Row label={object.detected ? 'Detection RA' : 'Position RA'}>{fmtRA(object.ra)}</Row>
+          <Row label={object.detected ? 'Detection Dec' : 'Position Dec'}>{fmtDec(object.dec)}</Row>
+          {hasCatPos && <Row label={object.detected ? 'Catalog RA' : 'Catalog position RA'}>{fmtRA(object.catalog_ra)}</Row>}
+          {hasCatPos && <Row label={object.detected ? 'Catalog Dec' : 'Catalog position Dec'}>{fmtDec(object.catalog_dec)}</Row>}
           <Row label="S/N">
-            {!object.detected ? 'not measured (core masked)' : finite(object.snr) ? object.snr.toFixed(1) : '—'}
+            {!object.detected ? (note ? `not measured (${note})` : 'not measured') : finite(object.snr) ? object.snr.toFixed(1) : '—'}
           </Row>
         </div>
       </div>
 
-      {hasPos && (
+      {simbadPos && irsaPos && (
         <div className="space-y-1">
-          <a href={simbadUrl(object.ra, object.dec)} target="_blank" rel="noopener noreferrer" className={LINK}>
+          <a href={simbadUrl(simbadPos.ra, simbadPos.dec)} target="_blank" rel="noopener noreferrer" className={LINK}
+            title="Position carried to J2000 with the catalog proper motion">
             <ExternalLink className="w-3 h-3" />SIMBAD (coordinates)
           </a>
-          <a href={irsaUrl(object.ra, object.dec)} target="_blank" rel="noopener noreferrer" className={LINK}>
+          <a href={irsaUrl(irsaPos.ra, irsaPos.dec)} target="_blank" rel="noopener noreferrer" className={LINK}
+            title="Position carried to the CatWISE2020 epoch (MJD 57170) with the catalog proper motion">
             <ExternalLink className="w-3 h-3" />IRSA CatWISE (10″ cone)
           </a>
         </div>

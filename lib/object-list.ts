@@ -50,3 +50,24 @@ export function simbadUrl(ra: number, dec: number, radiusArcsec = 10): string {
 export function irsaUrl(ra: number, dec: number, radiusArcsec = 10): string {
   return `https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query?catalog=catwise_2020&spatial=cone&objstr=${encodeURIComponent(`${ra.toFixed(6)} ${dec.toFixed(6)}`)}&radius=${radiusArcsec}&radunits=arcsec&outfmt=1`
 }
+
+/**
+ * Linear proper-motion propagation of a position from `fromMjd` to `toMjd` (no parallax; `pmra` already
+ * includes cos(dec), as in pipeline/objects/geometry.py). Missing or non-finite proper motion or epochs leave the
+ * position unchanged. Link-outs use it to ask SIMBAD (J2000) and IRSA CatWISE (MJD 57170) at the epoch they list.
+ */
+export function linkPosition(
+  ra: number,
+  dec: number,
+  pm: ProperMotion | null,
+  fromMjd: number,
+  toMjd: number,
+): { ra: number; dec: number } {
+  const dt = (toMjd - fromMjd) / 365.25
+  if (!pm || !Number.isFinite(dt) || !Number.isFinite(pm.pmra ?? NaN) || !Number.isFinite(pm.pmdec ?? NaN)) {
+    return { ra, dec }
+  }
+  const newDec = dec + (pm.pmdec as number) * dt / 3.6e6
+  const newRa = ra + (pm.pmra as number) * dt / 3.6e6 / Math.cos((newDec * Math.PI) / 180)
+  return { ra: newRa, dec: newDec }
+}

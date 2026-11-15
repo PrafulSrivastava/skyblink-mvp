@@ -30,6 +30,7 @@ export interface SkyObject {
   forced: ForcedReason | null
   image_shift_px: number | null // measured first->last full visit shift, unidentified objects only
   positions: Record<string, PixelPos> // key = every visit id in target.json visits
+  undetected_note: string | null // why a forced object is not detected ("core masked" or no detection); null when detected
 }
 export interface CatalogSnapshot { catalog: CatalogName; table: string; file: string; retrieved: string; rows: number; radius_arcsec: number; service: string }
 export interface ObjectThresholds {
