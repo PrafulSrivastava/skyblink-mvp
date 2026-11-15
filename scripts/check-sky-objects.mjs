@@ -89,12 +89,16 @@ try {
 
   // absent manifest path: null, no fetch
   let called = false
-  const absent = await loadSkyObjects(undefined, async () => {
-    called = true
-    return { ok: true, status: 200, json: async () => good }
-  })
-  assert.equal(absent, null)
-  assert.equal(called, false, 'no fetch when manifest has no objects path')
+  for (const missing of [undefined, '']) {
+    warnings.length = 0
+    const absent = await loadSkyObjects(missing, async () => {
+      called = true
+      return { ok: true, status: 200, json: async () => good }
+    })
+    assert.equal(absent, null)
+    assert.equal(called, false, 'no fetch when manifest has no objects path')
+    assert.equal(warnings.length, 1, `missing path (${JSON.stringify(missing)}): exactly one console.warn`)
+  }
 
   const bad = [
     ['404', async () => ({ ok: false, status: 404, json: async () => ({}) })],

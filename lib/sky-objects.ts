@@ -71,7 +71,10 @@ export async function loadSkyObjects(
   path: string | undefined,
   fetchFn: (url: string) => Promise<Pick<Response, 'ok' | 'status' | 'json'>>,
 ): Promise<SkyObjectsFile | null> {
-  if (!path) return null
+  if (!path) {
+    console.warn('sky objects unavailable: manifest entry has no objects path')
+    return null
+  }
   const url = `/data/${path}`
   try {
     const r = await fetchFn(url)
