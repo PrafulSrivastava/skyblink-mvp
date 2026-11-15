@@ -1,0 +1,212 @@
+{
+ "id": "wise-0855",
+ "name": "WISE J085510.83-071442.5",
+ "wise": {
+  "survey": "WISE All-Sky Atlas (cryogenic, 4-band)",
+  "mjd_mean": 55320.3761,
+  "mjd_min": 55319.8941,
+  "mjd_max": 55320.8864,
+  "date": "2010-05-04",
+  "date_start": "2010-05-03",
+  "date_end": "2010-05-04",
+  "n_l1b_frames_w1": 14,
+  "target_radec": [
+   133.7952945,
+   -7.2457962
+  ]
+ },
+ "pairs": {
+  "W1": {
+   "usable": true,
+   "wise_band": "W1",
+   "wise_um": 3.4,
+   "spherex_label": "SPHEREx 2.9-3.8 \u00b5m (D4)",
+   "spherex_window_um": [
+    2.9,
+    3.8
+   ],
+   "spherex_visit": "v4",
+   "spherex_n_frames": 7,
+   "spherex_mjd_mean": 61164.5726,
+   "spherex_date_start": "2026-05-01",
+   "spherex_date_end": "2026-05-05",
+   "spherex_wl_um": [
+    2.907,
+    3.736
+   ],
+   "wise_px": {
+    "x": 13.569,
+    "y": 22.653,
+    "png_x": 13.569,
+    "png_y": 25.347
+   },
+   "spherex_px": {
+    "x": 34.437,
+    "y": 25.348,
+    "png_x": 34.437,
+    "png_y": 22.652
+   },
+   "shift_arcsec": 129.4,
+   "masked_px_within_3px": {
+    "wise": 0,
+    "spherex": 0
+   },
+   "snr_peak": {
+    "wise": 6.8,
+    "spherex": 18.4
+   },
+   "fit": {
+    "wise": {
+     "x": 13.92605632317009,
+     "y": 22.681740831049993,
+     "sigma": 0.6196045860541132,
+     "amp": 0.8124233541396932,
+     "ex": 0.3050497181436375,
+     "ey": 0.24868930992467314,
+     "npix": 52,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.36
+    },
+    "spherex": {
+     "x": 35.19714848651093,
+     "y": 25.28445804798234,
+     "sigma": 0.6873043777721328,
+     "amp": 0.11808421712017195,
+     "ex": 0.03754912005191714,
+     "ey": 0.03580098686307802,
+     "npix": 52,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.76
+    }
+   },
+   "stretch": {
+    "wise": {
+     "lo": -0.12789804697036722,
+     "hi": 8.90327912569046,
+     "unit": "WISE DN (local-median-subtracted)"
+    },
+    "spherex": {
+     "lo": -0.007149107288569212,
+     "hi": 0.4355841279029846,
+     "unit": "MJy/sr (local-median-subtracted)"
+    },
+    "a": 0.1,
+    "type": "asinh, own 10th-99.5th percentile per image"
+   },
+   "paths": {
+    "wise": "longbaseline/W1/wise.png",
+    "spherex": "longbaseline/W1/spherex.png",
+    "wise_mask": "longbaseline/W1/wise_mask.png",
+    "spherex_mask": "longbaseline/W1/spherex_mask.png"
+   }
+  },
+  "W2": {
+   "usable": true,
+   "wise_band": "W2",
+   "wise_um": 4.6,
+   "spherex_label": "SPHEREx 4.0-5.0 \u00b5m (D5/D6)",
+   "spherex_window_um": [
+    4.0,
+    5.0
+   ],
+   "spherex_visit": "v4",
+   "spherex_n_frames": 31,
+   "spherex_mjd_mean": 61161.1449,
+   "spherex_date_start": "2026-04-21",
+   "spherex_date_end": "2026-05-14",
+   "spherex_wl_um": [
+    4.004,
+    4.967
+   ],
+   "wise_px": {
+    "x": 13.569,
+    "y": 22.653,
+    "png_x": 13.569,
+    "png_y": 25.347
+   },
+   "spherex_px": {
+    "x": 34.425,
+    "y": 25.346,
+    "png_x": 34.425,
+    "png_y": 22.654
+   },
+   "shift_arcsec": 129.3,
+   "masked_px_within_3px": {
+    "wise": 0,
+    "spherex": 0
+   },
+   "snr_peak": {
+    "wise": 25.8,
+    "spherex": 20.6
+   },
+   "fit": {
+    "wise": {
+     "x": 13.593978933990478,
+     "y": 23.00637604533836,
+     "sigma": 0.7709807021911012,
+     "amp": 2.6960582522889216,
+     "ex": 0.06028417264106563,
+     "ey": 0.0639881963233512,
+     "npix": 52,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.35
+    },
+    "spherex": {
+     "x": 34.7986855420093,
+     "y": 24.99559581141565,
+     "sigma": 0.7106558405614412,
+     "amp": 0.20034565042438396,
+     "ex": 0.02806619247146199,
+     "ey": 0.0291690029584478,
+     "npix": 52,
+     "n_masked_in_r": 0,
+     "offset_from_pred_px": 0.51
+    }
+   },
+   "stretch": {
+    "wise": {
+     "lo": -0.13061487197875987,
+     "hi": 3.518295478820801,
+     "unit": "WISE DN (local-median-subtracted)"
+    },
+    "spherex": {
+     "lo": -0.013122176751494408,
+     "hi": 0.251088410615921,
+     "unit": "MJy/sr (local-median-subtracted)"
+    },
+    "a": 0.1,
+    "type": "asinh, own 10th-99.5th percentile per image"
+   },
+   "paths": {
+    "wise": "longbaseline/W2/wise.png",
+    "spherex": "longbaseline/W2/spherex.png",
+    "wise_mask": "longbaseline/W2/wise_mask.png",
+    "spherex_mask": "longbaseline/W2/spherex_mask.png"
+   }
+  }
+ },
+ "grid": {
+  "NAXIS1": 49,
+  "NAXIS2": 49,
+  "CTYPE1": "RA---TAN",
+  "CTYPE2": "DEC--TAN",
+  "CRVAL1": 133.77733081,
+  "CRVAL2": -7.24349534,
+  "CDELT1": -0.0017083333333333334,
+  "CDELT2": 0.0017083333333333334,
+  "CRPIX1": 25.0,
+  "CRPIX2": 25.0,
+  "RADESYS": "ICRS",
+  "pixel_scale_arcsec": 6.15,
+  "orientation": "north up, east left",
+  "centre": "midpoint between the WISE-epoch and SPHEREx-epoch positions"
+ },
+ "motion": {
+  "baseline_years": 16.0,
+  "expected_shift_arcsec": 129.4,
+  "expected_shift_px": 21.04,
+  "position_angle_deg": 277.4,
+  "pm_total_mas_yr": 8087.8,
+  "source": "CatWISE2020 pmra*cosdec=-8021.2, pmdec=1035.7 mas/yr"
+ }
+}

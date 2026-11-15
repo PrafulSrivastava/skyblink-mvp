@@ -8,12 +8,20 @@
     "api/sky.py": {
       "maxDuration": 60,
       "memory": 1024
+    },
+    "api/live.py": {
+      "maxDuration": 60,
+      "memory": 1024
     }
   },
   "rewrites": [
     {
       "source": "/api/sky",
       "destination": "/api/sky.py"
+    },
+    {
+      "source": "/api/live",
+      "destination": "/api/live.py"
     }
   ],
   "headers": [

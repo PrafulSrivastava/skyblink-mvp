@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { ExternalLink, X } from 'lucide-react'
+import { Term } from '@/components/Term'
 import type { SkyObject, ObjectThresholds } from '@/lib/sky-objects'
 import { formatPm, simbadUrl, irsaUrl, linkPosition } from '@/lib/object-list'
 
@@ -36,10 +37,10 @@ function fmtDec(deg: number | null | undefined): string {
   return `${sign}${d.toString().padStart(2, '0')}°${m.toString().padStart(2, '0')}′${s.toFixed(1).padStart(4, '0')}″`
 }
 
-const SECTION = 'text-sky-inkDim text-[10px] font-mono uppercase tracking-wider mb-1'
-const LINK = 'flex items-center gap-1 text-[11px] text-sky-inkDim hover:text-sky-accent transition-colors'
+const SECTION = 'text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1'
+const LINK = 'flex items-center gap-1 text-xs text-sky-inkDim hover:text-sky-accent transition-colors'
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+function Row({ label, children }: { label: React.ReactNode; children: React.ReactNode }) {
   return (
     <div className="flex justify-between gap-2">
       <span className="text-sky-inkDim">{label}</span>
@@ -78,13 +79,13 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="text-sky-ink font-semibold break-words">{object.name || object.id}</div>
-          <div className="text-sky-inkDim font-mono text-[10px]">{object.id}</div>
+          <div className="text-sky-inkDim font-mono text-xs">{object.id}</div>
         </div>
         <button
           type="button"
           onClick={onClose}
           aria-label="Close object details"
-          className="text-sky-inkDim hover:text-sky-ink transition-colors flex-shrink-0"
+          className="inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg text-sky-inkDim hover:text-sky-ink transition-colors flex-shrink-0"
         >
           <X className="w-3.5 h-3.5" />
         </button>
@@ -92,34 +93,34 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
 
       <div className="space-y-1">
         <div className="flex flex-wrap items-center gap-1.5">
-          <span className="font-mono text-sky-accent">{categoryLabel}</span>
+          <span className="font-mono text-sky-accent"><Term k={object.kind === 'known' ? 'known' : 'unidentified'}>{categoryLabel}</Term></span>
           {badge && (
-            <span className="px-1.5 py-0.5 rounded border border-sky-accent/40 bg-sky-accent/10 text-sky-accent text-[10px]">
-              High proper motion · {badge}
+            <span className="px-1.5 py-0.5 rounded border border-sky-accent/40 bg-sky-accent/10 text-sky-accent text-xs">
+              <Term k="fastMover">High proper motion</Term> · {badge}
             </span>
           )}
         </div>
         {object.reason && <div className="text-sky-inkDim">{object.reason}</div>}
         {object.kind === 'unidentified' && (
           <div className="text-sky-inkDim">
-            No CatWISE, AllWISE or 2MASS source within {finite(radius) ? `${radius.toFixed(1)} arcsec` : 'the match radius'}.
+            No <Term k="catwise">CatWISE</Term>, <Term k="allwise">AllWISE</Term> or <Term k="twomass">2MASS</Term> source within {finite(radius) ? <>{radius.toFixed(1)} <Term k="arcsecond">arcsec</Term></> : 'the match radius'}.
             {' '}This is not a discovery claim.
           </div>
         )}
       </div>
 
       <div>
-        <div className={SECTION}>Proper motion</div>
+        <div className={SECTION}><Term k="properMotion">Proper motion</Term></div>
         <div className="space-y-1">
-          <Row label="μ_RA·cosδ">{finite(pm?.pmra) ? `${pm.pmra.toFixed(0)} mas/yr` : '—'}</Row>
-          <Row label="μ_Dec">{finite(pm?.pmdec) ? `${pm.pmdec.toFixed(0)} mas/yr` : '—'}</Row>
+          <Row label={<>East–west <Term k="pmRa">μα·cosδ</Term></>}>{finite(pm?.pmra) ? <>{pm.pmra.toFixed(0)} <Term k="masPerYear">mas/yr</Term></> : '—'}</Row>
+          <Row label={<>North–south <Term k="pmDec">μδ</Term></>}>{finite(pm?.pmdec) ? <>{pm.pmdec.toFixed(0)} <Term k="masPerYear">mas/yr</Term></> : '—'}</Row>
           <Row label="Total">{formatPm(pm)}</Row>
         </div>
       </div>
 
       {magRows.length > 0 && (
         <div>
-          <div className={SECTION}>Magnitudes</div>
+          <div className={SECTION}><Term k="magnitude">Magnitudes</Term></div>
           <div className="space-y-1">
             {magRows.map(m => (
               <Row key={m.key} label={`${m.catalog} ${m.band}`}>{m.value.toFixed(2)}</Row>
@@ -130,7 +131,7 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
 
       {catalogs.length > 0 && (
         <div>
-          <div className={SECTION}>Catalog matches</div>
+          <div className={SECTION}><Term k="catalogue">Catalog</Term> matches</div>
           <div className="space-y-1">
             {catalogs.map((c, i) => (
               <Row key={`${c?.catalog}-${c?.id}-${i}`} label={c?.catalog ?? '—'}>
@@ -142,13 +143,13 @@ export default function ObjectDetails({ object, thresholds, meanEpochMjd, onClos
       )}
 
       <div>
-        <div className={SECTION}>Position (mean epoch)</div>
+        <div className={SECTION}>Position (mean <Term k="epoch">epoch</Term>)</div>
         <div className="space-y-1">
-          <Row label={object.detected ? 'Detection RA' : 'Position RA'}>{fmtRA(object.ra)}</Row>
-          <Row label={object.detected ? 'Detection Dec' : 'Position Dec'}>{fmtDec(object.dec)}</Row>
-          {hasCatPos && <Row label={object.detected ? 'Catalog RA' : 'Catalog position RA'}>{fmtRA(object.catalog_ra)}</Row>}
-          {hasCatPos && <Row label={object.detected ? 'Catalog Dec' : 'Catalog position Dec'}>{fmtDec(object.catalog_dec)}</Row>}
-          <Row label="S/N">
+          <Row label={<>{object.detected ? 'Detection' : 'Position'} <Term k="ra">RA</Term></>}>{fmtRA(object.ra)}</Row>
+          <Row label={<>{object.detected ? 'Detection' : 'Position'} <Term k="dec">Dec</Term></>}>{fmtDec(object.dec)}</Row>
+          {hasCatPos && <Row label={<>{object.detected ? 'Catalog' : 'Catalog position'} <Term k="ra">RA</Term></>}>{fmtRA(object.catalog_ra)}</Row>}
+          {hasCatPos && <Row label={<>{object.detected ? 'Catalog' : 'Catalog position'} <Term k="dec">Dec</Term></>}>{fmtDec(object.catalog_dec)}</Row>}
+          <Row label={<Term k="snr">S/N</Term>}>
             {!object.detected ? (note ? `not measured (${note})` : 'not measured') : finite(object.snr) ? object.snr.toFixed(1) : '—'}
           </Row>
         </div>

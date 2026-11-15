@@ -1,19 +1,15 @@
 'use client'
 
 import React from 'react'
+import { AlertTriangle } from 'lucide-react'
+import { BAND_INFO } from '@/lib/target-stories'
+import { BAND_TIPS } from '@/lib/glossary'
+import { Hint, Term } from '@/components/Term'
 
-const BAND_RANGES: Record<string, string> = {
-  D1: '0.75–1.09 µm',
-  D2: '1.10–1.62 µm',
-  D3: '1.63–2.42 µm',
-  D4: '2.42–3.82 µm',
-  D5: '3.82–4.42 µm',
-  D6: '4.42–5.00 µm',
-}
-
+/** Band hue, shown only as a small dot; the selected state is always the accent. */
 const BAND_COLORS: Record<string, string> = {
-  D1: '#7c6fcd', D2: '#5ab9fc', D3: '#4ade80',
-  D4: '#ffd700', D5: '#f97316', D6: '#ef4444',
+  D1: '#a78bfa', D2: '#5ab9fc', D3: '#4ade80',
+  D4: '#facc15', D5: '#fb923c', D6: '#f87171',
 }
 
 interface BandPickerProps {
@@ -25,45 +21,53 @@ interface BandPickerProps {
 }
 
 export default function BandPicker({ value, onChange, availableBands, defaultBand, saturated }: BandPickerProps) {
+  const info = BAND_INFO[value]
   return (
-    <div>
-      <div className="text-sky-inkDim text-[10px] font-mono uppercase tracking-wider mb-2">
-        Detector band
-        {saturated && <span className="ml-2 text-yellow-400">⚠ saturated cores masked in image</span>}
-      </div>
-      <div className="flex gap-1 flex-wrap">
-        {(['D1','D2','D3','D4','D5','D6'] as const).map(band => {
+    <fieldset>
+      <legend className="mb-2 text-sm font-semibold text-sky-ink">
+        <Term k="infrared">Infrared</Term> <Term k="band">band</Term> <span className="font-normal text-sky-inkDim">(shorter to longer wavelength)</span>
+      </legend>
+      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Detector bands D1 to D6">
+        {(['D1', 'D2', 'D3', 'D4', 'D5', 'D6'] as const).map(band => {
           const available = availableBands.includes(band)
           const isSelected = value === band
           const isDefault = band === defaultBand
-          const color = BAND_COLORS[band]
-
           return (
+            <Hint key={band} entry={BAND_TIPS[band]}>
             <button
-              key={band}
+              type="button"
               onClick={() => available && onChange(band)}
               disabled={!available}
-              title={BAND_RANGES[band]}
-              className={`px-2 py-1 rounded text-[11px] font-mono transition-all ${
+              aria-pressed={isSelected}
+              className={`inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border px-3 font-mono text-sm transition-colors ${
                 !available
-                  ? 'text-sky-inkDim/30 border border-sky-border/30 cursor-not-allowed'
+                  ? 'cursor-not-allowed border-sky-border/40 text-sky-inkDim/50'
                   : isSelected
-                  ? 'text-sky-bg font-semibold'
-                  : 'text-sky-inkDim border border-sky-border hover:border-sky-accent/50 hover:text-sky-ink'
+                  ? 'border-sky-accent bg-sky-accent text-sky-bg font-semibold'
+                  : 'border-sky-border text-sky-ink hover:border-sky-accent/50'
               }`}
-              style={isSelected ? { backgroundColor: color, borderColor: color } : {}}
             >
+              <span className="h-2 w-2 rounded-full" style={{ background: BAND_COLORS[band] }} aria-hidden="true" />
               {band}
-              {isDefault && !isSelected && available && (
-                <span className="ml-0.5 text-[8px] opacity-60">★</span>
-              )}
+              {isDefault && available && <span className="sr-only"> (recommended for this object)</span>}
+              {isDefault && available && !isSelected && <span className="text-xs text-sky-accent" aria-hidden="true">★</span>}
             </button>
+            </Hint>
           )
         })}
       </div>
-      {value && BAND_RANGES[value] && (
-        <div className="mt-1 text-[10px] text-sky-inkDim font-mono">{BAND_RANGES[value]}</div>
+      {info && (
+        <p className="mt-2 text-sm text-sky-inkDim">
+          <span className="font-mono text-sky-ink">{value}</span> · {info.range.replace(' µm', '')} <Term k="micron">µm</Term> · {info.plain}
+          {value === defaultBand && <span className="text-sky-accent"> · recommended</span>}
+        </p>
       )}
-    </div>
+      {saturated && (
+        <p className="mt-1.5 flex items-center gap-1.5 text-sm text-amber-200">
+          <AlertTriangle className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
+          <span>This star is too bright for the detector at its centre, so the centre is <Term k="saturated">masked</Term>.</span>
+        </p>
+      )}
+    </fieldset>
   )
 }

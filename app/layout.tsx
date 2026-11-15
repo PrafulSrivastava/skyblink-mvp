@@ -1,17 +1,36 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+const SITE_URL = "https://skyblink-mvp.vercel.app";
+const DESCRIPTION =
+  "Flip between NASA infrared images taken years apart and watch nearby stars move across the sky. Five fast movers and variables from SPHEREx and WISE, free and in your browser.";
+
 export const metadata: Metadata = {
-  title: "SkyBlink — Watch the infrared sky move",
-  description:
-    "Type any sky coordinates and play SPHEREx infrared images as a blink. Spot proper motion, extract spectra. No FITS files needed.",
-  keywords: ["SPHEREx", "astronomy", "infrared", "proper motion", "brown dwarf", "blink comparator"],
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "SkyBlink: watch the infrared sky move",
+    template: "%s · SkyBlink",
+  },
+  description: DESCRIPTION,
+  keywords: ["SPHEREx", "WISE", "astronomy", "infrared", "proper motion", "brown dwarf", "blink comparator"],
   authors: [{ name: "SkyBlink" }],
   openGraph: {
-    title: "SkyBlink — Watch the infrared sky move",
-    description: "SPHEREx blink comparator + 102-channel spectra. No login required.",
+    title: "SkyBlink: watch the infrared sky move",
+    description: DESCRIPTION,
     type: "website",
+    url: SITE_URL,
+    siteName: "SkyBlink",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "SkyBlink: watch the infrared sky move",
+    description: DESCRIPTION,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#0a0d14",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

@@ -7,12 +7,15 @@ import type { SkyObject } from '@/lib/sky-objects'
 import {
   MARKER_STYLE, markerGeometry, hitTest, clientToCanvas, canvasToImage,
 } from '@/lib/object-overlay'
+import { formatMonth } from '@/lib/long-baseline'
+import { prefersReducedMotion } from '@/lib/use-reduced-motion'
+import { Hint } from '@/components/Term'
 
 export interface PixelClick {
   png_x: number
   png_y: number
   visitId: string
-  /** Id of the marker under the click, or null for empty sky (or when markers are hidden) */
+  /** Id of the marker under the click, or null for empty sky (or when no markers are drawn) */
   objectId: string | null
 }
 
@@ -23,16 +26,21 @@ interface BlinkPlayerProps {
   onPixelClick?: (click: PixelClick) => void
   currentFrame?: number
   showCrosshair?: boolean
-  /** Sky objects to mark on each frame (Blink mode only) */
+  /** Sky objects to mark on each frame (already filtered by the marker mode) */
   objects?: readonly SkyObject[]
   selectedObjectId?: string | null
-  showMarkers?: boolean
   fps?: number
-  /** Display size for the canvas; images are 49×49 and upscaled */
+  /** Canvas bitmap size; images are 49×49 and upscaled by an integer factor */
   displaySize?: number
+  /** Single still frame: no controls, no autoplay */
+  still?: boolean
+  /** Name used in the image description */
+  label?: string
 }
 
-const DISPLAY = 294   // 49 × 6 — sharp integer multiple
+const DISPLAY = 441 // 49 × 9, sharp integer multiple
+
+const ctrlBtn = 'inline-flex h-11 w-11 sm:h-9 sm:w-9 items-center justify-center rounded-lg transition-colors'
 
 export default function BlinkPlayer({
   frames,
@@ -43,31 +51,32 @@ export default function BlinkPlayer({
   showCrosshair = true,
   objects,
   selectedObjectId = null,
-  showMarkers = true,
   fps = 2,
   displaySize = DISPLAY,
+  still = false,
+  label = 'Sky patch',
 }: BlinkPlayerProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [playing, setPlaying] = useState(true)
+  // Respect "reduce motion": start paused; the visitor can still press play
+  const [playing, setPlaying] = useState(() => !still && !prefersReducedMotion())
   const [internalFrame, setInternalFrame] = useState(0)
-  const intervalRef = useRef<NodeJS.Timeout | null>(null)
+  const [imagesReady, setImagesReady] = useState(0)
   const imgCacheRef = useRef<Map<string, HTMLImageElement>>(new Map())
 
-  const currentIndex = externalFrame ?? internalFrame
+  const currentIndex = Math.min(externalFrame ?? internalFrame, Math.max(0, frames.length - 1))
   const frame = frames[currentIndex]
   const scale = displaySize / 49
 
-  const preload = useCallback(() => {
+  useEffect(() => {
     frames.forEach(f => {
       if (!imgCacheRef.current.has(f.imageUrl)) {
         const img = new Image()
+        img.onload = () => setImagesReady(n => n + 1)
         img.src = f.imageUrl
         imgCacheRef.current.set(f.imageUrl, img)
       }
     })
   }, [frames])
-
-  useEffect(() => { preload() }, [preload])
 
   const draw = useCallback((idx: number) => {
     const canvas = canvasRef.current
@@ -82,29 +91,26 @@ export default function BlinkPlayer({
     ctx.fillRect(0, 0, displaySize, displaySize)
 
     if (img?.complete && img.naturalWidth > 0) {
-      // pixelated upscale — disable smoothing
       ctx.imageSmoothingEnabled = false
       ctx.drawImage(img, 0, 0, displaySize, displaySize)
     } else {
       ctx.fillStyle = '#1a2030'
       ctx.fillRect(0, 0, displaySize, displaySize)
       ctx.fillStyle = '#8b96a8'
-      ctx.font = `${12}px JetBrains Mono, monospace`
+      ctx.font = '14px Manrope, sans-serif'
       ctx.textAlign = 'center'
       ctx.fillText('Loading…', displaySize / 2, displaySize / 2)
     }
 
-    // Crosshair at PM-corrected predicted position
+    // Crosshair at the motion-corrected predicted position
     if (showCrosshair && f.targetPng) {
-      const cx = (f.targetPng.png_x + 0.5) * scale // pixel centre, same convention as the object markers
+      const cx = (f.targetPng.png_x + 0.5) * scale
       const cy = (f.targetPng.png_y + 0.5) * scale
-
-      // Dashed reticle
-      ctx.strokeStyle = 'rgba(90,185,252,0.9)'
+      ctx.strokeStyle = 'rgba(90,185,252,0.95)'
       ctx.lineWidth = 1.5
       ctx.setLineDash([4, 4])
-      const arm = 14
-      const gap = 5
+      const arm = 16
+      const gap = 6
       ctx.beginPath()
       ctx.moveTo(cx - arm, cy); ctx.lineTo(cx - gap, cy)
       ctx.moveTo(cx + gap, cy); ctx.lineTo(cx + arm, cy)
@@ -112,24 +118,18 @@ export default function BlinkPlayer({
       ctx.moveTo(cx, cy + gap); ctx.lineTo(cx, cy + arm)
       ctx.stroke()
       ctx.setLineDash([])
-
-      // Ring
-      ctx.beginPath()
-      ctx.arc(cx, cy, 10, 0, Math.PI * 2)
-      ctx.strokeStyle = 'rgba(90,185,252,0.5)'
-      ctx.lineWidth = 1
-      ctx.stroke()
     }
 
-    // Sky-object markers for this frame's visit
-    if (showMarkers && objects) {
+    // Sky-object markers for this frame's visit: circle = known, square = unidentified
+    if (objects?.length) {
       ctx.lineWidth = MARKER_STYLE.lineWidth
       for (const obj of objects) {
         const g = markerGeometry(obj, f.visitId, scale, selectedObjectId)
         if (!g) continue
         ctx.strokeStyle = g.color
         ctx.beginPath()
-        ctx.arc(g.cx, g.cy, g.r, 0, Math.PI * 2)
+        if (g.shape === 'square') ctx.rect(g.cx - g.r, g.cy - g.r, 2 * g.r, 2 * g.r)
+        else ctx.arc(g.cx, g.cy, g.r, 0, Math.PI * 2)
         ctx.stroke()
         if (g.movingRingR !== null) {
           ctx.setLineDash([...MARKER_STYLE.movingDash])
@@ -146,37 +146,32 @@ export default function BlinkPlayer({
         }
       }
     }
+  }, [frames, showCrosshair, scale, displaySize, objects, selectedObjectId])
 
-    // HUD: date, band, visit type, partial warning
-    const hud = `${f.dateStart}  ${f.band}  ${f.visitType === 'partial' ? '⚠ partial' : ''}`
-    ctx.fillStyle = 'rgba(0,0,0,0.65)'
-    ctx.fillRect(0, displaySize - 20, displaySize, 20)
-    ctx.fillStyle = '#e9edf3'
-    ctx.font = `${10}px JetBrains Mono, monospace`
-    ctx.textAlign = 'left'
-    ctx.fillText(hud, 5, displaySize - 6)
-    ctx.textAlign = 'right'
-    ctx.fillStyle = '#8b96a8'
-    ctx.fillText(`${idx + 1}/${frames.length}`, displaySize - 5, displaySize - 6)
-  }, [frames, showCrosshair, scale, displaySize, objects, selectedObjectId, showMarkers])
+  useEffect(() => { draw(currentIndex) }, [draw, currentIndex, imagesReady])
 
-  useEffect(() => { draw(currentIndex) }, [draw, currentIndex])
+  const goTo = useCallback((i: number) => setInternalFrame(i), [])
 
   useEffect(() => {
-    if (!playing || frames.length <= 1) return
-    intervalRef.current = setInterval(() => {
-      setInternalFrame(prev => {
-        const next = (prev + 1) % frames.length
-        onFrameChange?.(next)
-        return next
-      })
-    }, 1000 / fps)
-    return () => { if (intervalRef.current) clearInterval(intervalRef.current) }
-  }, [playing, frames.length, fps, onFrameChange])
+    if (still || !playing || frames.length <= 1) return
+    const t = setInterval(() => setInternalFrame(prev => (prev + 1) % frames.length), 1000 / fps)
+    return () => clearInterval(t)
+  }, [still, playing, frames.length, fps])
+
+  // Tell the page which frame is showing. Not from inside the state updater: updaters run during
+  // render, and setting the page's state there is the "update while rendering" error.
+  useEffect(() => { onFrameChange?.(internalFrame) }, [internalFrame, onFrameChange])
 
   const step = (d: number) => {
-    const next = (currentIndex + d + frames.length) % frames.length
-    setInternalFrame(next); onFrameChange?.(next)
+    setPlaying(false)
+    goTo((currentIndex + d + frames.length) % frames.length)
+  }
+
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (still) return
+    if (e.key === ' ' || e.key === 'k') { e.preventDefault(); setPlaying(p => !p) }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); step(-1) }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); step(1) }
   }
 
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -185,89 +180,111 @@ export default function BlinkPlayer({
     if (!f) return
     const { x, y } = clientToCanvas(e.clientX, e.clientY, canvas.getBoundingClientRect(), canvas.width, canvas.height)
     const { png_x, png_y } = canvasToImage(x, y, scale)
-    const objectId = showMarkers && objects ? hitTest(objects, f.visitId, x, y, scale) : null
+    const objectId = objects?.length ? hitTest(objects, f.visitId, x, y, scale) : null
     onPixelClick?.({ png_x, png_y, visitId: f.visitId, objectId })
   }
 
   if (isLoading) {
     return (
-      <div className="rounded-lg border border-sky-border overflow-hidden shimmer"
-        style={{ width: displaySize, height: displaySize, maxWidth: '100%' }} />
+      <div className="aspect-square w-full rounded-lg border border-sky-border shimmer" style={{ maxWidth: displaySize }}
+        role="status" aria-label="Loading images" />
     )
   }
 
   if (!frames.length) {
     return (
-      <div className="rounded-lg border border-sky-border bg-sky-surface flex items-center justify-center"
-        style={{ width: displaySize, height: displaySize, maxWidth: '100%' }}>
-        <span className="text-sky-inkDim text-sm">Pick a target above</span>
+      <div className="flex aspect-square w-full items-center justify-center rounded-lg border border-sky-border bg-sky-surface" style={{ maxWidth: displaySize }}>
+        <span className="text-sm text-sky-inkDim">No images in this band</span>
       </div>
     )
   }
 
+  const when = frame ? `${formatMonth(frame.dateStart)}${frame.visitType === 'partial' ? ', partial visit' : ''}` : ''
+  const description = `${label}, band ${frame?.band}, ${when}. Image ${currentIndex + 1} of ${frames.length}.`
+
   return (
-    <div className="select-none">
-      <div className="relative rounded-lg overflow-hidden border border-sky-border inline-block max-w-full"
-        style={{ background: '#0a0d14' }}>
+    <div className="select-none" style={{ maxWidth: displaySize }}>
+      <div
+        className="relative overflow-hidden rounded-lg border border-sky-border bg-sky-bg"
+        tabIndex={still ? undefined : 0}
+        onKeyDown={onKeyDown}
+        aria-label={still ? undefined : 'Blink player. Space plays or pauses, arrow keys step.'}
+        role={still ? undefined : 'group'}
+      >
         <canvas
           ref={canvasRef}
           width={displaySize}
           height={displaySize}
-          className="block cursor-crosshair"
-          style={{ imageRendering: 'pixelated', maxWidth: '100%', height: 'auto' }}
+          role="img"
+          aria-label={description}
+          className="block h-auto w-full cursor-crosshair"
+          style={{ imageRendering: 'pixelated' }}
           onClick={handleCanvasClick}
         />
-        {/* Band badge */}
+        {/* Frame caption as real text, not pixels */}
         {frame && (
-          <div className="absolute top-2 left-2 flex gap-1.5">
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-sky-accent border border-sky-accent/30">
-              {frame.band}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 bg-black/70 px-2.5 py-1.5 text-sm">
+            <span className="text-sky-ink">
+              <span className="font-semibold">{formatMonth(frame.dateStart)}</span>
+              <span className="text-sky-inkDim"> · band {frame.band}</span>
+              {frame.visitType === 'partial' && <span className="text-amber-300"> · partial visit</span>}
             </span>
-            {frame.visitType === 'partial' && (
-              <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-yellow-400 border border-yellow-400/30">
-                partial
-              </span>
-            )}
+            {!still && <span className="font-mono text-xs text-sky-inkDim">{currentIndex + 1}/{frames.length}</span>}
           </div>
         )}
       </div>
 
-      {/* Controls */}
-      <div className="mt-2 flex items-center gap-2" style={{ maxWidth: displaySize }}>
-        <input
-          type="range" min={0} max={frames.length - 1} value={currentIndex}
-          onChange={e => { const v = +e.target.value; setInternalFrame(v); onFrameChange?.(v) }}
-          className="flex-1 h-1 rounded accent-sky-accent"
-        />
-        <button onClick={() => step(-1)} className="p-1.5 rounded text-sky-inkDim hover:text-sky-ink">
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-        <button onClick={() => setPlaying(p => !p)}
-          className="p-1.5 rounded bg-sky-accent/10 text-sky-accent hover:bg-sky-accent/20">
-          {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-        </button>
-        <button onClick={() => step(1)} className="p-1.5 rounded text-sky-inkDim hover:text-sky-ink">
-          <ChevronRight className="w-4 h-4" />
-        </button>
-      </div>
+      {/* Announce the frame when the visitor steps, not on every autoplay tick */}
+      <p className="sr-only" aria-live="polite">{!playing && !still ? when : ''}</p>
 
-      {/* Visit date strip */}
-      <div className="mt-1 flex gap-1 flex-wrap" style={{ maxWidth: displaySize }}>
-        {frames.map((f, i) => (
-          <button
-            key={f.visitId + f.band}
-            onClick={() => { setInternalFrame(i); onFrameChange?.(i) }}
-            title={`${f.dateStart} – ${f.dateEnd}  (${f.nCoadded} co-adds)`}
-            className={`px-1.5 py-0.5 rounded text-[10px] font-mono transition-colors ${
-              i === currentIndex
-                ? 'bg-sky-accent/20 text-sky-accent border border-sky-accent/40'
-                : 'text-sky-inkDim border border-sky-border hover:text-sky-ink'
-            } ${f.visitType === 'partial' ? 'opacity-70' : ''}`}
-          >
-            {f.visitId}
-          </button>
-        ))}
-      </div>
+      {!still && (
+        <>
+          <div className="mt-2 flex items-center gap-1.5">
+            <button type="button" onClick={() => step(-1)} aria-label="Previous image" className={`${ctrlBtn} text-sky-inkDim hover:text-sky-ink hover:bg-sky-surface2`}>
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button type="button" onClick={() => setPlaying(p => !p)} aria-label={playing ? 'Pause blink' : 'Play blink'}
+              className={`${ctrlBtn} bg-sky-accent/15 text-sky-accent hover:bg-sky-accent/25`}>
+              {playing ? <Pause className="h-5 w-5" aria-hidden="true" /> : <Play className="h-5 w-5" aria-hidden="true" />}
+            </button>
+            <button type="button" onClick={() => step(1)} aria-label="Next image" className={`${ctrlBtn} text-sky-inkDim hover:text-sky-ink hover:bg-sky-surface2`}>
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <input
+              type="range" min={0} max={frames.length - 1} value={currentIndex}
+              aria-label="Image in the sequence"
+              aria-valuetext={when}
+              onChange={e => { setPlaying(false); goTo(+e.target.value) }}
+              className="ml-1 h-11 sm:h-9 flex-1 accent-sky-accent"
+            />
+          </div>
+
+          {/* Visits, labelled by date */}
+          <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Jump to a visit">
+            {frames.map((f, i) => (
+              <Hint key={f.visitId + f.band} entry={{
+                term: `${f.visitType === 'partial' ? 'Partial visit' : 'Visit'} · ${formatMonth(f.dateStart)}`,
+                def: `${f.dateStart} to ${f.dateEnd}. ${f.nCoadded} frame${f.nCoadded === 1 ? '' : 's'} stacked into one picture.${f.visitType === 'partial' ? ' A partial visit has only a few frames of this spot, so it is noisier.' : ''}`,
+              }}>
+              <button
+                type="button"
+                onClick={() => { setPlaying(false); goTo(i) }}
+                aria-pressed={i === currentIndex}
+                className={`min-h-11 sm:min-h-8 rounded-md border px-2.5 text-xs transition-colors ${
+                  i === currentIndex
+                    ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
+                    : 'border-sky-border text-sky-ink hover:border-sky-accent/40'
+                }`}
+              >
+                {formatMonth(f.dateStart)}
+                {f.visitType === 'partial' && <span className="text-amber-300"> · partial</span>}
+              </button>
+              </Hint>
+            ))}
+          </div>
+          <p className="mt-2 hidden text-xs text-sky-inkDim sm:block">Keyboard: Space to play or pause, ← → to step.</p>
+        </>
+      )}
     </div>
   )
 }

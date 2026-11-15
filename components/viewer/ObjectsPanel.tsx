@@ -3,47 +3,37 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { ArrowDown, ArrowUp } from 'lucide-react'
 import type { SkyObjectsFile, SkyObject } from '@/lib/sky-objects'
-import { MARKER_STYLE } from '@/lib/object-overlay'
+import { MARKER_STYLE, isHighlight, type MarkerMode } from '@/lib/object-overlay'
 import { sortObjects, formatPm, type ObjectSortKey, type SortDir } from '@/lib/object-list'
 import ObjectDetails from './ObjectDetails'
+import MarkerSwatch from './MarkerSwatch'
+import { Hint, Term } from '@/components/Term'
+import type { GlossaryKey } from '@/lib/glossary'
 
 interface ObjectsPanelProps {
   file: SkyObjectsFile | null
   selectedObjectId: string | null
   onSelect: (id: string | null) => void
-  showMarkers: boolean
-  onToggleMarkers: (v: boolean) => void
+  markerMode: MarkerMode
+  onMarkerModeChange: (m: MarkerMode) => void
 }
 
-const SORT_BUTTONS: { key: ObjectSortKey; label: string }[] = [
-  { key: 'snr', label: 'S/N' },
-  { key: 'kind', label: 'Category' },
+const SORT_BUTTONS: { key: ObjectSortKey; label: string; tip?: GlossaryKey }[] = [
+  { key: 'snr', label: 'Brightness', tip: 'snr' },
+  { key: 'kind', label: 'Category', tip: 'known' },
   { key: 'name', label: 'Name' },
-  { key: 'pm', label: 'Proper motion' },
+  { key: 'pm', label: 'Motion', tip: 'properMotion' },
+]
+
+const MARKER_MODES: { id: MarkerMode; label: string; tip: GlossaryKey }[] = [
+  { id: 'off', label: 'Off', tip: 'markersOff' },
+  { id: 'highlights', label: 'Highlights', tip: 'highlights' },
+  { id: 'all', label: 'All', tip: 'markersAll' },
 ]
 
 const NO_OBJECTS: readonly SkyObject[] = []
 
-/** Row swatch: same colour, moving ring and selection ring as the canvas marker. */
-function RowSwatch({ obj, selected }: { obj: SkyObject; selected: boolean }) {
-  const color = obj.kind === 'known' ? MARKER_STYLE.known : MARKER_STYLE.unidentified
-  return (
-    <svg width={28} height={28} viewBox="0 0 28 28" className="flex-shrink-0" aria-hidden="true" data-swatch={obj.kind}>
-      <circle cx={14} cy={14} r={MARKER_STYLE.baseRadius} fill="none" stroke={color} strokeWidth={MARKER_STYLE.lineWidth} />
-      {obj.moving && (
-        <circle
-          cx={14} cy={14} r={MARKER_STYLE.movingRadius} fill="none" stroke={color}
-          strokeWidth={MARKER_STYLE.lineWidth} strokeDasharray={MARKER_STYLE.movingDash.join(' ')}
-        />
-      )}
-      {selected && (
-        <circle cx={14} cy={14} r={MARKER_STYLE.selectedRadius} fill="none" stroke={MARKER_STYLE.selected} strokeWidth={MARKER_STYLE.lineWidth} />
-      )}
-    </svg>
-  )
-}
-
-export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMarkers, onToggleMarkers }: ObjectsPanelProps) {
+export default function ObjectsPanel({ file, selectedObjectId, onSelect, markerMode, onMarkerModeChange }: ObjectsPanelProps) {
   const [sortKey, setSortKey] = useState<ObjectSortKey>('snr')
   const [sortDir, setSortDir] = useState<SortDir>('desc')
   const listRef = useRef<HTMLUListElement>(null)
@@ -64,15 +54,16 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMar
 
   if (!file) {
     return (
-      <div className="bg-sky-surface rounded-lg border border-sky-border p-3 text-xs text-sky-inkDim">
-        No object data for this patch
-      </div>
+      <section aria-label="Objects in this patch" className="rounded-xl border border-sky-border bg-sky-surface p-4 text-sm text-sky-inkDim">
+        No object data for this patch.
+      </section>
     )
   }
 
   const nKnown = objects.filter(o => o.kind === 'known').length
   const nUnidentified = objects.filter(o => o.kind === 'unidentified').length
   const nMoving = objects.filter(o => o.moving).length
+  const nHighlights = objects.filter(isHighlight).length
   const selected = selectedObjectId ? objects.find(o => o.id === selectedObjectId) ?? null : null
 
   const clickSort = (key: ObjectSortKey) => {
@@ -84,53 +75,66 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMar
   }
 
   return (
-    <div className="bg-sky-surface rounded-lg border border-sky-border p-3 text-xs" data-testid="objects-panel">
-      <div className="flex items-start justify-between gap-2 mb-2">
-        <div>
-          <div className="text-sky-inkDim text-[10px] font-mono uppercase tracking-wider mb-1">Sky objects</div>
-          <div className="text-sky-ink">
-            <span className="font-mono">{nKnown}</span> known ·{' '}
-            <span className="font-mono">{nUnidentified}</span> unidentified ·{' '}
-            <span className="font-mono">{nMoving}</span> high proper motion
-          </div>
-        </div>
-        <label className="flex items-center gap-1.5 text-sky-inkDim cursor-pointer whitespace-nowrap">
-          <input
-            type="checkbox"
-            checked={showMarkers}
-            onChange={e => onToggleMarkers(e.target.checked)}
-            className="accent-sky-accent"
-          />
-          Show markers
-        </label>
-      </div>
+    <section aria-labelledby="objects-h" className="rounded-xl border border-sky-border bg-sky-surface p-4 text-sm" data-testid="objects-panel">
+      <h2 id="objects-h" className="text-base font-semibold text-sky-ink">Objects in this patch</h2>
+      <p className="mt-1 text-sky-inkDim">
+        <span className="font-mono text-sky-ink">{nKnown}</span> <Term k="known">known</Term> ·{' '}
+        <span className="font-mono text-sky-ink">{nUnidentified}</span> <Term k="unidentified">unidentified</Term> ·{' '}
+        <span className="font-mono text-sky-ink">{nMoving}</span> <Term k="fastMover">fast-moving</Term>
+      </p>
 
-      <div className="flex flex-wrap gap-1 mb-2" role="group" aria-label="Sort objects">
+      <fieldset className="mt-3">
+        <legend className="mb-1.5 text-sky-inkDim">Markers on the image</legend>
+        <div className="grid grid-cols-3 overflow-hidden rounded-lg border border-sky-border">
+          {MARKER_MODES.map((m, i) => (
+            <Hint key={m.id} k={m.tip} className="flex">
+            <label
+              className={`flex flex-1 min-h-11 sm:min-h-9 cursor-pointer items-center justify-center px-2 text-center transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-sky-accent ${
+                i > 0 ? 'border-l border-sky-border' : ''
+              } ${markerMode === m.id ? 'bg-sky-accent/15 text-sky-accent' : 'text-sky-inkDim hover:text-sky-ink'}`}>
+              <input type="radio" name="marker-mode" value={m.id} checked={markerMode === m.id}
+                onChange={() => onMarkerModeChange(m.id)} className="sr-only" />
+              {m.label}
+            </label>
+            </Hint>
+          ))}
+        </div>
+        <p className="mt-1.5 text-xs text-sky-inkDim">
+          {markerMode === 'highlights'
+            ? `Showing the ${nHighlights} fast-moving or unidentified object${nHighlights === 1 ? '' : 's'}.`
+            : markerMode === 'all' ? `Showing all ${objects.length} objects.` : 'Only the selected object is marked.'}
+        </p>
+      </fieldset>
+
+      <div className="mt-4 mb-2 flex flex-wrap gap-1" role="group" aria-label="Sort the list">
         {SORT_BUTTONS.map(b => {
           const active = sortKey === b.key
           return (
+            <Hint key={b.key} k={b.tip}>
             <button
-              key={b.key}
               type="button"
               onClick={() => clickSort(b.key)}
               aria-pressed={active}
-              className={`flex items-center gap-0.5 px-2 py-1 rounded border text-[11px] transition-colors ${
+              className={`flex min-h-10 sm:min-h-8 items-center gap-0.5 rounded border px-2.5 text-xs transition-colors ${
                 active
-                  ? 'bg-sky-accent/15 border-sky-accent/50 text-sky-accent'
-                  : 'border-sky-border text-sky-inkDim hover:text-sky-ink hover:border-sky-accent/40'
+                  ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
+                  : 'border-sky-border text-sky-inkDim hover:border-sky-accent/40 hover:text-sky-ink'
               }`}
             >
               {b.label}
-              {active && (sortDir === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />)}
+              {active && (sortDir === 'asc'
+                ? <ArrowUp className="h-3 w-3" aria-label="ascending" />
+                : <ArrowDown className="h-3 w-3" aria-label="descending" />)}
             </button>
+            </Hint>
           )
         })}
       </div>
 
       {sorted.length === 0 ? (
-        <div className="text-sky-inkDim">No objects detected in this patch</div>
+        <p className="text-sky-inkDim">No objects detected in this patch.</p>
       ) : (
-        <ul ref={listRef} className="max-h-80 overflow-y-auto relative space-y-0.5" aria-label="Sky objects">
+        <ul ref={listRef} className="relative max-h-80 space-y-0.5 overflow-y-auto" aria-label="Objects, select one for details">
           {sorted.map(o => {
             const isSel = o.id === selectedObjectId
             return (
@@ -146,21 +150,27 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMar
                   onClick={() => onSelect(o.id)}
                   aria-current={isSel ? 'true' : undefined}
                   data-object-id={o.id}
-                  className={`w-full grid grid-cols-[28px_1fr_auto] items-center gap-2 px-1.5 py-1 rounded text-left transition-colors ${
+                  className={`grid min-h-11 w-full grid-cols-[30px_1fr_auto] items-center gap-2 rounded px-1.5 py-1 text-left transition-colors ${
                     isSel ? 'bg-sky-accent/15 ring-1 ring-sky-accent/40' : 'hover:bg-sky-bg/60'
                   }`}
                 >
-                  <RowSwatch obj={o} selected={isSel} />
+                  <MarkerSwatch
+                    shape={o.kind === 'known' ? 'circle' : 'square'}
+                    color={o.kind === 'known' ? MARKER_STYLE.known : MARKER_STYLE.unidentified}
+                    moving={o.moving}
+                    selected={isSel}
+                  />
                   <span className="min-w-0">
-                    <span className="block text-sky-ink truncate">{o.name || o.id}</span>
-                    <span className="block text-sky-inkDim text-[10px]">
-                      {o.kind === 'known' ? 'Known' : 'Unidentified'}
+                    <span className="block truncate text-sky-ink">{o.name || o.id}</span>
+                    <span className="block text-xs text-sky-inkDim">
+                      {o.kind === 'known' ? 'Known' : 'Unidentified'}{o.moving ? ' · fast-moving' : ''}
                     </span>
                   </span>
-                  <span className="text-right font-mono text-[10px] leading-tight">
+                  <span className="text-right font-mono text-xs leading-tight">
                     <span className="block text-sky-ink">{formatPm(o.pm_mas_yr ?? null)}</span>
                     <span className="block text-sky-inkDim">
-                      S/N {typeof o.snr === 'number' ? o.snr.toFixed(1) : '—'}
+                      <abbr title="signal-to-noise: how clearly it stands out from the background" className="no-underline">S/N</abbr>{' '}
+                      {typeof o.snr === 'number' ? o.snr.toFixed(0) : '—'}
                     </span>
                   </span>
                 </button>
@@ -173,6 +183,6 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, showMar
       {selected && (
         <ObjectDetails object={selected} thresholds={file.thresholds} meanEpochMjd={file.mean_epoch_mjd} onClose={() => onSelect(null)} />
       )}
-    </div>
+    </section>
   )
 }

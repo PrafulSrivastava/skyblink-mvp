@@ -36,7 +36,6 @@ const config: Config = {
       fontFamily: {
         manrope: ['Manrope', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
-        epilogue: ['Epilogue', 'sans-serif'],
       },
       borderRadius: {
         DEFAULT: '8px',

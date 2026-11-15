@@ -1,8 +1,10 @@
 'use client'
 
-import React, { useRef, useEffect, useState } from 'react'
-import { Info } from 'lucide-react'
+import React, { useRef, useEffect } from 'react'
+import { Info, AlertTriangle } from 'lucide-react'
 import type { LoadedPlayerFrame, BundleTarget } from '@/lib/bundle-loader'
+import { formatMonth } from '@/lib/long-baseline'
+import { RichText, Term } from '@/components/Term'
 
 interface DifferenceViewProps {
   /** First frame of the diff pair (reference) */
@@ -17,39 +19,48 @@ interface DifferenceViewProps {
 
 const DISPLAY = 294
 
-/** Convert grayscale diverging PNG (128=0, >128 positive, <128 negative) to RGBA color. */
+// Blue/orange diverging map: safe for red-green colour blindness, and small residuals stay dark
+// so only real changes stand out.
+const NEUTRAL: [number, number, number] = [16, 20, 30]
+const NOW_RGB: [number, number, number] = [251, 146, 60]  // orange: brighter now (B > A)
+const WAS_RGB: [number, number, number] = [96, 165, 250]  // blue: brighter before (A > B)
+const NOW_HEX = '#fb923c'
+const WAS_HEX = '#60a5fa'
+
+/** Grayscale diverging PNG (128 = no change) to RGBA. */
 function colorizeDivergingPixel(gray: number): [number, number, number, number] {
   const delta = gray - 128
-  if (delta > 0) {
-    // Positive residual: B > A → target IS here (green)
-    const v = Math.min(255, Math.round(delta * 1.8))
-    return [30, 180 + Math.round(delta * 0.3), 80, 255]
-  } else if (delta < 0) {
-    // Negative residual: A > B → target WAS here (orange-red)
-    const v = Math.min(255, Math.round(-delta * 1.8))
-    return [220 + Math.round(-delta * 0.15), 80 + Math.round(-delta * 0.4), 30, 255]
-  }
-  return [80, 80, 90, 255]  // neutral grey background
+  const end = delta >= 0 ? NOW_RGB : WAS_RGB
+  const t = Math.min(1, Math.abs(delta) / 72) ** 0.8
+  return [
+    Math.round(NEUTRAL[0] + (end[0] - NEUTRAL[0]) * t),
+    Math.round(NEUTRAL[1] + (end[1] - NEUTRAL[1]) * t),
+    Math.round(NEUTRAL[2] + (end[2] - NEUTRAL[2]) * t),
+    255,
+  ]
 }
 
-const DIPOLE_NOTES: Record<string, { note: string; warn?: boolean }> = {
+const DIPOLE_NOTES: Record<string, { plain: string; note: string; warn?: boolean }> = {
   'barnards-star': {
-    note: "D2 measured 1.54 px dipole vs 1.67 px predicted (comp star residual 0.10 px). Motion is in the PSF wings — saturated core masked.",
-    warn: false,
+    plain: 'Look for a blue and orange pair at the crosshair: the star has slid from the blue side to the orange side.',
+    note: '[[Band|band]] D2 [[measured|measuredShift]] 1.54 px shift vs 1.67 px [[predicted|predictedShift]] ([[comparison star|comparisonStar]] moved 0.10 px). The motion is measured in the star’s [[outer glow|psfWing]] because the [[saturated|saturated]] centre is masked.',
   },
   'eps-indi-b': {
-    note: "Epsilon Indi B: moderate proper motion. The 3.3 µm CH₄ spectrum is the primary science product for this target.",
+    plain: 'A small shift over a few months. This target is better known for its [[spectrum|spectrum]]: open Spectrum.',
+    note: 'Moderate [[proper motion|properMotion]]. The 3.3 [[µm|micron]] [[CH₄|methane]] spectrum is the main science result for this target.',
   },
   'wise-0855': {
-    note: "WISE 0855: 0.60 px measured in D6 vs 0.64 px predicted (6-month baseline). No comparison star inside the grid.",
+    plain: 'Faint and only six months apart, so the shift is under one pixel. The [[16-year view|longBaseline]] shows its motion far more clearly.',
+    note: '0.60 px [[measured|measuredShift]] in [[band|band]] D6 vs 0.64 px [[predicted|predictedShift]] (6 months apart). No [[comparison star|comparisonStar]] inside the image.',
     warn: true,
   },
   'rw-aur': {
-    note: "RW Aur: variability (not motion) is the signal. D2 saturated core masked. Same-channel flux comparison across visits.",
+    plain: 'Colour here means a change in brightness, not motion: this young star flickers.',
+    note: '[[Band|band]] D2 [[saturated|saturated]] core masked. Same-[[channel|channel]] brightness compared across [[visits|visit]].',
   },
   'r-dra': {
-    note: "R Dra: fully saturated. PSF-wing brightness ratio v1/v3 shown as a variability proxy (systematic floor ±0.3 mag).",
-    warn: false,
+    plain: 'Colour here means a change in brightness, not motion: this giant star pulses.',
+    note: 'Fully [[saturated|saturated]]. The [[PSF-wing|psfWing]] brightness ratio between [[visits|visit]] tracks its variability (±0.3 [[mag|magnitude]] floor).',
   },
 }
 
@@ -57,151 +68,104 @@ export default function DifferenceView({
   frameA, frameB, target, band, isLoading, displaySize = DISPLAY,
 }: DifferenceViewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [colorizeDone, setColorizeDone] = useState(false)
 
   useEffect(() => {
-    setColorizeDone(false)
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // We need a diff URL. Use frameB's diffUrl (the diff pair image)
-    const diffUrl = frameB?.diffUrl ?? frameA?.diffUrl ?? null
-    if (!diffUrl) {
+    const message = (text: string, color = '#8b96a8') => {
       ctx.fillStyle = '#131824'
       ctx.fillRect(0, 0, displaySize, displaySize)
-      ctx.fillStyle = '#8b96a8'
-      ctx.font = '11px JetBrains Mono'
+      ctx.fillStyle = color
+      ctx.font = '14px Manrope, sans-serif'
       ctx.textAlign = 'center'
-      ctx.fillText('No difference image', displaySize / 2, displaySize / 2)
-      return
+      ctx.fillText(text, displaySize / 2, displaySize / 2)
     }
+
+    const diffUrl = frameB?.diffUrl ?? frameA?.diffUrl ?? null
+    if (!diffUrl) { message('No difference image for this band'); return }
 
     const img = new Image()
     img.crossOrigin = 'anonymous'
     img.onload = () => {
-      // Draw to offscreen canvas to get pixel data
       const offscreen = document.createElement('canvas')
       offscreen.width = 49; offscreen.height = 49
       const octx = offscreen.getContext('2d')!
       octx.drawImage(img, 0, 0, 49, 49)
       const { data } = octx.getImageData(0, 0, 49, 49)
 
-      // Build RGBA colorized output
       const scale = displaySize / 49
-      const out = document.createElement('canvas')
-      out.width = displaySize; out.height = displaySize
-      const oc = out.getContext('2d')!
-      const imgData = oc.createImageData(displaySize, displaySize)
-
+      const imgData = ctx.createImageData(displaySize, displaySize)
       for (let py = 0; py < displaySize; py++) {
         for (let px = 0; px < displaySize; px++) {
-          const srcX = Math.floor(px / scale)
-          const srcY = Math.floor(py / scale)
-          const srcIdx = (srcY * 49 + srcX) * 4
-          const gray = data[srcIdx] // grayscale PNG: R=G=B=gray
-          const [r, g, b, a] = colorizeDivergingPixel(gray)
-          const dstIdx = (py * displaySize + px) * 4
-          imgData.data[dstIdx] = r
-          imgData.data[dstIdx + 1] = g
-          imgData.data[dstIdx + 2] = b
-          imgData.data[dstIdx + 3] = a
+          const src = (Math.floor(py / scale) * 49 + Math.floor(px / scale)) * 4
+          const [r, g, b, a] = colorizeDivergingPixel(data[src])
+          const dst = (py * displaySize + px) * 4
+          imgData.data[dst] = r; imgData.data[dst + 1] = g; imgData.data[dst + 2] = b; imgData.data[dst + 3] = a
         }
       }
-      oc.putImageData(imgData, 0, 0)
+      ctx.putImageData(imgData, 0, 0)
 
-      ctx.drawImage(out, 0, 0)
-
-      // Draw comparison star if available
+      // Comparison star: should show no pair, which is what makes the target's pair believable
       if (target?.comparison_star) {
         const cs = target.comparison_star
-        const cx = cs.png_x * scale
-        const cy = cs.png_y * scale
-        ctx.strokeStyle = 'rgba(255,215,0,0.8)'
-        ctx.lineWidth = 1
+        ctx.strokeStyle = 'rgba(233,237,243,0.85)'
+        ctx.lineWidth = 1.5
         ctx.setLineDash([3, 3])
         ctx.beginPath()
-        ctx.arc(cx, cy, 10, 0, Math.PI * 2)
+        ctx.arc((cs.png_x + 0.5) * scale, (cs.png_y + 0.5) * scale, 12, 0, Math.PI * 2)
         ctx.stroke()
         ctx.setLineDash([])
-        ctx.fillStyle = 'rgba(255,215,0,0.9)'
-        ctx.font = '8px JetBrains Mono'
-        ctx.textAlign = 'center'
-        ctx.fillText('ctrl', cx, cy - 13)
       }
-
-      // Legend
-      ctx.fillStyle = 'rgba(0,0,0,0.7)'
-      ctx.fillRect(0, displaySize - 20, displaySize, 20)
-      // Green = now (positive)
-      ctx.fillStyle = '#4ade80'
-      ctx.beginPath(); ctx.arc(10, displaySize - 10, 4, 0, Math.PI * 2); ctx.fill()
-      ctx.fillStyle = '#e9edf3'
-      ctx.font = '9px JetBrains Mono'; ctx.textAlign = 'left'
-      ctx.fillText('now', 18, displaySize - 6)
-      // Red = was (negative)
-      ctx.fillStyle = '#ef4444'
-      ctx.beginPath(); ctx.arc(55, displaySize - 10, 4, 0, Math.PI * 2); ctx.fill()
-      ctx.fillText('was', 63, displaySize - 6)
-      // pair label
-      if (frameA && frameB) {
-        ctx.fillStyle = '#8b96a8'
-        ctx.textAlign = 'right'
-        ctx.fillText(`${frameA.visitId}→${frameB.visitId}  ${band}`, displaySize - 4, displaySize - 6)
-      }
-
-      setColorizeDone(true)
     }
-    img.onerror = () => {
-      ctx.fillStyle = '#131824'
-      ctx.fillRect(0, 0, displaySize, displaySize)
-      ctx.fillStyle = '#ef4444'
-      ctx.font = '10px JetBrains Mono'
-      ctx.textAlign = 'center'
-      ctx.fillText('Diff image failed', displaySize / 2, displaySize / 2)
-    }
+    img.onerror = () => message('Difference image failed to load', '#fca5a5')
     img.src = diffUrl
-  }, [frameA, frameB, target, band, displaySize])
+  }, [frameA, frameB, target, displaySize])
 
   if (isLoading) {
-    return (
-      <div className="rounded-lg overflow-hidden border border-sky-border shimmer"
-        style={{ width: displaySize, height: displaySize, maxWidth: '100%' }} />
-    )
+    return <div className="aspect-square w-full rounded-lg border border-sky-border shimmer" style={{ maxWidth: displaySize }} role="status" aria-label="Loading" />
   }
 
   const noteInfo = DIPOLE_NOTES[target?.id ?? '']
+  const pairLabel = frameA && frameB ? `${formatMonth(frameB.dateStart)} minus ${formatMonth(frameA.dateStart)}` : 'later minus earlier'
 
   return (
-    <div>
-      <div className="relative rounded-lg overflow-hidden border border-sky-border inline-block max-w-full"
-        style={{ background: '#0a0d14' }}>
+    <div style={{ maxWidth: displaySize }}>
+      <div className="relative overflow-hidden rounded-lg border border-sky-border bg-sky-bg">
         <canvas
           ref={canvasRef}
           width={displaySize}
           height={displaySize}
-          className="block"
-          style={{ imageRendering: 'pixelated', maxWidth: '100%', height: 'auto' }}
+          role="img"
+          aria-label={`Difference image, ${pairLabel}, band ${band}. Orange is brighter now, blue was brighter before.${target?.comparison_star ? ' A dashed ring marks a comparison star that should not change.' : ''}`}
+          className="block h-auto w-full"
+          style={{ imageRendering: 'pixelated' }}
         />
-        <div className="absolute top-2 right-2 flex gap-1.5">
-          <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-green-400 border border-green-400/30">
-            diff B−A
-          </span>
-        </div>
-        {target?.comparison_star && (
-          <div className="absolute top-2 left-2">
-            <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-black/60 text-yellow-300/80 border border-yellow-300/20">
-              ctrl G={target.comparison_star.G.toFixed(1)}
-            </span>
-          </div>
-        )}
       </div>
 
+      {/* Key as real text */}
+      <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-sm text-sky-inkDim" aria-label="Difference colour key">
+        <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{ background: NOW_HEX }} aria-hidden="true" />Brighter now</li>
+        <li className="flex items-center gap-1.5"><span className="h-3 w-3 rounded-sm" style={{ background: WAS_HEX }} aria-hidden="true" />Brighter before</li>
+        {target?.comparison_star && (
+          <li className="flex items-center gap-1.5">
+            <span className="h-3 w-3 rounded-full border border-dashed border-sky-ink" aria-hidden="true" />
+            <span><Term k="comparisonStar">Comparison star</Term> (<Term k="gMag">Gaia G</Term> = {target.comparison_star.G.toFixed(1)})</span>
+          </li>
+        )}
+      </ul>
+
       {noteInfo && (
-        <div className={`mt-2 flex gap-1.5 text-[11px] leading-snug ${noteInfo.warn ? 'text-yellow-400' : 'text-sky-inkDim'}`}>
-          <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />
-          <span>{noteInfo.note}</span>
+        <div className="mt-3 space-y-1.5 text-sm">
+          <p className={`flex gap-1.5 ${noteInfo.warn ? 'text-amber-200' : 'text-sky-ink'}`}>
+            {noteInfo.warn
+              ? <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
+              : <Info className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />}
+            <span><RichText text={noteInfo.plain} /></span>
+          </p>
+          <p className="text-xs text-sky-inkDim"><RichText text={noteInfo.note} /></p>
         </div>
       )}
     </div>
