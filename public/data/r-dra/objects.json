@@ -1,0 +1,345 @@
+{
+ "version": 1,
+ "patch": "r-dra",
+ "generated": "2026-11-15T10:54:07Z",
+ "mean_epoch_mjd": 61022.87266,
+ "detection_frames": [
+  "D1/v1",
+  "D1/v2",
+  "D1/v3",
+  "D2/v1",
+  "D2/v2",
+  "D2/v3",
+  "D3/v1",
+  "D3/v2",
+  "D3/v3",
+  "D4/v1",
+  "D4/v2",
+  "D4/v3",
+  "D5/v1",
+  "D5/v2",
+  "D5/v3",
+  "D6/v1",
+  "D6/v2",
+  "D6/v3"
+ ],
+ "catalog_snapshots": [
+  {
+   "catalog": "CatWISE2020",
+   "table": "catwise_2020",
+   "file": "r-dra_catwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 0,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "AllWISE",
+   "table": "allwise_p3as_psd",
+   "file": "r-dra_allwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 65,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "2MASS",
+   "table": "fp_psc",
+   "file": "r-dra_2mass.csv",
+   "retrieved": "2026-11-15",
+   "rows": 57,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  }
+ ],
+ "thresholds": {
+  "detect_snr": 5.0,
+  "min_sep_px": 2.0,
+  "edge_margin_px": 2,
+  "min_frames": 3,
+  "halo_dilate_px": 1,
+  "match_radius_px": 1.5,
+  "match_radius_arcsec": 9.225,
+  "forced_radius_px": 2.0,
+  "link_radius_arcsec": 3.0,
+  "link_radius_max_arcsec": 6.0,
+  "moving_pm_mas_yr": 1000.0,
+  "moving_pm_min_significance": 5.0,
+  "image_shift_min_px": 1.0,
+  "image_shift_min_snr": 10.0,
+  "target_absorb_radius_arcsec": 20.0
+ },
+ "counts": {
+  "detected": 5,
+  "known": 6,
+  "unidentified": 0,
+  "moving": 0,
+  "forced_undetected": 1
+ },
+ "objects": [
+  {
+   "id": "r-dra-001",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "comparison star",
+   "name": "Gaia DR3 1648327226079824640",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "1648327226079824640",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 13.753
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": null,
+    "pmdec": null,
+    "total": 3.9,
+    "total_err": null
+   },
+   "ra": 248.2195215,
+   "dec": 66.7266236,
+   "catalog_ra": 248.2197955,
+   "catalog_dec": 66.7267194,
+   "snr": 38.2,
+   "detected": true,
+   "forced": "comparison star",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 11.906,
+     "png_y": 40.619
+    },
+    "v2": {
+     "png_x": 11.906,
+     "png_y": 40.619
+    },
+    "v3": {
+     "png_x": 11.906,
+     "png_y": 40.619
+    }
+   }
+  },
+  {
+   "id": "r-dra-002",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 4.7 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J16324714+6646409",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "16324714+6646409",
+     "sep_arcsec": 4.71,
+     "mags": {
+      "J": 13.212,
+      "H": 12.835,
+      "K": 12.792
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 248.1936598,
+   "dec": 66.7773226,
+   "catalog_ra": 248.196442,
+   "catalog_dec": 66.778038,
+   "snr": 36.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 17.901,
+     "png_y": 10.945
+    },
+    "v2": {
+     "png_x": 17.901,
+     "png_y": 10.945
+    },
+    "v3": {
+     "png_x": 17.901,
+     "png_y": 10.945
+    }
+   }
+  },
+  {
+   "id": "r-dra-003",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.2 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J16325721+6646370",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "16325721+6646370",
+     "sep_arcsec": 1.18,
+     "mags": {
+      "J": 13.394,
+      "H": 13.184,
+      "K": 13.284
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 248.2375552,
+   "dec": 66.7769206,
+   "catalog_ra": 248.238381,
+   "catalog_dec": 66.776955,
+   "snr": 23.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 7.769,
+     "png_y": 11.173
+    },
+    "v2": {
+     "png_x": 7.769,
+     "png_y": 11.173
+    },
+    "v3": {
+     "png_x": 7.769,
+     "png_y": 11.173
+    }
+   }
+  },
+  {
+   "id": "r-dra-004",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 2.1 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J16325473+6647277",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "16325473+6647277",
+     "sep_arcsec": 2.09,
+     "mags": {
+      "J": 13.943,
+      "H": 13.397,
+      "K": 13.255
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 248.2289673,
+   "dec": 66.7914833,
+   "catalog_ra": 248.228047,
+   "catalog_dec": 66.791031,
+   "snr": 18.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 9.759,
+     "png_y": 2.651
+    },
+    "v2": {
+     "png_x": 9.759,
+     "png_y": 2.651
+    },
+    "v3": {
+     "png_x": 9.759,
+     "png_y": 2.651
+    }
+   }
+  },
+  {
+   "id": "r-dra-005",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.0 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J16324514+6646558",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "16324514+6646558",
+     "sep_arcsec": 1.03,
+     "mags": {
+      "J": 14.51,
+      "H": 14.163,
+      "K": 14.202
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 248.1886494,
+   "dec": 66.7819942,
+   "catalog_ra": 248.188119,
+   "catalog_dec": 66.782188,
+   "snr": 17.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 19.058,
+     "png_y": 8.211
+    },
+    "v2": {
+     "png_x": 19.058,
+     "png_y": 8.211
+    },
+    "v3": {
+     "png_x": 19.058,
+     "png_y": 8.211
+    }
+   }
+  },
+  {
+   "id": "r-dra-006",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "bundle target",
+   "name": "R Draconis",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "1648328016354496384",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 6.374
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -20.6,
+    "pmdec": 6.1,
+    "total": 21.5,
+    "total_err": 0.1
+   },
+   "ra": 248.167234,
+   "dec": 66.7550234,
+   "catalog_ra": 248.167234,
+   "catalog_dec": 66.7550234,
+   "snr": null,
+   "detected": false,
+   "forced": "bundle target",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 23.998,
+     "png_y": 24.0
+    },
+    "v2": {
+     "png_x": 24.0,
+     "png_y": 24.0
+    },
+    "v3": {
+     "png_x": 24.002,
+     "png_y": 23.999
+    }
+   }
+  }
+ ]
+}

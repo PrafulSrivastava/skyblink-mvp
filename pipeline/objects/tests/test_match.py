@@ -520,3 +520,28 @@ def test_no_frames_means_no_image_shift(mini):
     objs, stats = run(mini, frames=[])
     assert all(o.image_shift_px is None for o in objs)
     assert stats.shift_floor_px == 0.5
+
+
+def test_absorb_follows_the_target_track(mini):
+    """CatWISE splits a fast mover into rows along its whole 2010-2018 track, not only at the mean epoch."""
+    t = mini["target"]
+    c = t["catalog"]
+    epoch_ra, epoch_dec = propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], CATWISE_EPOCH_MJD)
+    arc = 1 / 3600 / math.cos(math.radians(epoch_dec))
+
+    def row(name, ra, dec):
+        return CatwiseRow(name, ra, dec, 0.0, 0.0, 10.0, 12.0, 12.0, "", "00")
+
+    # the target moves east at 3 arcsec/yr: its track runs from -16 arcsec (2010) to +11 arcsec (2018) of the
+    # CatWISE-epoch position, so a row 25 arcsec east is 14 arcsec from the track end, and one 25 arcsec
+    # west is 9 arcsec from the 2010 end.
+    on_track_east = row("E", epoch_ra + 25 * arc, epoch_dec)
+    on_track_west = row("W", epoch_ra - 25 * arc, epoch_dec)
+    off_track_north = row("N", epoch_ra, epoch_dec + 25 / 3600)
+    far_east = row("F", epoch_ra + 40 * arc, epoch_dec)
+    rows = [on_track_east, on_track_west, off_track_north, far_east]
+    kept, absorbed = absorb_target_rows(rows, t, 20.0)
+    assert {r.name for r in absorbed} == {"E", "W"}
+    assert {r.name for r in kept} == {"N", "F"}
+    # the point at the CatWISE epoch alone would have kept all four
+    assert min(sep_arcsec(epoch_ra, epoch_dec, r.ra, r.dec) for r in rows) > 20.0

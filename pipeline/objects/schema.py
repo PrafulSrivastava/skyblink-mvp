@@ -1,7 +1,7 @@
 """Python mirror of the shared `objects.json` schema (see lib/sky-objects.ts)."""
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from typing import Literal
 
 ObjectKind = Literal["known", "unidentified"]
@@ -85,3 +85,27 @@ class ObjectsFile:
     thresholds: dict[str, float]
     counts: ObjectCounts
     objects: list[SkyObject]
+
+
+def _r(v: float | None, nd: int) -> float | None:
+    return None if v is None else round(float(v), nd)
+
+
+def to_json_dict(f: ObjectsFile) -> dict:
+    """Plain-dict form of the file with the shared schema's rounding rules (png 3 dp, ra/dec 7 dp,
+    snr 1 dp, pm 1 dp, sep 2 dp, mags 3 dp, image_shift 2 dp). NaN is left alone; `json.dumps(allow_nan=False)`
+    rejects it at write time."""
+    d = asdict(f)
+    for o in d["objects"]:
+        o["ra"], o["dec"] = _r(o["ra"], 7), _r(o["dec"], 7)
+        o["catalog_ra"], o["catalog_dec"] = _r(o["catalog_ra"], 7), _r(o["catalog_dec"], 7)
+        o["snr"] = _r(o["snr"], 1)
+        o["image_shift_px"] = _r(o["image_shift_px"], 2)
+        if o["pm_mas_yr"] is not None:
+            o["pm_mas_yr"] = {k: _r(v, 1) for k, v in o["pm_mas_yr"].items()}
+        for c in o["catalogs"]:
+            c["sep_arcsec"] = _r(c["sep_arcsec"], 2)
+            c["mags"] = {k: _r(v, 3) for k, v in c["mags"].items()}
+        o["positions"] = {v: {"png_x": _r(p["png_x"], 3), "png_y": _r(p["png_y"], 3)}
+                          for v, p in o["positions"].items()}
+    return d

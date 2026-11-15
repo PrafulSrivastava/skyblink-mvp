@@ -12,6 +12,7 @@
    "default_band": "D2",
    "target": "barnards-star/target.json",
    "spectrum": "barnards-star/spectrum.json",
+   "objects": "barnards-star/objects.json",
    "visits": [
     "v1",
     "v2",
@@ -54,6 +55,7 @@
    "default_band": "D3",
    "target": "eps-indi-b/target.json",
    "spectrum": "eps-indi-b/spectrum.json",
+   "objects": "eps-indi-b/objects.json",
    "visits": [
     "v1",
     "v2",
@@ -93,6 +95,7 @@
    "default_band": "D6",
    "target": "wise-0855/target.json",
    "spectrum": "wise-0855/spectrum.json",
+   "objects": "wise-0855/objects.json",
    "visits": [
     "v1",
     "v2",
@@ -132,6 +135,7 @@
    "default_band": "D2",
    "target": "rw-aur/target.json",
    "spectrum": "rw-aur/spectrum.json",
+   "objects": "rw-aur/objects.json",
    "visits": [
     "v1",
     "v2",
@@ -170,6 +174,7 @@
    "default_band": "D2",
    "target": "r-dra/target.json",
    "spectrum": "r-dra/spectrum.json",
+   "objects": "r-dra/objects.json",
    "visits": [
     "v1",
     "v2",

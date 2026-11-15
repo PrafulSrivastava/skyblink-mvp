@@ -1,0 +1,3725 @@
+{
+ "version": 1,
+ "patch": "rw-aur",
+ "generated": "2026-11-15T10:54:07Z",
+ "mean_epoch_mjd": 61108.86722,
+ "detection_frames": [
+  "D1/v1",
+  "D1/v2",
+  "D1/v3",
+  "D2/v1",
+  "D2/v2",
+  "D2/v3",
+  "D3/v1",
+  "D3/v2",
+  "D3/v3",
+  "D4/v1",
+  "D4/v2",
+  "D4/v3",
+  "D5/v1",
+  "D5/v2",
+  "D5/v3",
+  "D6/v1",
+  "D6/v2",
+  "D6/v3"
+ ],
+ "catalog_snapshots": [
+  {
+   "catalog": "CatWISE2020",
+   "table": "catwise_2020",
+   "file": "rw-aur_catwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 1068,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "AllWISE",
+   "table": "allwise_p3as_psd",
+   "file": "rw-aur_allwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 354,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "2MASS",
+   "table": "fp_psc",
+   "file": "rw-aur_2mass.csv",
+   "retrieved": "2026-11-15",
+   "rows": 318,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  }
+ ],
+ "thresholds": {
+  "detect_snr": 5.0,
+  "min_sep_px": 2.0,
+  "edge_margin_px": 2,
+  "min_frames": 3,
+  "halo_dilate_px": 1,
+  "match_radius_px": 1.5,
+  "match_radius_arcsec": 9.225,
+  "forced_radius_px": 2.0,
+  "link_radius_arcsec": 3.0,
+  "link_radius_max_arcsec": 6.0,
+  "moving_pm_mas_yr": 1000.0,
+  "moving_pm_min_significance": 5.0,
+  "image_shift_min_px": 1.0,
+  "image_shift_min_snr": 10.0,
+  "target_absorb_radius_arcsec": 20.0
+ },
+ "counts": {
+  "detected": 62,
+  "known": 61,
+  "unidentified": 2,
+  "moving": 0,
+  "forced_undetected": 1
+ },
+ "objects": [
+  {
+   "id": "rw-aur-001",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.2 arcsec",
+   "name": "CWISE J050754.63+302232.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050754.63+302232.2",
+     "sep_arcsec": 0.16,
+     "mags": {
+      "W1": 9.445,
+      "W2": 9.477
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050754.63+302232.2",
+     "sep_arcsec": 0.03,
+     "mags": {
+      "W1": 9.43,
+      "W2": 9.471,
+      "W3": 9.423
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075465+3022320",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "J": 10.141,
+      "H": 9.644,
+      "K": 9.506
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -14.0,
+    "pmdec": 5.3,
+    "total": 15.0,
+    "total_err": 5.9
+   },
+   "ra": 76.9776423,
+   "dec": 30.3756196,
+   "catalog_ra": 76.9775975,
+   "catalog_dec": 30.3756438,
+   "snr": 8249.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 13.114,
+     "png_y": 38.93
+    },
+    "v2": {
+     "png_x": 13.115,
+     "png_y": 38.93
+    },
+    "v3": {
+     "png_x": 13.116,
+     "png_y": 38.93
+    }
+   }
+  },
+  {
+   "id": "rw-aur-002",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J050742.89+302434.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050742.89+302434.0",
+     "sep_arcsec": 0.29,
+     "mags": {
+      "W1": 11.489,
+      "W2": 11.5
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050742.90+302434.0",
+     "sep_arcsec": 0.06,
+     "mags": {
+      "W1": 11.486,
+      "W2": 11.499,
+      "W3": 12.152
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074289+3024339",
+     "sep_arcsec": 0.17,
+     "mags": {
+      "J": 11.807,
+      "H": 11.607,
+      "K": 11.536
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -1.5,
+    "pmdec": -6.2,
+    "total": 6.4,
+    "total_err": 6.5
+   },
+   "ra": 76.9288104,
+   "dec": 30.4094731,
+   "catalog_ra": 76.928733,
+   "catalog_dec": 30.4094279,
+   "snr": 1771.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 37.771,
+     "png_y": 19.112
+    },
+    "v2": {
+     "png_x": 37.771,
+     "png_y": 19.113
+    },
+    "v3": {
+     "png_x": 37.771,
+     "png_y": 19.113
+    }
+   }
+  },
+  {
+   "id": "rw-aur-003",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "comparison star",
+   "name": "Gaia DR3 156430027546480512",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "156430027546480512",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 14.776
+     }
+    },
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050756.16+302343.6",
+     "sep_arcsec": 0.61,
+     "mags": {
+      "W1": 11.747,
+      "W2": 11.832
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050756.16+302343.5",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 11.754,
+      "W2": 11.829,
+      "W3": 11.736
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075616+3023435",
+     "sep_arcsec": 0.24,
+     "mags": {
+      "J": 12.646,
+      "H": 12.017,
+      "K": 11.873
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": null,
+    "pmdec": null,
+    "total": 0.5,
+    "total_err": null
+   },
+   "ra": 76.9839498,
+   "dec": 30.3955894,
+   "catalog_ra": 76.9840437,
+   "catalog_dec": 30.3954305,
+   "snr": 849.2,
+   "detected": true,
+   "forced": "comparison star",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 9.932,
+     "png_y": 27.24
+    },
+    "v2": {
+     "png_x": 9.932,
+     "png_y": 27.24
+    },
+    "v3": {
+     "png_x": 9.932,
+     "png_y": 27.24
+    }
+   }
+  },
+  {
+   "id": "rw-aur-004",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050752.81+302550.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050752.81+302550.4",
+     "sep_arcsec": 0.39,
+     "mags": {
+      "W1": 12.637,
+      "W2": 12.719
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050752.82+302550.4",
+     "sep_arcsec": 0.13,
+     "mags": {
+      "W1": 12.693,
+      "W2": 12.743,
+      "W3": 12.463
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075281+3025502",
+     "sep_arcsec": 0.18,
+     "mags": {
+      "J": 13.278,
+      "H": 12.828,
+      "K": 12.744
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -0.2,
+    "pmdec": 6.4,
+    "total": 6.4,
+    "total_err": 7.6
+   },
+   "ra": 76.969944,
+   "dec": 30.430644,
+   "catalog_ra": 76.9700423,
+   "catalog_dec": 30.430712,
+   "snr": 435.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 17.006,
+     "png_y": 6.722
+    },
+    "v2": {
+     "png_x": 17.006,
+     "png_y": 6.721
+    },
+    "v3": {
+     "png_x": 17.006,
+     "png_y": 6.721
+    }
+   }
+  },
+  {
+   "id": "rw-aur-005",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050758.78+302446.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050758.78+302446.2",
+     "sep_arcsec": 0.4,
+     "mags": {
+      "W1": 12.923,
+      "W2": 12.94
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050758.77+302446.2",
+     "sep_arcsec": 0.07,
+     "mags": {
+      "W1": 12.935,
+      "W2": 12.965,
+      "W3": 12.205
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075877+3024462",
+     "sep_arcsec": 0.17,
+     "mags": {
+      "J": 13.43,
+      "H": 13.04,
+      "K": 12.915
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -1.9,
+    "pmdec": -7.8,
+    "total": 8.1,
+    "total_err": 8.6
+   },
+   "ra": 76.9950386,
+   "dec": 30.4128489,
+   "catalog_ra": 76.994911,
+   "catalog_dec": 30.4128341,
+   "snr": 365.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 4.337,
+     "png_y": 17.134
+    },
+    "v2": {
+     "png_x": 4.337,
+     "png_y": 17.135
+    },
+    "v3": {
+     "png_x": 4.337,
+     "png_y": 17.136
+    }
+   }
+  },
+  {
+   "id": "rw-aur-006",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050745.78+302615.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050745.78+302615.8",
+     "sep_arcsec": 0.5,
+     "mags": {
+      "W1": 13.9,
+      "W2": 13.986
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050745.83+302615.8",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "W1": 12.962,
+      "W2": 13.031,
+      "W3": 12.379
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074586+3026156",
+     "sep_arcsec": 0.64,
+     "mags": {
+      "J": 13.653,
+      "H": 13.306,
+      "K": 13.144
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -24.2,
+    "pmdec": 1.5,
+    "total": 24.2,
+    "total_err": 12.6
+   },
+   "ra": 76.9406599,
+   "dec": 30.437605,
+   "catalog_ra": 76.940687,
+   "catalog_dec": 30.437743,
+   "snr": 299.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 31.784,
+     "png_y": 2.647
+    },
+    "v2": {
+     "png_x": 31.786,
+     "png_y": 2.646
+    },
+    "v3": {
+     "png_x": 31.788,
+     "png_y": 2.646
+    }
+   }
+  },
+  {
+   "id": "rw-aur-007",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "AllWISE match within 1.1 arcsec (no CatWISE2020 row)",
+   "name": "WISEA J050751.63+302436.2",
+   "catalogs": [
+    {
+     "catalog": "AllWISE",
+     "id": "J050751.63+302436.2",
+     "sep_arcsec": 1.09,
+     "mags": {
+      "W1": 12.795,
+      "W2": 12.246,
+      "W3": 11.137
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9654123,
+   "dec": 30.4098911,
+   "catalog_ra": 76.9651297,
+   "catalog_dec": 30.4100722,
+   "snr": 276.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 19.293,
+     "png_y": 18.87
+    },
+    "v2": {
+     "png_x": 19.293,
+     "png_y": 18.87
+    },
+    "v3": {
+     "png_x": 19.293,
+     "png_y": 18.87
+    }
+   }
+  },
+  {
+   "id": "rw-aur-008",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.1 arcsec",
+   "name": "CWISE J050749.12+302513.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050749.12+302513.0",
+     "sep_arcsec": 1.15,
+     "mags": {
+      "W1": 13.44,
+      "W2": 13.438
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050749.12+302513.2",
+     "sep_arcsec": 0.14,
+     "mags": {
+      "W1": 13.456,
+      "W2": 13.531,
+      "W3": 11.646
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074913+3025133",
+     "sep_arcsec": 0.03,
+     "mags": {
+      "J": 14.166,
+      "H": 13.641,
+      "K": 13.456
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -3.4,
+    "pmdec": -14.8,
+    "total": 15.2,
+    "total_err": 10.0
+   },
+   "ra": 76.9546807,
+   "dec": 30.4199379,
+   "catalog_ra": 76.9546881,
+   "catalog_dec": 30.4202565,
+   "snr": 207.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 24.71,
+     "png_y": 12.987
+    },
+    "v2": {
+     "png_x": 24.71,
+     "png_y": 12.989
+    },
+    "v3": {
+     "png_x": 24.711,
+     "png_y": 12.99
+    }
+   }
+  },
+  {
+   "id": "rw-aur-009",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050758.93+302151.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050758.93+302151.0",
+     "sep_arcsec": 0.45,
+     "mags": {
+      "W1": 13.647,
+      "W2": 13.706
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050758.93+302151.1",
+     "sep_arcsec": 0.13,
+     "mags": {
+      "W1": 13.666,
+      "W2": 13.702,
+      "W3": 12.468
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075895+3021513",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "J": 14.634,
+      "H": 13.863,
+      "K": 13.773
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 0.1,
+    "pmdec": -33.5,
+    "total": 33.5,
+    "total_err": 10.6
+   },
+   "ra": 76.9955635,
+   "dec": 30.3639622,
+   "catalog_ra": 76.995581,
+   "catalog_dec": 30.3640875,
+   "snr": 151.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 4.062,
+     "png_y": 45.749
+    },
+    "v2": {
+     "png_x": 4.062,
+     "png_y": 45.751
+    },
+    "v3": {
+     "png_x": 4.062,
+     "png_y": 45.754
+    }
+   }
+  },
+  {
+   "id": "rw-aur-010",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "AllWISE match within 0.2 arcsec (no CatWISE2020 row)",
+   "name": "WISEA J050755.75+302536.6",
+   "catalogs": [
+    {
+     "catalog": "AllWISE",
+     "id": "J050755.75+302536.6",
+     "sep_arcsec": 0.19,
+     "mags": {
+      "W1": 13.951,
+      "W2": 14.054,
+      "W3": 12.035
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9823759,
+   "dec": 30.4268441,
+   "catalog_ra": 76.982315,
+   "catalog_dec": 30.4268376,
+   "snr": 144.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 10.731,
+     "png_y": 8.945
+    },
+    "v2": {
+     "png_x": 10.731,
+     "png_y": 8.945
+    },
+    "v3": {
+     "png_x": 10.731,
+     "png_y": 8.945
+    }
+   }
+  },
+  {
+   "id": "rw-aur-011",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.9 arcsec",
+   "name": "CWISE J050739.25+302504.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.25+302504.0",
+     "sep_arcsec": 0.86,
+     "mags": {
+      "W1": 13.741,
+      "W2": 13.798
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050739.25+302504.1",
+     "sep_arcsec": 0.07,
+     "mags": {
+      "W1": 13.781,
+      "W2": 13.822,
+      "W3": 12.554
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05073925+3025041",
+     "sep_arcsec": 0.19,
+     "mags": {
+      "J": 14.354,
+      "H": 13.851,
+      "K": 13.681
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -6.8,
+    "pmdec": -14.2,
+    "total": 15.8,
+    "total_err": 11.5
+   },
+   "ra": 76.9138188,
+   "dec": 30.4177803,
+   "catalog_ra": 76.9135431,
+   "catalog_dec": 30.4177573,
+   "snr": 138.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 45.337,
+     "png_y": 14.247
+    },
+    "v2": {
+     "png_x": 45.337,
+     "png_y": 14.248
+    },
+    "v3": {
+     "png_x": 45.338,
+     "png_y": 14.249
+    }
+   }
+  },
+  {
+   "id": "rw-aur-012",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J050747.86+302243.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050747.86+302243.0",
+     "sep_arcsec": 0.28,
+     "mags": {
+      "W1": 13.862,
+      "W2": 13.845
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050747.83+302243.0",
+     "sep_arcsec": 0.28,
+     "mags": {
+      "W1": 13.814,
+      "W2": 13.938,
+      "W3": 12.296
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074782+3022428",
+     "sep_arcsec": 0.34,
+     "mags": {
+      "J": 14.759,
+      "H": 14.207,
+      "K": 14.248
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 22.8,
+    "pmdec": -9.4,
+    "total": 24.7,
+    "total_err": 12.2
+   },
+   "ra": 76.9494392,
+   "dec": 30.3786434,
+   "catalog_ra": 76.9495069,
+   "catalog_dec": 30.3785907,
+   "snr": 136.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 27.359,
+     "png_y": 37.16
+    },
+    "v2": {
+     "png_x": 27.358,
+     "png_y": 37.161
+    },
+    "v3": {
+     "png_x": 27.356,
+     "png_y": 37.162
+    }
+   }
+  },
+  {
+   "id": "rw-aur-013",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050750.91+302518.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050750.91+302518.1",
+     "sep_arcsec": 0.42,
+     "mags": {
+      "W1": 14.187,
+      "W2": 14.054
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050750.92+302518.1",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "W1": 14.211,
+      "W2": 14.265,
+      "W3": 12.319
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075092+3025183",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "J": 14.793,
+      "H": 14.442,
+      "K": 14.244
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -9.7,
+    "pmdec": -15.4,
+    "total": 18.2,
+    "total_err": 14.0
+   },
+   "ra": 76.9622533,
+   "dec": 30.4216348,
+   "catalog_ra": 76.9621245,
+   "catalog_dec": 30.4216662,
+   "snr": 125.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 20.887,
+     "png_y": 11.994
+    },
+    "v2": {
+     "png_x": 20.888,
+     "png_y": 11.995
+    },
+    "v3": {
+     "png_x": 20.889,
+     "png_y": 11.997
+    }
+   }
+  },
+  {
+   "id": "rw-aur-014",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.1 arcsec",
+   "name": "CWISE J050749.11+302227.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050749.11+302227.0",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "W1": 13.955,
+      "W2": 14.07
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050749.12+302227.1",
+     "sep_arcsec": 0.24,
+     "mags": {
+      "W1": 13.975,
+      "W2": 14.168,
+      "W3": 12.431
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074912+3022269",
+     "sep_arcsec": 0.36,
+     "mags": {
+      "J": 14.785,
+      "H": 14.217,
+      "K": 14.131
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 17.1,
+    "pmdec": 0.1,
+    "total": 17.1,
+    "total_err": 12.2
+   },
+   "ra": 76.9546953,
+   "dec": 30.3741487,
+   "catalog_ra": 76.9547092,
+   "catalog_dec": 30.3741873,
+   "snr": 123.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 24.705,
+     "png_y": 39.792
+    },
+    "v2": {
+     "png_x": 24.703,
+     "png_y": 39.792
+    },
+    "v3": {
+     "png_x": 24.702,
+     "png_y": 39.792
+    }
+   }
+  },
+  {
+   "id": "rw-aur-015",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050759.62+302550.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050759.62+302550.7",
+     "sep_arcsec": 0.37,
+     "mags": {
+      "W1": 13.978,
+      "W2": 14.062
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050759.62+302550.7",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "W1": 14.008,
+      "W2": 14.094,
+      "W3": 12.137
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075962+3025507",
+     "sep_arcsec": 0.04,
+     "mags": {
+      "J": 14.503,
+      "H": 14.227,
+      "K": 14.036
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -0.3,
+    "pmdec": 1.2,
+    "total": 1.2,
+    "total_err": 12.7
+   },
+   "ra": 76.9984052,
+   "dec": 30.4306606,
+   "catalog_ra": 76.998422,
+   "catalog_dec": 30.4307621,
+   "snr": 118.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 2.641,
+     "png_y": 6.708
+    },
+    "v2": {
+     "png_x": 2.641,
+     "png_y": 6.708
+    },
+    "v3": {
+     "png_x": 2.641,
+     "png_y": 6.708
+    }
+   }
+  },
+  {
+   "id": "rw-aur-016",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.5 arcsec",
+   "name": "CWISE J050747.33+302457.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050747.33+302457.4",
+     "sep_arcsec": 1.45,
+     "mags": {
+      "W1": 14.017,
+      "W2": 13.841
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050747.33+302457.4",
+     "sep_arcsec": 0.11,
+     "mags": {
+      "W1": 13.983,
+      "W2": 14.014,
+      "W3": 12.445
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074733+3024575",
+     "sep_arcsec": 0.3,
+     "mags": {
+      "J": 14.643,
+      "H": 14.209,
+      "K": 14.034
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 12.4,
+    "pmdec": -24.6,
+    "total": 27.5,
+    "total_err": 12.4
+   },
+   "ra": 76.9475452,
+   "dec": 30.4162201,
+   "catalog_ra": 76.947282,
+   "catalog_dec": 30.4158873,
+   "snr": 104.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 28.313,
+     "png_y": 15.163
+    },
+    "v2": {
+     "png_x": 28.312,
+     "png_y": 15.165
+    },
+    "v3": {
+     "png_x": 28.311,
+     "png_y": 15.167
+    }
+   }
+  },
+  {
+   "id": "rw-aur-017",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050759.68+302242.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050759.68+302242.8",
+     "sep_arcsec": 0.48,
+     "mags": {
+      "W1": 13.787,
+      "W2": 13.783
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050759.68+302242.8",
+     "sep_arcsec": 0.07,
+     "mags": {
+      "W1": 13.823,
+      "W2": 13.806,
+      "W3": 12.134
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075969+3022430",
+     "sep_arcsec": 0.19,
+     "mags": {
+      "J": 14.853,
+      "H": 14.191,
+      "K": 13.961
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 10.7,
+    "pmdec": -10.1,
+    "total": 14.7,
+    "total_err": 11.2
+   },
+   "ra": 76.9988795,
+   "dec": 30.3786206,
+   "catalog_ra": 76.9987461,
+   "catalog_dec": 30.3785513,
+   "snr": 96.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 2.391,
+     "png_y": 37.17
+    },
+    "v2": {
+     "png_x": 2.39,
+     "png_y": 37.17
+    },
+    "v3": {
+     "png_x": 2.389,
+     "png_y": 37.171
+    }
+   }
+  },
+  {
+   "id": "rw-aur-018",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J050742.04+302510.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050742.04+302510.5",
+     "sep_arcsec": 0.33,
+     "mags": {
+      "W1": 14.32,
+      "W2": 14.478
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050742.04+302510.5",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 14.343,
+      "W2": 14.452,
+      "W3": 12.409
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074205+3025104",
+     "sep_arcsec": 0.45,
+     "mags": {
+      "J": 14.854,
+      "H": 14.512,
+      "K": 14.295
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 11.4,
+    "pmdec": -20.4,
+    "total": 23.4,
+    "total_err": 15.1
+   },
+   "ra": 76.9251359,
+   "dec": 30.4195546,
+   "catalog_ra": 76.9252389,
+   "catalog_dec": 30.4195357,
+   "snr": 92.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 39.625,
+     "png_y": 13.209
+    },
+    "v2": {
+     "png_x": 39.624,
+     "png_y": 13.211
+    },
+    "v3": {
+     "png_x": 39.623,
+     "png_y": 13.213
+    }
+   }
+  },
+  {
+   "id": "rw-aur-019",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.7 arcsec",
+   "name": "CWISE J050757.06+302401.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050757.06+302401.7",
+     "sep_arcsec": 0.67,
+     "mags": {
+      "W1": 14.585,
+      "W2": 14.715
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050757.05+302401.6",
+     "sep_arcsec": 0.2,
+     "mags": {
+      "W1": 14.594,
+      "W2": 14.748,
+      "W3": 12.418
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075706+3024017",
+     "sep_arcsec": 0.21,
+     "mags": {
+      "J": 15.245,
+      "H": 14.713,
+      "K": 14.705
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -9.1,
+    "pmdec": -14.4,
+    "total": 17.0,
+    "total_err": 16.8
+   },
+   "ra": 76.9875725,
+   "dec": 30.4005632,
+   "catalog_ra": 76.9877243,
+   "catalog_dec": 30.4004312,
+   "snr": 77.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 8.103,
+     "png_y": 24.327
+    },
+    "v2": {
+     "png_x": 8.104,
+     "png_y": 24.328
+    },
+    "v3": {
+     "png_x": 8.105,
+     "png_y": 24.329
+    }
+   }
+  },
+  {
+   "id": "rw-aur-020",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 0.6 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05075181+3023344",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05075181+3023344",
+     "sep_arcsec": 0.63,
+     "mags": {
+      "J": 15.555,
+      "H": 15.163,
+      "K": 15.117
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9657931,
+   "dec": 30.3930333,
+   "catalog_ra": 76.965916,
+   "catalog_dec": 30.392895,
+   "snr": 76.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 19.1,
+     "png_y": 28.738
+    },
+    "v2": {
+     "png_x": 19.1,
+     "png_y": 28.738
+    },
+    "v3": {
+     "png_x": 19.1,
+     "png_y": 28.738
+    }
+   }
+  },
+  {
+   "id": "rw-aur-021",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 2.5 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05075619+3022506",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05075619+3022506",
+     "sep_arcsec": 2.45,
+     "mags": {
+      "J": 15.713,
+      "H": 15.25,
+      "K": 15.132
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9841499,
+   "dec": 30.3800503,
+   "catalog_ra": 76.984137,
+   "catalog_dec": 30.380732,
+   "snr": 76.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 9.829,
+     "png_y": 36.336
+    },
+    "v2": {
+     "png_x": 9.829,
+     "png_y": 36.336
+    },
+    "v3": {
+     "png_x": 9.829,
+     "png_y": 36.336
+    }
+   }
+  },
+  {
+   "id": "rw-aur-022",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050756.76+302148.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050756.76+302148.0",
+     "sep_arcsec": 0.35,
+     "mags": {
+      "W1": 14.195,
+      "W2": 14.27
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050756.75+302148.0",
+     "sep_arcsec": 0.06,
+     "mags": {
+      "W1": 14.221,
+      "W2": 14.46,
+      "W3": 11.835
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075675+3021480",
+     "sep_arcsec": 0.36,
+     "mags": {
+      "J": 15.289,
+      "H": 14.602,
+      "K": 14.343
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 26.7,
+    "pmdec": -14.6,
+    "total": 30.4,
+    "total_err": 13.4
+   },
+   "ra": 76.9865034,
+   "dec": 30.3632756,
+   "catalog_ra": 76.9866142,
+   "catalog_dec": 30.3632957,
+   "snr": 69.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 8.64,
+     "png_y": 46.154
+    },
+    "v2": {
+     "png_x": 8.638,
+     "png_y": 46.155
+    },
+    "v3": {
+     "png_x": 8.636,
+     "png_y": 46.156
+    }
+   }
+  },
+  {
+   "id": "rw-aur-023",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050758.71+302525.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050758.71+302525.2",
+     "sep_arcsec": 0.5,
+     "mags": {
+      "W1": 14.458,
+      "W2": 14.544
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050758.70+302525.2",
+     "sep_arcsec": 0.1,
+     "mags": {
+      "W1": 14.51,
+      "W2": 14.688,
+      "W3": 12.467
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075871+3025251",
+     "sep_arcsec": 0.44,
+     "mags": {
+      "J": 15.144,
+      "H": 14.8,
+      "K": 14.525
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 12.9,
+    "pmdec": -22.7,
+    "total": 26.1,
+    "total_err": 15.1
+   },
+   "ra": 76.9945185,
+   "dec": 30.4236168,
+   "catalog_ra": 76.994678,
+   "catalog_dec": 30.4236023,
+   "snr": 64.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 4.603,
+     "png_y": 10.83
+    },
+    "v2": {
+     "png_x": 4.602,
+     "png_y": 10.832
+    },
+    "v3": {
+     "png_x": 4.6,
+     "png_y": 10.834
+    }
+   }
+  },
+  {
+   "id": "rw-aur-024",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.1 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05074388+3022281",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05074388+3022281",
+     "sep_arcsec": 1.11,
+     "mags": {
+      "J": 15.182,
+      "H": 14.924,
+      "K": 14.839
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9325577,
+   "dec": 30.374313,
+   "catalog_ra": 76.932862,
+   "catalog_dec": 30.374475,
+   "snr": 61.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 35.883,
+     "png_y": 39.695
+    },
+    "v2": {
+     "png_x": 35.883,
+     "png_y": 39.695
+    },
+    "v3": {
+     "png_x": 35.883,
+     "png_y": 39.695
+    }
+   }
+  },
+  {
+   "id": "rw-aur-025",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050758.99+302211.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050758.99+302211.2",
+     "sep_arcsec": 0.51,
+     "mags": {
+      "W1": 14.641,
+      "W2": 14.64
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050759.00+302211.1",
+     "sep_arcsec": 0.18,
+     "mags": {
+      "W1": 14.66,
+      "W2": 14.811,
+      "W3": 12.191
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075899+3022114",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "J": 15.778,
+      "H": 14.962,
+      "K": 14.776
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 11.9,
+    "pmdec": 1.2,
+    "total": 12.0,
+    "total_err": 16.3
+   },
+   "ra": 76.9957709,
+   "dec": 30.3696774,
+   "catalog_ra": 76.9958568,
+   "catalog_dec": 30.3697985,
+   "snr": 59.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 3.959,
+     "png_y": 42.406
+    },
+    "v2": {
+     "png_x": 3.958,
+     "png_y": 42.406
+    },
+    "v3": {
+     "png_x": 3.957,
+     "png_y": 42.406
+    }
+   }
+  },
+  {
+   "id": "rw-aur-026",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.9 arcsec",
+   "name": "CWISE J050755.07+302606.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050755.07+302606.4",
+     "sep_arcsec": 0.93,
+     "mags": {
+      "W1": 14.907,
+      "W2": 15.114
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050755.07+302606.2",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "W1": 14.947,
+      "W2": 15.224,
+      "W3": 12.381
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075506+3026065",
+     "sep_arcsec": 0.44,
+     "mags": {
+      "J": 15.56,
+      "H": 15.007,
+      "K": 14.933
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -16.2,
+    "pmdec": 10.7,
+    "total": 19.4,
+    "total_err": 20.8
+   },
+   "ra": 76.9793979,
+   "dec": 30.4354053,
+   "catalog_ra": 76.9794286,
+   "catalog_dec": 30.4351471,
+   "snr": 58.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 12.234,
+     "png_y": 3.934
+    },
+    "v2": {
+     "png_x": 12.235,
+     "png_y": 3.933
+    },
+    "v3": {
+     "png_x": 12.237,
+     "png_y": 3.933
+    }
+   }
+  },
+  {
+   "id": "rw-aur-027",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050754.24+302611.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050754.24+302611.1",
+     "sep_arcsec": 0.45,
+     "mags": {
+      "W1": 14.788,
+      "W2": 14.998
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050754.23+302611.2",
+     "sep_arcsec": 0.07,
+     "mags": {
+      "W1": 14.861,
+      "W2": 14.953,
+      "W3": 12.511
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075424+3026110",
+     "sep_arcsec": 0.42,
+     "mags": {
+      "J": 15.453,
+      "H": 14.952,
+      "K": 14.967
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 8.9,
+    "pmdec": -18.5,
+    "total": 20.5,
+    "total_err": 18.4
+   },
+   "ra": 76.9761867,
+   "dec": 30.4363989,
+   "catalog_ra": 76.9760419,
+   "catalog_dec": 30.4363867,
+   "snr": 57.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 13.857,
+     "png_y": 3.351
+    },
+    "v2": {
+     "png_x": 13.856,
+     "png_y": 3.352
+    },
+    "v3": {
+     "png_x": 13.855,
+     "png_y": 3.354
+    }
+   }
+  },
+  {
+   "id": "rw-aur-028",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.2 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05075374+3023427",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05075374+3023427",
+     "sep_arcsec": 1.24,
+     "mags": {
+      "J": 15.485,
+      "H": 15.158,
+      "K": 14.915
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9737853,
+   "dec": 30.3948878,
+   "catalog_ra": 76.973935,
+   "catalog_dec": 30.395208,
+   "snr": 54.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 15.064,
+     "png_y": 27.651
+    },
+    "v2": {
+     "png_x": 15.064,
+     "png_y": 27.651
+    },
+    "v3": {
+     "png_x": 15.064,
+     "png_y": 27.651
+    }
+   }
+  },
+  {
+   "id": "rw-aur-029",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.3 arcsec",
+   "name": "CWISE J050750.56+302602.6",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050750.56+302602.6",
+     "sep_arcsec": 1.27,
+     "mags": {
+      "W1": 14.949,
+      "W2": 15.134
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050750.55+302602.4",
+     "sep_arcsec": 0.1,
+     "mags": {
+      "W1": 15.064,
+      "W2": 15.27,
+      "W3": 12.258
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075056+3026026",
+     "sep_arcsec": 0.3,
+     "mags": {
+      "J": 15.508,
+      "H": 15.076,
+      "K": 14.995
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -7.2,
+    "pmdec": 14.1,
+    "total": 15.8,
+    "total_err": 20.4
+   },
+   "ra": 76.9603873,
+   "dec": 30.4338255,
+   "catalog_ra": 76.9606438,
+   "catalog_dec": 30.4340987,
+   "snr": 52.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 21.829,
+     "png_y": 4.86
+    },
+    "v2": {
+     "png_x": 21.83,
+     "png_y": 4.859
+    },
+    "v3": {
+     "png_x": 21.831,
+     "png_y": 4.858
+    }
+   }
+  },
+  {
+   "id": "rw-aur-030",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J050749.53+302615.3",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050749.53+302615.3",
+     "sep_arcsec": 0.59,
+     "mags": {
+      "W1": 15.265,
+      "W2": 15.571
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050749.53+302615.3",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 15.294,
+      "W2": 15.614,
+      "W3": 12.458
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074953+3026154",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "J": 15.785,
+      "H": 15.195,
+      "K": 15.077
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 0.7,
+    "pmdec": 3.8,
+    "total": 3.9,
+    "total_err": 25.4
+   },
+   "ra": 76.9565533,
+   "dec": 30.4375357,
+   "catalog_ra": 76.9563803,
+   "catalog_dec": 30.4376008,
+   "snr": 41.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 23.765,
+     "png_y": 2.688
+    },
+    "v2": {
+     "png_x": 23.765,
+     "png_y": 2.688
+    },
+    "v3": {
+     "png_x": 23.765,
+     "png_y": 2.687
+    }
+   }
+  },
+  {
+   "id": "rw-aur-031",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.8 arcsec",
+   "name": "CWISE J050749.42+302549.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050749.42+302549.5",
+     "sep_arcsec": 0.79,
+     "mags": {
+      "W1": 15.465,
+      "W2": 15.564
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050749.43+302549.4",
+     "sep_arcsec": 0.25,
+     "mags": {
+      "W1": 15.525,
+      "W2": 16.07,
+      "W3": 12.201
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074943+3025492",
+     "sep_arcsec": 0.52,
+     "mags": {
+      "J": 16.051,
+      "H": 15.597,
+      "K": 15.435
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 1.7,
+    "pmdec": -10.2,
+    "total": 10.3,
+    "total_err": 29.6
+   },
+   "ra": 76.9561629,
+   "dec": 30.4305338,
+   "catalog_ra": 76.9559511,
+   "catalog_dec": 30.4304097,
+   "snr": 39.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 23.962,
+     "png_y": 6.785
+    },
+    "v2": {
+     "png_x": 23.962,
+     "png_y": 6.786
+    },
+    "v3": {
+     "png_x": 23.962,
+     "png_y": 6.787
+    }
+   }
+  },
+  {
+   "id": "rw-aur-032",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050739.69+302351.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.69+302351.0",
+     "sep_arcsec": 0.55,
+     "mags": {
+      "W1": 15.198,
+      "W2": 15.169
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050739.69+302350.9",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "W1": 15.356,
+      "W2": 15.581,
+      "W3": 12.232
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05073969+3023507",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "J": 15.813,
+      "H": 15.518,
+      "K": 15.365
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 11.0,
+    "pmdec": -16.7,
+    "total": 20.0,
+    "total_err": 24.5
+   },
+   "ra": 76.9154111,
+   "dec": 30.3975986,
+   "catalog_ra": 76.9154466,
+   "catalog_dec": 30.3974501,
+   "snr": 37.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 44.539,
+     "png_y": 26.06
+    },
+    "v2": {
+     "png_x": 44.538,
+     "png_y": 26.062
+    },
+    "v3": {
+     "png_x": 44.537,
+     "png_y": 26.063
+    }
+   }
+  },
+  {
+   "id": "rw-aur-033",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.4 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05075756+3022389",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05075756+3022389",
+     "sep_arcsec": 1.4,
+     "mags": {
+      "J": 16.328,
+      "H": 15.311,
+      "K": 15.529
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9896513,
+   "dec": 30.3778274,
+   "catalog_ra": 76.989852,
+   "catalog_dec": 30.377478,
+   "snr": 34.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 7.05,
+     "png_y": 37.636
+    },
+    "v2": {
+     "png_x": 7.05,
+     "png_y": 37.636
+    },
+    "v3": {
+     "png_x": 7.05,
+     "png_y": 37.636
+    }
+   }
+  },
+  {
+   "id": "rw-aur-034",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.8 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05074428+3023439",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05074428+3023439",
+     "sep_arcsec": 1.83,
+     "mags": {
+      "J": 16.309,
+      "H": 15.707,
+      "K": 15.34
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9347732,
+   "dec": 30.3960083,
+   "catalog_ra": 76.934507,
+   "catalog_dec": 30.395554,
+   "snr": 29.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 34.762,
+     "png_y": 26.995
+    },
+    "v2": {
+     "png_x": 34.762,
+     "png_y": 26.995
+    },
+    "v3": {
+     "png_x": 34.762,
+     "png_y": 26.995
+    }
+   }
+  },
+  {
+   "id": "rw-aur-035",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.9 arcsec",
+   "name": "CWISE J050739.44+302220.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.44+302220.9",
+     "sep_arcsec": 0.95,
+     "mags": {
+      "W1": 15.673,
+      "W2": 15.692
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050739.44+302220.9",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "W1": 15.717,
+      "W2": 15.557,
+      "W3": 12.36
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05073939+3022206",
+     "sep_arcsec": 1.12,
+     "mags": {
+      "J": 16.178,
+      "H": 16.016,
+      "K": 15.494
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -6.3,
+    "pmdec": -37.2,
+    "total": 37.7,
+    "total_err": 32.0
+   },
+   "ra": 76.9146356,
+   "dec": 30.3724125,
+   "catalog_ra": 76.9143373,
+   "catalog_dec": 30.3723599,
+   "snr": 27.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 44.934,
+     "png_y": 40.802
+    },
+    "v2": {
+     "png_x": 44.935,
+     "png_y": 40.804
+    },
+    "v3": {
+     "png_x": 44.935,
+     "png_y": 40.808
+    }
+   }
+  },
+  {
+   "id": "rw-aur-036",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.0 arcsec",
+   "name": "CWISE J050754.70+302405.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050754.70+302405.2",
+     "sep_arcsec": 2.02,
+     "mags": {
+      "W1": 15.773,
+      "W2": 15.586
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075478+3024053",
+     "sep_arcsec": 1.08,
+     "mags": {
+      "J": 16.791,
+      "H": 16.2,
+      "K": 15.546
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 0.3,
+    "pmdec": 13.5,
+    "total": 13.5,
+    "total_err": 38.5
+   },
+   "ra": 76.9780948,
+   "dec": 30.4009431,
+   "catalog_ra": 76.9779435,
+   "catalog_dec": 30.4014878,
+   "snr": 27.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 12.889,
+     "png_y": 24.108
+    },
+    "v2": {
+     "png_x": 12.889,
+     "png_y": 24.107
+    },
+    "v3": {
+     "png_x": 12.889,
+     "png_y": 24.105
+    }
+   }
+  },
+  {
+   "id": "rw-aur-037",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 0.0 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05074291+3022227",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05074291+3022227",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "J": 16.479,
+      "H": 15.775,
+      "K": 16.042
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9287999,
+   "dec": 30.3729823,
+   "catalog_ra": 76.928809,
+   "catalog_dec": 30.372993,
+   "snr": 26.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 37.781,
+     "png_y": 40.473
+    },
+    "v2": {
+     "png_x": 37.781,
+     "png_y": 40.473
+    },
+    "v3": {
+     "png_x": 37.781,
+     "png_y": 40.473
+    }
+   }
+  },
+  {
+   "id": "rw-aur-038",
+   "kind": "unidentified",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "no CatWISE/AllWISE/2MASS source within 9.2 arcsec",
+   "name": "Unidentified #001",
+   "catalogs": [],
+   "pm_mas_yr": null,
+   "ra": 76.9581103,
+   "dec": 30.3843252,
+   "catalog_ra": null,
+   "catalog_dec": null,
+   "snr": 26.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": 0.07,
+   "positions": {
+    "v1": {
+     "png_x": 22.979,
+     "png_y": 33.835
+    },
+    "v2": {
+     "png_x": 22.979,
+     "png_y": 33.835
+    },
+    "v3": {
+     "png_x": 22.979,
+     "png_y": 33.835
+    }
+   }
+  },
+  {
+   "id": "rw-aur-039",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.0 arcsec",
+   "name": "CWISE J050742.82+302545.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050742.82+302545.0",
+     "sep_arcsec": 2.0,
+     "mags": {
+      "W1": 15.456,
+      "W2": 15.857
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050742.82+302544.9",
+     "sep_arcsec": 0.16,
+     "mags": {
+      "W1": 15.533,
+      "W2": 15.857,
+      "W3": 12.387
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074284+3025450",
+     "sep_arcsec": 0.42,
+     "mags": {
+      "J": 16.576,
+      "H": 15.408,
+      "K": 15.459
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 2.8,
+    "pmdec": -15.9,
+    "total": 16.2,
+    "total_err": 28.4
+   },
+   "ra": 76.9279827,
+   "dec": 30.4287482,
+   "catalog_ra": 76.9284555,
+   "catalog_dec": 30.429126,
+   "snr": 25.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 38.186,
+     "png_y": 7.828
+    },
+    "v2": {
+     "png_x": 38.186,
+     "png_y": 7.83
+    },
+    "v3": {
+     "png_x": 38.185,
+     "png_y": 7.831
+    }
+   }
+  },
+  {
+   "id": "rw-aur-040",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.0 arcsec",
+   "name": "CWISE J050753.88+302448.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050753.88+302448.0",
+     "sep_arcsec": 1.05,
+     "mags": {
+      "W1": 15.588,
+      "W2": 15.353
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075388+3024484",
+     "sep_arcsec": 0.75,
+     "mags": {
+      "J": 16.449,
+      "H": 16.058,
+      "K": 15.683
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 41.1,
+    "pmdec": -20.7,
+    "total": 46.0,
+    "total_err": 31.3
+   },
+   "ra": 76.9743265,
+   "dec": 30.4131921,
+   "catalog_ra": 76.974648,
+   "catalog_dec": 30.4132796,
+   "snr": 23.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 14.796,
+     "png_y": 16.935
+    },
+    "v2": {
+     "png_x": 14.793,
+     "png_y": 16.937
+    },
+    "v3": {
+     "png_x": 14.789,
+     "png_y": 16.938
+    }
+   }
+  },
+  {
+   "id": "rw-aur-041",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.7 arcsec",
+   "name": "CWISE J050742.70+302602.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050742.70+302602.9",
+     "sep_arcsec": 2.72,
+     "mags": {
+      "W1": 15.673,
+      "W2": 15.815
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050742.72+302602.7",
+     "sep_arcsec": 0.14,
+     "mags": {
+      "W1": 15.751,
+      "W2": 16.077,
+      "W3": 12.398
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074271+3026026",
+     "sep_arcsec": 0.5,
+     "mags": {
+      "J": 16.353,
+      "H": 15.265,
+      "K": 15.34
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -27.9,
+    "pmdec": 47.6,
+    "total": 55.2,
+    "total_err": 32.8
+   },
+   "ra": 76.9285909,
+   "dec": 30.4339308,
+   "catalog_ra": 76.92783,
+   "catalog_dec": 30.4343076,
+   "snr": 22.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 37.876,
+     "png_y": 4.8
+    },
+    "v2": {
+     "png_x": 37.878,
+     "png_y": 4.796
+    },
+    "v3": {
+     "png_x": 37.88,
+     "png_y": 4.792
+    }
+   }
+  },
+  {
+   "id": "rw-aur-042",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.9 arcsec",
+   "name": "CWISE J050744.70+302357.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050744.70+302357.9",
+     "sep_arcsec": 0.95,
+     "mags": {
+      "W1": 15.81,
+      "W2": 15.686
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074469+3023565",
+     "sep_arcsec": 2.54,
+     "mags": {
+      "J": 16.869,
+      "H": 16.202,
+      "K": 15.764
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -20.2,
+    "pmdec": -74.5,
+    "total": 77.2,
+    "total_err": 38.8
+   },
+   "ra": 76.936467,
+   "dec": 30.3993186,
+   "catalog_ra": 76.9361929,
+   "catalog_dec": 30.3992036,
+   "snr": 22.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 33.905,
+     "png_y": 25.052
+    },
+    "v2": {
+     "png_x": 33.906,
+     "png_y": 25.057
+    },
+    "v3": {
+     "png_x": 33.908,
+     "png_y": 25.064
+    }
+   }
+  },
+  {
+   "id": "rw-aur-043",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.1 arcsec",
+   "name": "CWISE J050743.13+302330.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050743.13+302330.0",
+     "sep_arcsec": 0.11,
+     "mags": {
+      "W1": 15.333,
+      "W2": 15.314
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050743.13+302330.1",
+     "sep_arcsec": 0.18,
+     "mags": {
+      "W1": 15.472,
+      "W2": 15.456,
+      "W3": 12.325
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074313+3023298",
+     "sep_arcsec": 0.52,
+     "mags": {
+      "J": 16.466,
+      "H": 15.462,
+      "K": 15.138
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 25.8,
+    "pmdec": -4.9,
+    "total": 26.3,
+    "total_err": 28.2
+   },
+   "ra": 76.9297729,
+   "dec": 30.3916695,
+   "catalog_ra": 76.9298078,
+   "catalog_dec": 30.3916774,
+   "snr": 21.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 37.289,
+     "png_y": 29.534
+    },
+    "v2": {
+     "png_x": 37.287,
+     "png_y": 29.534
+    },
+    "v3": {
+     "png_x": 37.285,
+     "png_y": 29.535
+    }
+   }
+  },
+  {
+   "id": "rw-aur-044",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.3 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05075434+3025145",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05075434+3025145",
+     "sep_arcsec": 1.31,
+     "mags": {
+      "J": 16.61,
+      "H": 15.709,
+      "K": 15.892
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9765664,
+   "dec": 30.4210641,
+   "catalog_ra": 76.976447,
+   "catalog_dec": 30.420715,
+   "snr": 20.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 13.663,
+     "png_y": 12.329
+    },
+    "v2": {
+     "png_x": 13.663,
+     "png_y": 12.329
+    },
+    "v3": {
+     "png_x": 13.663,
+     "png_y": 12.329
+    }
+   }
+  },
+  {
+   "id": "rw-aur-045",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.3 arcsec",
+   "name": "CWISE J050756.18+302610.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050756.18+302610.2",
+     "sep_arcsec": 1.28,
+     "mags": {
+      "W1": 15.705,
+      "W2": 15.65
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050756.20+302610.1",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "W1": 15.857,
+      "W2": 15.873,
+      "W3": 12.377
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075626+3026103",
+     "sep_arcsec": 0.65,
+     "mags": {
+      "J": 16.714,
+      "H": 15.789,
+      "K": 15.737
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -48.7,
+    "pmdec": 32.0,
+    "total": 58.3,
+    "total_err": 34.6
+   },
+   "ra": 76.9835644,
+   "dec": 30.4361352,
+   "catalog_ra": 76.9839486,
+   "catalog_dec": 30.4362677,
+   "snr": 19.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 10.129,
+     "png_y": 3.508
+    },
+    "v2": {
+     "png_x": 10.132,
+     "png_y": 3.506
+    },
+    "v3": {
+     "png_x": 10.137,
+     "png_y": 3.503
+    }
+   }
+  },
+  {
+   "id": "rw-aur-046",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J050741.98+302306.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050741.98+302306.4",
+     "sep_arcsec": 0.63,
+     "mags": {
+      "W1": 15.774,
+      "W2": 15.902
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050741.98+302306.4",
+     "sep_arcsec": 0.17,
+     "mags": {
+      "W1": 15.792,
+      "W2": 16.085,
+      "W3": 12.592
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074199+3023066",
+     "sep_arcsec": 0.76,
+     "mags": {
+      "J": 16.206,
+      "H": 15.864,
+      "K": 15.617
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 44.2,
+    "pmdec": -16.8,
+    "total": 47.3,
+    "total_err": 37.6
+   },
+   "ra": 76.9249166,
+   "dec": 30.3850092,
+   "catalog_ra": 76.9250999,
+   "catalog_dec": 30.3850853,
+   "snr": 18.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 39.744,
+     "png_y": 33.431
+    },
+    "v2": {
+     "png_x": 39.74,
+     "png_y": 33.433
+    },
+    "v3": {
+     "png_x": 39.737,
+     "png_y": 33.434
+    }
+   }
+  },
+  {
+   "id": "rw-aur-047",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.0 arcsec",
+   "name": "CWISE J050758.24+302305.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050758.24+302305.7",
+     "sep_arcsec": 2.0,
+     "mags": {
+      "W1": 15.723,
+      "W2": 16.285
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050758.24+302305.7",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 15.858,
+      "W2": 16.933,
+      "W3": 12.304
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05075824+3023056",
+     "sep_arcsec": 0.39,
+     "mags": {
+      "J": 15.824,
+      "H": 15.849,
+      "K": 15.446
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -17.5,
+    "pmdec": -4.0,
+    "total": 18.0,
+    "total_err": 36.1
+   },
+   "ra": 76.9922053,
+   "dec": 30.3853339,
+   "catalog_ra": 76.9926377,
+   "catalog_dec": 30.3849221,
+   "snr": 17.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 5.761,
+     "png_y": 33.241
+    },
+    "v2": {
+     "png_x": 5.762,
+     "png_y": 33.242
+    },
+    "v3": {
+     "png_x": 5.763,
+     "png_y": 33.242
+    }
+   }
+  },
+  {
+   "id": "rw-aur-048",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.1 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J05074090+3025502",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "05074090+3025502",
+     "sep_arcsec": 1.14,
+     "mags": {
+      "J": 16.563,
+      "H": 16.086,
+      "K": 15.638
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 76.9208076,
+   "dec": 30.4306146,
+   "catalog_ra": 76.920441,
+   "catalog_dec": 30.430632,
+   "snr": 17.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 41.807,
+     "png_y": 6.736
+    },
+    "v2": {
+     "png_x": 41.807,
+     "png_y": 6.736
+    },
+    "v3": {
+     "png_x": 41.807,
+     "png_y": 6.736
+    }
+   }
+  },
+  {
+   "id": "rw-aur-049",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.5 arcsec",
+   "name": "CWISE J050745.36+302510.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050745.36+302510.7",
+     "sep_arcsec": 0.49,
+     "mags": {
+      "W1": 16.298,
+      "W2": 16.269
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -10.8,
+    "pmdec": -39.8,
+    "total": 41.2,
+    "total_err": 57.8
+   },
+   "ra": 76.938888,
+   "dec": 30.4196454,
+   "catalog_ra": 76.9389824,
+   "catalog_dec": 30.4195357,
+   "snr": 16.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 32.681,
+     "png_y": 13.156
+    },
+    "v2": {
+     "png_x": 32.682,
+     "png_y": 13.159
+    },
+    "v3": {
+     "png_x": 32.683,
+     "png_y": 13.163
+    }
+   }
+  },
+  {
+   "id": "rw-aur-050",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.4 arcsec",
+   "name": "CWISE J050740.56+302311.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050740.56+302311.7",
+     "sep_arcsec": 0.44,
+     "mags": {
+      "W1": 15.783,
+      "W2": 15.743
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050740.55+302311.8",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "W1": 15.885,
+      "W2": 16.051,
+      "W3": 12.427
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05074058+3023120",
+     "sep_arcsec": 0.38,
+     "mags": {
+      "J": 16.507,
+      "H": 16.056,
+      "K": 15.894
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 6.5,
+    "pmdec": -11.8,
+    "total": 13.5,
+    "total_err": 35.9
+   },
+   "ra": 76.9191876,
+   "dec": 30.3866038,
+   "catalog_ra": 76.9190557,
+   "catalog_dec": 30.3865567,
+   "snr": 15.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 42.634,
+     "png_y": 32.497
+    },
+    "v2": {
+     "png_x": 42.633,
+     "png_y": 32.498
+    },
+    "v3": {
+     "png_x": 42.632,
+     "png_y": 32.499
+    }
+   }
+  },
+  {
+   "id": "rw-aur-051",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J050743.51+302203.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050743.51+302203.4",
+     "sep_arcsec": 0.63,
+     "mags": {
+      "W1": 15.622,
+      "W2": 15.709
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050743.52+302203.6",
+     "sep_arcsec": 0.17,
+     "mags": {
+      "W1": 15.678,
+      "W2": 15.553,
+      "W3": 12.445
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -32.6,
+    "pmdec": -11.8,
+    "total": 34.6,
+    "total_err": 33.6
+   },
+   "ra": 76.9309865,
+   "dec": 30.3676247,
+   "catalog_ra": 76.931186,
+   "catalog_dec": 30.3675961,
+   "snr": 14.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 36.675,
+     "png_y": 43.609
+    },
+    "v2": {
+     "png_x": 36.677,
+     "png_y": 43.61
+    },
+    "v3": {
+     "png_x": 36.68,
+     "png_y": 43.611
+    }
+   }
+  },
+  {
+   "id": "rw-aur-052",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.4 arcsec",
+   "name": "CWISE J050739.96+302527.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.96+302527.1",
+     "sep_arcsec": 2.36,
+     "mags": {
+      "W1": 16.084,
+      "W2": 16.087
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050739.97+302527.2",
+     "sep_arcsec": 0.09,
+     "mags": {
+      "W1": 16.355,
+      "W2": 16.613,
+      "W3": 12.285
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "05073990+3025265",
+     "sep_arcsec": 1.29,
+     "mags": {
+      "J": 16.682,
+      "H": 16.974,
+      "K": 15.563
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -17.6,
+    "pmdec": -1.8,
+    "total": 17.7,
+    "total_err": 44.2
+   },
+   "ra": 76.9169825,
+   "dec": 30.4237138,
+   "catalog_ra": 76.9164722,
+   "catalog_dec": 30.4241986,
+   "snr": 13.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 43.738,
+     "png_y": 10.775
+    },
+    "v2": {
+     "png_x": 43.739,
+     "png_y": 10.775
+    },
+    "v3": {
+     "png_x": 43.74,
+     "png_y": 10.775
+    }
+   }
+  },
+  {
+   "id": "rw-aur-053",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.4 arcsec",
+   "name": "CWISE J050755.98+302445.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050755.98+302445.1",
+     "sep_arcsec": 1.39,
+     "mags": {
+      "W1": 16.344,
+      "W2": 16.888
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -26.6,
+    "pmdec": 59.1,
+    "total": 64.8,
+    "total_err": 60.9
+   },
+   "ra": 76.983123,
+   "dec": 30.412327,
+   "catalog_ra": 76.98318,
+   "catalog_dec": 30.4127093,
+   "snr": 12.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 10.35,
+     "png_y": 17.447
+    },
+    "v2": {
+     "png_x": 10.352,
+     "png_y": 17.442
+    },
+    "v3": {
+     "png_x": 10.354,
+     "png_y": 17.437
+    }
+   }
+  },
+  {
+   "id": "rw-aur-054",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.5 arcsec",
+   "name": "CWISE J050745.11+302330.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050745.11+302330.1",
+     "sep_arcsec": 1.54,
+     "mags": {
+      "W1": 15.72,
+      "W2": 15.126
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -49.8,
+    "pmdec": -23.9,
+    "total": 55.2,
+    "total_err": 34.0
+   },
+   "ra": 76.9381918,
+   "dec": 30.3913779,
+   "catalog_ra": 76.9378017,
+   "catalog_dec": 30.3916402,
+   "snr": 11.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 33.032,
+     "png_y": 29.704
+    },
+    "v2": {
+     "png_x": 33.036,
+     "png_y": 29.706
+    },
+    "v3": {
+     "png_x": 33.04,
+     "png_y": 29.708
+    }
+   }
+  },
+  {
+   "id": "rw-aur-055",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.6 arcsec",
+   "name": "CWISE J050752.24+302618.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050752.24+302618.9",
+     "sep_arcsec": 1.59,
+     "mags": {
+      "W1": 16.126,
+      "W2": 16.089
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 28.4,
+    "pmdec": -38.0,
+    "total": 47.4,
+    "total_err": 46.3
+   },
+   "ra": 76.9675339,
+   "dec": 30.4380862,
+   "catalog_ra": 76.9677929,
+   "catalog_dec": 30.4384687,
+   "snr": 10.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 18.226,
+     "png_y": 2.362
+    },
+    "v2": {
+     "png_x": 18.223,
+     "png_y": 2.365
+    },
+    "v3": {
+     "png_x": 18.221,
+     "png_y": 2.368
+    }
+   }
+  },
+  {
+   "id": "rw-aur-056",
+   "kind": "unidentified",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "no CatWISE/AllWISE/2MASS source within 9.2 arcsec",
+   "name": "Unidentified #002",
+   "catalogs": [],
+   "pm_mas_yr": null,
+   "ra": 76.9387372,
+   "dec": 30.3849131,
+   "catalog_ra": null,
+   "catalog_dec": null,
+   "snr": 9.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 32.761,
+     "png_y": 33.49
+    },
+    "v2": {
+     "png_x": 32.761,
+     "png_y": 33.49
+    },
+    "v3": {
+     "png_x": 32.761,
+     "png_y": 33.49
+    }
+   }
+  },
+  {
+   "id": "rw-aur-057",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J050739.93+302429.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.93+302429.5",
+     "sep_arcsec": 0.56,
+     "mags": {
+      "W1": 16.497,
+      "W2": 16.84
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 29.7,
+    "pmdec": -14.4,
+    "total": 33.0,
+    "total_err": 66.3
+   },
+   "ra": 76.916632,
+   "dec": 30.4082882,
+   "catalog_ra": 76.9165033,
+   "catalog_dec": 30.4081788,
+   "snr": 9.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 43.921,
+     "png_y": 19.803
+    },
+    "v2": {
+     "png_x": 43.919,
+     "png_y": 19.805
+    },
+    "v3": {
+     "png_x": 43.917,
+     "png_y": 19.806
+    }
+   }
+  },
+  {
+   "id": "rw-aur-058",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 5.5 arcsec",
+   "name": "CWISE J050739.28+302159.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050739.28+302159.7",
+     "sep_arcsec": 5.48,
+     "mags": {
+      "W1": 16.225,
+      "W2": 15.895
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J050739.36+302200.3",
+     "sep_arcsec": 1.29,
+     "mags": {
+      "W1": 16.282,
+      "W2": 15.892,
+      "W3": 11.678
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 10.3,
+    "pmdec": -16.7,
+    "total": 19.6,
+    "total_err": 46.4
+   },
+   "ra": 76.915076,
+   "dec": 30.367497,
+   "catalog_ra": 76.9137091,
+   "catalog_dec": 30.3665355,
+   "snr": 8.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 44.714,
+     "png_y": 43.681
+    },
+    "v2": {
+     "png_x": 44.713,
+     "png_y": 43.682
+    },
+    "v3": {
+     "png_x": 44.712,
+     "png_y": 43.683
+    }
+   }
+  },
+  {
+   "id": "rw-aur-059",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 3.2 arcsec",
+   "name": "CWISE J050741.43+302403.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050741.43+302403.1",
+     "sep_arcsec": 3.23,
+     "mags": {
+      "W1": 17.321,
+      "W2": 17.746
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 141.3,
+    "pmdec": -246.0,
+    "total": 283.7,
+    "total_err": 145.2
+   },
+   "ra": 76.9227736,
+   "dec": 30.4009515,
+   "catalog_ra": 76.923168,
+   "catalog_dec": 30.4001219,
+   "snr": 8.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 40.831,
+     "png_y": 24.08
+    },
+    "v2": {
+     "png_x": 40.82,
+     "png_y": 24.099
+    },
+    "v3": {
+     "png_x": 40.808,
+     "png_y": 24.121
+    }
+   }
+  },
+  {
+   "id": "rw-aur-060",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 5.6 arcsec",
+   "name": "CWISE J050756.74+302316.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050756.74+302316.0",
+     "sep_arcsec": 5.64,
+     "mags": {
+      "W1": 17.057,
+      "W2": 17.55
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -58.9,
+    "pmdec": -57.6,
+    "total": 82.4,
+    "total_err": 108.3
+   },
+   "ra": 76.9880213,
+   "dec": 30.3873949,
+   "catalog_ra": 76.9862185,
+   "catalog_dec": 30.3875839,
+   "snr": 7.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 7.87,
+     "png_y": 32.031
+    },
+    "v2": {
+     "png_x": 7.875,
+     "png_y": 32.036
+    },
+    "v3": {
+     "png_x": 7.88,
+     "png_y": 32.041
+    }
+   }
+  },
+  {
+   "id": "rw-aur-061",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 7.8 arcsec",
+   "name": "CWISE J050745.32+302215.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050745.32+302215.8",
+     "sep_arcsec": 7.77,
+     "mags": {
+      "W1": 16.641,
+      "W2": 17.249
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -25.7,
+    "pmdec": 10.1,
+    "total": 27.6,
+    "total_err": 76.9
+   },
+   "ra": 76.9412381,
+   "dec": 30.3713956,
+   "catalog_ra": 76.9387629,
+   "catalog_dec": 30.3710805,
+   "snr": 6.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 31.498,
+     "png_y": 41.404
+    },
+    "v2": {
+     "png_x": 31.5,
+     "png_y": 41.403
+    },
+    "v3": {
+     "png_x": 31.502,
+     "png_y": 41.402
+    }
+   }
+  },
+  {
+   "id": "rw-aur-062",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.0 arcsec",
+   "name": "CWISE J050752.01+302233.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J050752.01+302233.8",
+     "sep_arcsec": 1.03,
+     "mags": {
+      "W1": 17.089,
+      "W2": 17.124
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 8.3,
+    "pmdec": 122.0,
+    "total": 122.3,
+    "total_err": 111.4
+   },
+   "ra": 76.9668118,
+   "dec": 30.3761494,
+   "catalog_ra": 76.9667507,
+   "catalog_dec": 30.3764308,
+   "snr": 6.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 18.585,
+     "png_y": 38.631
+    },
+    "v2": {
+     "png_x": 18.584,
+     "png_y": 38.621
+    },
+    "v3": {
+     "png_x": 18.584,
+     "png_y": 38.611
+    }
+   }
+  },
+  {
+   "id": "rw-aur-063",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "bundle target",
+   "name": "RW Aurigae",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "156430822114424576",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 12.184
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 2.6,
+    "pmdec": -27.4,
+    "total": 27.5,
+    "total_err": 0.1
+   },
+   "ra": 76.9560878,
+   "dec": 30.4011269,
+   "catalog_ra": 76.9560878,
+   "catalog_dec": 30.4011269,
+   "snr": null,
+   "detected": false,
+   "forced": "bundle target",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 23.998,
+     "png_y": 23.998
+    },
+    "v2": {
+     "png_x": 24.0,
+     "png_y": 24.0
+    },
+    "v3": {
+     "png_x": 23.998,
+     "png_y": 24.002
+    }
+   }
+  }
+ ]
+}

@@ -23,6 +23,8 @@ BRIGHT_W1 = 13.0
 BRIGHT_EDGE_PX = 2.0
 DEFAULT_SHIFT_FLOOR_PX = 0.5
 MIN_FLOOR_SAMPLES = 3
+CATWISE_SPAN_MJD = (55200.0, 58500.0)  # CatWISE2020 observing span, 2010-01 to 2018-12
+TRACK_SAMPLES = 67
 
 
 @dataclass
@@ -37,19 +39,25 @@ class MatchStats:
     target_detected: bool
 
 
-def _target_pos_at_catwise_epoch(target: dict) -> tuple[float, float]:
+def _target_track(target: dict) -> tuple[np.ndarray, np.ndarray]:
+    """The target's sky positions over the CatWISE2020 observing span (linear proper motion)."""
     c = target["catalog"]
-    return propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], CATWISE_EPOCH_MJD)
+    mjds = np.linspace(CATWISE_SPAN_MJD[0], CATWISE_SPAN_MJD[1], TRACK_SAMPLES)
+    return propagate(c["ra"], c["dec"], c["pmra"], c["pmdec"], c["ref_epoch_mjd"], mjds)
 
 
 def absorb_target_rows(
     rows: list[CatwiseRow], target: dict, radius_arcsec: float
 ) -> tuple[list[CatwiseRow], list[CatwiseRow]]:
-    """Split CatWISE rows of the bundle target (fast movers get split) -> (kept, absorbed)."""
-    ra, dec = _target_pos_at_catwise_epoch(target)
+    """Split CatWISE rows of the bundle target -> (kept, absorbed).
+
+    A fast mover is split into rows along its whole 2010-2018 track, so a row is absorbed when it lies within
+    `radius_arcsec` of that track, not only of the position at the CatWISE mean epoch."""
+    tra, tdec = _target_track(target)
     kept, absorbed = [], []
     for r in rows:
-        (absorbed if sep_arcsec(ra, dec, r.ra, r.dec) <= radius_arcsec else kept).append(r)
+        near = float(np.min(sep_arcsec(tra, tdec, r.ra, r.dec))) <= radius_arcsec
+        (absorbed if near else kept).append(r)
     return kept, absorbed
 
 

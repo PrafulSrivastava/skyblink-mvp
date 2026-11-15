@@ -1,0 +1,3449 @@
+{
+ "version": 1,
+ "patch": "barnards-star",
+ "generated": "2026-11-15T10:54:06Z",
+ "mean_epoch_mjd": 61102.10132,
+ "detection_frames": [
+  "D1/v1",
+  "D1/v2",
+  "D1/v3",
+  "D1/v5",
+  "D2/v1",
+  "D2/v3",
+  "D2/v5",
+  "D2/v6",
+  "D3/v1",
+  "D3/v3",
+  "D3/v4",
+  "D3/v5",
+  "D4/v1",
+  "D4/v2",
+  "D4/v3",
+  "D4/v5",
+  "D5/v1",
+  "D5/v3",
+  "D5/v5",
+  "D5/v6",
+  "D6/v1",
+  "D6/v3",
+  "D6/v4",
+  "D6/v5"
+ ],
+ "catalog_snapshots": [
+  {
+   "catalog": "CatWISE2020",
+   "table": "catwise_2020",
+   "file": "barnards-star_catwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 1322,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "AllWISE",
+   "table": "allwise_p3as_psd",
+   "file": "barnards-star_allwise.csv",
+   "retrieved": "2026-11-15",
+   "rows": 479,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  },
+  {
+   "catalog": "2MASS",
+   "table": "fp_psc",
+   "file": "barnards-star_2mass.csv",
+   "retrieved": "2026-11-15",
+   "rows": 384,
+   "radius_arcsec": 300.0,
+   "service": "https://irsa.ipac.caltech.edu/cgi-bin/Gator/nph-query"
+  }
+ ],
+ "thresholds": {
+  "detect_snr": 5.0,
+  "min_sep_px": 2.0,
+  "edge_margin_px": 2,
+  "min_frames": 3,
+  "halo_dilate_px": 1,
+  "match_radius_px": 1.5,
+  "match_radius_arcsec": 9.225,
+  "forced_radius_px": 2.0,
+  "link_radius_arcsec": 3.0,
+  "link_radius_max_arcsec": 6.0,
+  "moving_pm_mas_yr": 1000.0,
+  "moving_pm_min_significance": 5.0,
+  "image_shift_min_px": 1.0,
+  "image_shift_min_snr": 10.0,
+  "target_absorb_radius_arcsec": 20.0
+ },
+ "counts": {
+  "detected": 46,
+  "known": 47,
+  "unidentified": 0,
+  "moving": 4,
+  "forced_undetected": 1
+ },
+ "objects": [
+  {
+   "id": "barnards-star-001",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "comparison star",
+   "name": "Gaia DR3 4472836292758713216",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "4472836292758713216",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 11.863
+     }
+    },
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175746.52+044746.7",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "W1": 9.284,
+      "W2": 9.354
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175746.52+044746.6",
+     "sep_arcsec": 0.12,
+     "mags": {
+      "W1": 9.268,
+      "W2": 9.343,
+      "W3": 9.303
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574653+0447466",
+     "sep_arcsec": 0.31,
+     "mags": {
+      "J": 10.053,
+      "H": 9.457,
+      "K": 9.342
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": null,
+    "pmdec": null,
+    "total": 6.2,
+    "total_err": null
+   },
+   "ra": 269.444024,
+   "dec": 4.7962221,
+   "catalog_ra": 269.4438716,
+   "catalog_dec": 4.7962914,
+   "snr": 1534.1,
+   "detected": true,
+   "forced": "comparison star",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    },
+    "v2": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    },
+    "v3": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    },
+    "v4": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    },
+    "v5": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    },
+    "v6": {
+     "png_x": 25.371,
+     "png_y": 7.88
+    }
+   }
+  },
+  {
+   "id": "barnards-star-002",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J175740.87+044353.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175740.87+044353.8",
+     "sep_arcsec": 0.35,
+     "mags": {
+      "W1": 10.369,
+      "W2": 10.448
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175740.87+044353.8",
+     "sep_arcsec": 0.06,
+     "mags": {
+      "W1": 10.358,
+      "W2": 10.444,
+      "W3": 10.266
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574088+0443538",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "J": 11.135,
+      "H": 10.582,
+      "K": 10.42
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -13.4,
+    "pmdec": 1.6,
+    "total": 13.5,
+    "total_err": 5.5
+   },
+   "ra": 269.4203129,
+   "dec": 4.7315543,
+   "catalog_ra": 269.4202554,
+   "catalog_dec": 4.7316319,
+   "snr": 721.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 39.202,
+     "png_y": 45.734
+    },
+    "v2": {
+     "png_x": 39.203,
+     "png_y": 45.734
+    },
+    "v3": {
+     "png_x": 39.204,
+     "png_y": 45.734
+    },
+    "v4": {
+     "png_x": 39.204,
+     "png_y": 45.734
+    },
+    "v5": {
+     "png_x": 39.204,
+     "png_y": 45.734
+    },
+    "v6": {
+     "png_x": 39.205,
+     "png_y": 45.734
+    }
+   }
+  },
+  {
+   "id": "barnards-star-003",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J175742.07+044753.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175742.07+044753.4",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "W1": 10.437,
+      "W2": 10.562
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175742.07+044753.4",
+     "sep_arcsec": 0.11,
+     "mags": {
+      "W1": 10.444,
+      "W2": 10.552,
+      "W3": 10.429
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574207+0447535",
+     "sep_arcsec": 0.29,
+     "mags": {
+      "J": 11.392,
+      "H": 10.648,
+      "K": 10.523
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -2.9,
+    "pmdec": -22.2,
+    "total": 22.4,
+    "total_err": 5.1
+   },
+   "ra": 269.4253717,
+   "dec": 4.7981045,
+   "catalog_ra": 269.4252997,
+   "catalog_dec": 4.798121,
+   "snr": 617.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 36.251,
+     "png_y": 6.776
+    },
+    "v2": {
+     "png_x": 36.251,
+     "png_y": 6.776
+    },
+    "v3": {
+     "png_x": 36.251,
+     "png_y": 6.778
+    },
+    "v4": {
+     "png_x": 36.251,
+     "png_y": 6.778
+    },
+    "v5": {
+     "png_x": 36.251,
+     "png_y": 6.779
+    },
+    "v6": {
+     "png_x": 36.251,
+     "png_y": 6.78
+    }
+   }
+  },
+  {
+   "id": "barnards-star-004",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.2 arcsec",
+   "name": "CWISE J175755.00+044727.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175755.00+044727.5",
+     "sep_arcsec": 0.19,
+     "mags": {
+      "W1": 10.868,
+      "W2": 10.93
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175755.00+044727.5",
+     "sep_arcsec": 0.07,
+     "mags": {
+      "W1": 10.848,
+      "W2": 10.923,
+      "W3": 10.964
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575500+0447275",
+     "sep_arcsec": 0.2,
+     "mags": {
+      "J": 11.636,
+      "H": 11.059,
+      "K": 10.951
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 7.2,
+    "pmdec": -10.7,
+    "total": 12.9,
+    "total_err": 5.7
+   },
+   "ra": 269.4791677,
+   "dec": 4.7909558,
+   "catalog_ra": 269.4792204,
+   "catalog_dec": 4.7909547,
+   "snr": 565.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 4.871,
+     "png_y": 10.961
+    },
+    "v2": {
+     "png_x": 4.871,
+     "png_y": 10.961
+    },
+    "v3": {
+     "png_x": 4.871,
+     "png_y": 10.962
+    },
+    "v4": {
+     "png_x": 4.871,
+     "png_y": 10.962
+    },
+    "v5": {
+     "png_x": 4.87,
+     "png_y": 10.963
+    },
+    "v6": {
+     "png_x": 4.87,
+     "png_y": 10.963
+    }
+   }
+  },
+  {
+   "id": "barnards-star-005",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J175747.97+044824.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175747.97+044824.1",
+     "sep_arcsec": 0.28,
+     "mags": {
+      "W1": 11.125,
+      "W2": 11.261
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175747.96+044824.1",
+     "sep_arcsec": 0.1,
+     "mags": {
+      "W1": 11.154,
+      "W2": 11.208,
+      "W3": 11.237
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574797+0448241",
+     "sep_arcsec": 0.35,
+     "mags": {
+      "J": 11.996,
+      "H": 11.409,
+      "K": 11.249
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 15.5,
+    "pmdec": -17.5,
+    "total": 23.4,
+    "total_err": 5.2
+   },
+   "ra": 269.4499147,
+   "dec": 4.8065723,
+   "catalog_ra": 269.4499188,
+   "catalog_dec": 4.8066505,
+   "snr": 397.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 21.936,
+     "png_y": 1.819
+    },
+    "v2": {
+     "png_x": 21.936,
+     "png_y": 1.82
+    },
+    "v3": {
+     "png_x": 21.935,
+     "png_y": 1.821
+    },
+    "v4": {
+     "png_x": 21.934,
+     "png_y": 1.821
+    },
+    "v5": {
+     "png_x": 21.934,
+     "png_y": 1.822
+    },
+    "v6": {
+     "png_x": 21.933,
+     "png_y": 1.823
+    }
+   }
+  },
+  {
+   "id": "barnards-star-006",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.3 arcsec",
+   "name": "CWISE J175745.28+044711.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175745.28+044711.5",
+     "sep_arcsec": 1.29,
+     "mags": {
+      "W1": 10.966,
+      "W2": 11.057
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175745.28+044711.5",
+     "sep_arcsec": 0.04,
+     "mags": {
+      "W1": 10.944,
+      "W2": 11.051,
+      "W3": 11.073
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574528+0447115",
+     "sep_arcsec": 0.18,
+     "mags": {
+      "J": 11.742,
+      "H": 11.163,
+      "K": 11.031
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 11.7,
+    "pmdec": -5.9,
+    "total": 13.1,
+    "total_err": 5.8
+   },
+   "ra": 269.438446,
+   "dec": 4.7862797,
+   "catalog_ra": 269.4387078,
+   "catalog_dec": 4.7865266,
+   "snr": 323.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 28.626,
+     "png_y": 13.699
+    },
+    "v2": {
+     "png_x": 28.626,
+     "png_y": 13.699
+    },
+    "v3": {
+     "png_x": 28.625,
+     "png_y": 13.7
+    },
+    "v4": {
+     "png_x": 28.624,
+     "png_y": 13.7
+    },
+    "v5": {
+     "png_x": 28.624,
+     "png_y": 13.7
+    },
+    "v6": {
+     "png_x": 28.624,
+     "png_y": 13.7
+    }
+   }
+  },
+  {
+   "id": "barnards-star-007",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "AllWISE match within 1.9 arcsec (no CatWISE2020 row)",
+   "name": "WISEA J175741.51+044504.4",
+   "catalogs": [
+    {
+     "catalog": "AllWISE",
+     "id": "J175741.51+044504.4",
+     "sep_arcsec": 1.86,
+     "mags": {
+      "W1": 11.797,
+      "W2": 11.887,
+      "W3": 11.713
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4225238,
+   "dec": 4.751446,
+   "catalog_ra": 269.4229912,
+   "catalog_dec": 4.7512247,
+   "snr": 287.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    },
+    "v2": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    },
+    "v3": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    },
+    "v4": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    },
+    "v5": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    },
+    "v6": {
+     "png_x": 37.913,
+     "png_y": 34.09
+    }
+   }
+  },
+  {
+   "id": "barnards-star-008",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "AllWISE match within 0.7 arcsec (no CatWISE2020 row)",
+   "name": "WISEA J175744.02+044417.6",
+   "catalogs": [
+    {
+     "catalog": "AllWISE",
+     "id": "J175744.02+044417.6",
+     "sep_arcsec": 0.7,
+     "mags": {
+      "W1": 11.877,
+      "W2": 11.802,
+      "W3": 11.678
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4332248,
+   "dec": 4.7382534,
+   "catalog_ra": 269.4334185,
+   "catalog_dec": 4.7382338,
+   "snr": 170.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    },
+    "v2": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    },
+    "v3": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    },
+    "v4": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    },
+    "v5": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    },
+    "v6": {
+     "png_x": 31.671,
+     "png_y": 41.812
+    }
+   }
+  },
+  {
+   "id": "barnards-star-009",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.1 arcsec",
+   "name": "CWISE J175755.73+044507.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175755.73+044507.9",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "W1": 11.935,
+      "W2": 12.03
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175755.73+044507.9",
+     "sep_arcsec": 0.02,
+     "mags": {
+      "W1": 11.928,
+      "W2": 12.002,
+      "W3": 11.785
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575573+0445079",
+     "sep_arcsec": 0.2,
+     "mags": {
+      "J": 12.83,
+      "H": 12.168,
+      "K": 12.017
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 8.7,
+    "pmdec": -9.3,
+    "total": 12.7,
+    "total_err": 6.6
+   },
+   "ra": 269.4822439,
+   "dec": 4.7521398,
+   "catalog_ra": 269.4822519,
+   "catalog_dec": 4.7521793,
+   "snr": 163.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 3.076,
+     "png_y": 33.683
+    },
+    "v2": {
+     "png_x": 3.076,
+     "png_y": 33.683
+    },
+    "v3": {
+     "png_x": 3.075,
+     "png_y": 33.683
+    },
+    "v4": {
+     "png_x": 3.075,
+     "png_y": 33.684
+    },
+    "v5": {
+     "png_x": 3.075,
+     "png_y": 33.684
+    },
+    "v6": {
+     "png_x": 3.074,
+     "png_y": 33.684
+    }
+   }
+  },
+  {
+   "id": "barnards-star-010",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.1 arcsec",
+   "name": "CWISE J175742.13+044822.3",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175742.13+044822.3",
+     "sep_arcsec": 0.11,
+     "mags": {
+      "W1": 12.179,
+      "W2": 12.299
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175742.13+044822.3",
+     "sep_arcsec": 0.03,
+     "mags": {
+      "W1": 12.182,
+      "W2": 12.286,
+      "W3": 12.058
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574213+0448223",
+     "sep_arcsec": 0.09,
+     "mags": {
+      "J": 12.999,
+      "H": 12.42,
+      "K": 12.253
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -1.8,
+    "pmdec": -7.6,
+    "total": 7.8,
+    "total_err": 6.5
+   },
+   "ra": 269.4255977,
+   "dec": 4.8061829,
+   "catalog_ra": 269.425567,
+   "catalog_dec": 4.8061905,
+   "snr": 153.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 36.119,
+     "png_y": 2.048
+    },
+    "v2": {
+     "png_x": 36.119,
+     "png_y": 2.048
+    },
+    "v3": {
+     "png_x": 36.119,
+     "png_y": 2.049
+    },
+    "v4": {
+     "png_x": 36.119,
+     "png_y": 2.049
+    },
+    "v5": {
+     "png_x": 36.119,
+     "png_y": 2.049
+    },
+    "v6": {
+     "png_x": 36.119,
+     "png_y": 2.049
+    }
+   }
+  },
+  {
+   "id": "barnards-star-011",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "AllWISE match within 0.8 arcsec (no CatWISE2020 row)",
+   "name": "WISEA J175739.52+044518.5",
+   "catalogs": [
+    {
+     "catalog": "AllWISE",
+     "id": "J175739.52+044518.5",
+     "sep_arcsec": 0.79,
+     "mags": {
+      "W1": 13.063,
+      "W2": 13.065,
+      "W3": 12.023
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4149016,
+   "dec": 4.7551576,
+   "catalog_ra": 269.4146816,
+   "catalog_dec": 4.7551437,
+   "snr": 68.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    },
+    "v2": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    },
+    "v3": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    },
+    "v4": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    },
+    "v5": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    },
+    "v6": {
+     "png_x": 42.36,
+     "png_y": 31.917
+    }
+   }
+  },
+  {
+   "id": "barnards-star-012",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.3 arcsec",
+   "name": "CWISE J175754.24+044612.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175754.24+044612.5",
+     "sep_arcsec": 1.34,
+     "mags": {
+      "W1": 13.33,
+      "W2": 13.427
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175754.24+044612.5",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "W1": 13.409,
+      "W2": 13.456,
+      "W3": 12.357
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575424+0446126",
+     "sep_arcsec": 0.39,
+     "mags": {
+      "J": 13.884,
+      "H": 13.547,
+      "K": 13.482
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -6.6,
+    "pmdec": 22.6,
+    "total": 23.6,
+    "total_err": 9.1
+   },
+   "ra": 269.4756549,
+   "dec": 4.7701495,
+   "catalog_ra": 269.4760179,
+   "catalog_dec": 4.770231,
+   "snr": 61.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 6.919,
+     "png_y": 23.143
+    },
+    "v2": {
+     "png_x": 6.919,
+     "png_y": 23.143
+    },
+    "v3": {
+     "png_x": 6.919,
+     "png_y": 23.141
+    },
+    "v4": {
+     "png_x": 6.92,
+     "png_y": 23.141
+    },
+    "v5": {
+     "png_x": 6.92,
+     "png_y": 23.14
+    },
+    "v6": {
+     "png_x": 6.92,
+     "png_y": 23.139
+    }
+   }
+  },
+  {
+   "id": "barnards-star-013",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 0.3 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J17574602+0444029",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "17574602+0444029",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "J": 13.852,
+      "H": 13.353,
+      "K": 13.251
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4417307,
+   "dec": 4.7342056,
+   "catalog_ra": 269.441779,
+   "catalog_dec": 4.734149,
+   "snr": 59.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    },
+    "v2": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    },
+    "v3": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    },
+    "v4": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    },
+    "v5": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    },
+    "v6": {
+     "png_x": 26.709,
+     "png_y": 44.182
+    }
+   }
+  },
+  {
+   "id": "barnards-star-014",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.8 arcsec",
+   "name": "CWISE J175751.31+044618.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175751.31+044618.1",
+     "sep_arcsec": 1.78,
+     "mags": {
+      "W1": 14.636,
+      "W2": 14.761
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175751.30+044618.1",
+     "sep_arcsec": 0.24,
+     "mags": {
+      "W1": 14.778,
+      "W2": 14.88,
+      "W3": 12.668
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575132+0446182",
+     "sep_arcsec": 0.23,
+     "mags": {
+      "J": 14.894,
+      "H": 14.771,
+      "K": 14.595
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -23.6,
+    "pmdec": -13.8,
+    "total": 27.4,
+    "total_err": 16.4
+   },
+   "ra": 269.4632898,
+   "dec": 4.7719047,
+   "catalog_ra": 269.4637306,
+   "catalog_dec": 4.7716781,
+   "snr": 42.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 14.13,
+     "png_y": 22.113
+    },
+    "v2": {
+     "png_x": 14.131,
+     "png_y": 22.113
+    },
+    "v3": {
+     "png_x": 14.133,
+     "png_y": 22.114
+    },
+    "v4": {
+     "png_x": 14.133,
+     "png_y": 22.114
+    },
+    "v5": {
+     "png_x": 14.134,
+     "png_y": 22.115
+    },
+    "v6": {
+     "png_x": 14.135,
+     "png_y": 22.115
+    }
+   }
+  },
+  {
+   "id": "barnards-star-015",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J175755.76+044447.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175755.76+044447.9",
+     "sep_arcsec": 0.6,
+     "mags": {
+      "W1": 13.873,
+      "W2": 14.026
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175755.76+044448.0",
+     "sep_arcsec": 0.09,
+     "mags": {
+      "W1": 13.933,
+      "W2": 14.042,
+      "W3": 12.455
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575576+0444479",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "J": 14.551,
+      "H": 14.158,
+      "K": 14.136
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -7.4,
+    "pmdec": -17.1,
+    "total": 18.6,
+    "total_err": 11.2
+   },
+   "ra": 269.4824892,
+   "dec": 4.7466743,
+   "catalog_ra": 269.4823393,
+   "catalog_dec": 4.7465997,
+   "snr": 31.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 2.931,
+     "png_y": 36.881
+    },
+    "v2": {
+     "png_x": 2.931,
+     "png_y": 36.881
+    },
+    "v3": {
+     "png_x": 2.932,
+     "png_y": 36.883
+    },
+    "v4": {
+     "png_x": 2.932,
+     "png_y": 36.883
+    },
+    "v5": {
+     "png_x": 2.933,
+     "png_y": 36.884
+    },
+    "v6": {
+     "png_x": 2.933,
+     "png_y": 36.884
+    }
+   }
+  },
+  {
+   "id": "barnards-star-016",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.2 arcsec",
+   "name": "CWISE J175743.38+044656.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175743.38+044656.7",
+     "sep_arcsec": 1.2,
+     "mags": {
+      "W1": 14.783,
+      "W2": 14.954
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175743.38+044656.8",
+     "sep_arcsec": 0.05,
+     "mags": {
+      "W1": 14.819,
+      "W2": 14.957,
+      "W3": 12.367
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574338+0446568",
+     "sep_arcsec": 0.27,
+     "mags": {
+      "J": 15.146,
+      "H": 14.813,
+      "K": 14.828
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 15.8,
+    "pmdec": -5.9,
+    "total": 16.8,
+    "total_err": 18.2
+   },
+   "ra": 269.431076,
+   "dec": 4.782188,
+   "catalog_ra": 269.430828,
+   "catalog_dec": 4.7824121,
+   "snr": 30.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 32.925,
+     "png_y": 16.094
+    },
+    "v2": {
+     "png_x": 32.925,
+     "png_y": 16.094
+    },
+    "v3": {
+     "png_x": 32.924,
+     "png_y": 16.095
+    },
+    "v4": {
+     "png_x": 32.923,
+     "png_y": 16.095
+    },
+    "v5": {
+     "png_x": 32.923,
+     "png_y": 16.095
+    },
+    "v6": {
+     "png_x": 32.922,
+     "png_y": 16.095
+    }
+   }
+  },
+  {
+   "id": "barnards-star-017",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.4 arcsec",
+   "name": "CWISE J175755.77+044748.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175755.77+044748.0",
+     "sep_arcsec": 1.43,
+     "mags": {
+      "W1": 14.032,
+      "W2": 14.202
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175755.77+044747.9",
+     "sep_arcsec": 0.13,
+     "mags": {
+      "W1": 14.076,
+      "W2": 14.136,
+      "W3": 12.478
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575577+0447480",
+     "sep_arcsec": 0.26,
+     "mags": {
+      "J": 14.604,
+      "H": 14.308,
+      "K": 14.257
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -5.1,
+    "pmdec": -16.2,
+    "total": 17.0,
+    "total_err": 12.2
+   },
+   "ra": 269.4821002,
+   "dec": 4.7963306,
+   "catalog_ra": 269.4823738,
+   "catalog_dec": 4.7966202,
+   "snr": 25.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 3.16,
+     "png_y": 7.814
+    },
+    "v2": {
+     "png_x": 3.16,
+     "png_y": 7.814
+    },
+    "v3": {
+     "png_x": 3.161,
+     "png_y": 7.816
+    },
+    "v4": {
+     "png_x": 3.161,
+     "png_y": 7.816
+    },
+    "v5": {
+     "png_x": 3.161,
+     "png_y": 7.817
+    },
+    "v6": {
+     "png_x": 3.161,
+     "png_y": 7.817
+    }
+   }
+  },
+  {
+   "id": "barnards-star-018",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.8 arcsec",
+   "name": "CWISE J175751.84+044652.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175751.84+044652.8",
+     "sep_arcsec": 2.78,
+     "mags": {
+      "W1": 14.371,
+      "W2": 14.505
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175751.84+044652.8",
+     "sep_arcsec": 0.04,
+     "mags": {
+      "W1": 14.419,
+      "W2": 14.485,
+      "W3": 12.583
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575184+0446530",
+     "sep_arcsec": 0.2,
+     "mags": {
+      "J": 14.807,
+      "H": 14.377,
+      "K": 14.504
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -1.5,
+    "pmdec": -4.1,
+    "total": 4.4,
+    "total_err": 14.1
+   },
+   "ra": 269.4653845,
+   "dec": 4.7808834,
+   "catalog_ra": 269.4660218,
+   "catalog_dec": 4.7813221,
+   "snr": 25.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 12.911,
+     "png_y": 16.858
+    },
+    "v2": {
+     "png_x": 12.911,
+     "png_y": 16.858
+    },
+    "v3": {
+     "png_x": 12.911,
+     "png_y": 16.858
+    },
+    "v4": {
+     "png_x": 12.911,
+     "png_y": 16.858
+    },
+    "v5": {
+     "png_x": 12.911,
+     "png_y": 16.859
+    },
+    "v6": {
+     "png_x": 12.911,
+     "png_y": 16.859
+    }
+   }
+  },
+  {
+   "id": "barnards-star-019",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.4 arcsec",
+   "name": "CWISE J175752.82+044527.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175752.82+044527.2",
+     "sep_arcsec": 2.43,
+     "mags": {
+      "W1": 14.401,
+      "W2": 14.713
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175752.78+044527.5",
+     "sep_arcsec": 0.86,
+     "mags": {
+      "W1": 14.347,
+      "W2": 14.466,
+      "W3": 12.512
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575280+0445273",
+     "sep_arcsec": 0.97,
+     "mags": {
+      "J": 15.08,
+      "H": 14.498,
+      "K": 14.784
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -40.6,
+    "pmdec": -22.4,
+    "total": 46.3,
+    "total_err": 15.3
+   },
+   "ra": 269.4700452,
+   "dec": 4.7581843,
+   "catalog_ra": 269.4699842,
+   "catalog_dec": 4.757511,
+   "snr": 24.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 10.188,
+     "png_y": 30.143
+    },
+    "v2": {
+     "png_x": 10.189,
+     "png_y": 30.144
+    },
+    "v3": {
+     "png_x": 10.192,
+     "png_y": 30.146
+    },
+    "v4": {
+     "png_x": 10.193,
+     "png_y": 30.146
+    },
+    "v5": {
+     "png_x": 10.195,
+     "png_y": 30.147
+    },
+    "v6": {
+     "png_x": 10.195,
+     "png_y": 30.147
+    }
+   }
+  },
+  {
+   "id": "barnards-star-020",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.6 arcsec",
+   "name": "CWISE J175742.26+044523.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175742.26+044523.7",
+     "sep_arcsec": 1.62,
+     "mags": {
+      "W1": 14.595,
+      "W2": 14.892
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175742.24+044524.1",
+     "sep_arcsec": 0.54,
+     "mags": {
+      "W1": 14.71,
+      "W2": 14.827,
+      "W3": 12.567
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574226+0445235",
+     "sep_arcsec": 1.08,
+     "mags": {
+      "J": 15.795,
+      "H": 15.184,
+      "K": 15.205
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -38.6,
+    "pmdec": -49.0,
+    "total": 62.4,
+    "total_err": 17.3
+   },
+   "ra": 269.4259602,
+   "dec": 4.7569154,
+   "catalog_ra": 269.4259783,
+   "catalog_dec": 4.7564666,
+   "snr": 20.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 35.905,
+     "png_y": 30.884
+    },
+    "v2": {
+     "png_x": 35.906,
+     "png_y": 30.885
+    },
+    "v3": {
+     "png_x": 35.909,
+     "png_y": 30.889
+    },
+    "v4": {
+     "png_x": 35.91,
+     "png_y": 30.89
+    },
+    "v5": {
+     "png_x": 35.911,
+     "png_y": 30.892
+    },
+    "v6": {
+     "png_x": 35.912,
+     "png_y": 30.893
+    }
+   }
+  },
+  {
+   "id": "barnards-star-021",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.0 arcsec",
+   "name": "CWISE J175751.69+044505.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175751.69+044505.2",
+     "sep_arcsec": 1.03,
+     "mags": {
+      "W1": 14.216,
+      "W2": 13.866
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175751.70+044505.3",
+     "sep_arcsec": 0.13,
+     "mags": {
+      "W1": 14.455,
+      "W2": 14.456,
+      "W3": 12.442
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575170+0445050",
+     "sep_arcsec": 0.1,
+     "mags": {
+      "J": 15.458,
+      "H": 14.807,
+      "K": 14.481
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -10.9,
+    "pmdec": 18.1,
+    "total": 21.2,
+    "total_err": 11.9
+   },
+   "ra": 269.4652123,
+   "dec": 4.7517683,
+   "catalog_ra": 269.4653724,
+   "catalog_dec": 4.7515298,
+   "snr": 20.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 13.01,
+     "png_y": 33.903
+    },
+    "v2": {
+     "png_x": 13.01,
+     "png_y": 33.902
+    },
+    "v3": {
+     "png_x": 13.011,
+     "png_y": 33.901
+    },
+    "v4": {
+     "png_x": 13.011,
+     "png_y": 33.901
+    },
+    "v5": {
+     "png_x": 13.012,
+     "png_y": 33.9
+    },
+    "v6": {
+     "png_x": 13.012,
+     "png_y": 33.9
+    }
+   }
+  },
+  {
+   "id": "barnards-star-022",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.6 arcsec",
+   "name": "CWISE J175754.47+044410.6",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175754.47+044410.6",
+     "sep_arcsec": 2.56,
+     "mags": {
+      "W1": 14.415,
+      "W2": 14.645
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175754.48+044410.6",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 14.477,
+      "W2": 14.837,
+      "W3": 12.565
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575447+0444109",
+     "sep_arcsec": 0.47,
+     "mags": {
+      "J": 14.968,
+      "H": 14.56,
+      "K": 14.455
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -16.7,
+    "pmdec": 2.2,
+    "total": 16.8,
+    "total_err": 15.8
+   },
+   "ra": 269.4764788,
+   "dec": 4.7357415,
+   "catalog_ra": 269.4769383,
+   "catalog_dec": 4.7362858,
+   "snr": 18.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 6.437,
+     "png_y": 43.283
+    },
+    "v2": {
+     "png_x": 6.437,
+     "png_y": 43.283
+    },
+    "v3": {
+     "png_x": 6.438,
+     "png_y": 43.282
+    },
+    "v4": {
+     "png_x": 6.438,
+     "png_y": 43.282
+    },
+    "v5": {
+     "png_x": 6.439,
+     "png_y": 43.282
+    },
+    "v6": {
+     "png_x": 6.439,
+     "png_y": 43.282
+    }
+   }
+  },
+  {
+   "id": "barnards-star-023",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 8.4 arcsec",
+   "name": "CWISE J175741.71+044531.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175741.71+044531.9",
+     "sep_arcsec": 8.42,
+     "mags": {
+      "W1": 16.063,
+      "W2": 17.129
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 87.0,
+    "pmdec": -548.0,
+    "total": 554.9,
+    "total_err": 44.6
+   },
+   "ra": 269.4223435,
+   "dec": 4.7588522,
+   "catalog_ra": 269.4240606,
+   "catalog_dec": 4.757258,
+   "snr": 17.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 38.026,
+     "png_y": 29.708
+    },
+    "v2": {
+     "png_x": 38.024,
+     "png_y": 29.717
+    },
+    "v3": {
+     "png_x": 38.018,
+     "png_y": 29.758
+    },
+    "v4": {
+     "png_x": 38.016,
+     "png_y": 29.77
+    },
+    "v5": {
+     "png_x": 38.012,
+     "png_y": 29.796
+    },
+    "v6": {
+     "png_x": 38.01,
+     "png_y": 29.804
+    }
+   }
+  },
+  {
+   "id": "barnards-star-024",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.7 arcsec",
+   "name": "CWISE J175740.26+044733.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175740.26+044733.2",
+     "sep_arcsec": 1.68,
+     "mags": {
+      "W1": 14.558,
+      "W2": 14.393
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175740.22+044733.1",
+     "sep_arcsec": 0.6,
+     "mags": {
+      "W1": 14.491,
+      "W2": 14.232,
+      "W3": 12.428
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574025+0447338",
+     "sep_arcsec": 0.21,
+     "mags": {
+      "J": 15.465,
+      "H": 14.947,
+      "K": 14.702
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -3.7,
+    "pmdec": -28.5,
+    "total": 28.8,
+    "total_err": 15.4
+   },
+   "ra": 269.4175067,
+   "dec": 4.7921007,
+   "catalog_ra": 269.4177506,
+   "catalog_dec": 4.7924986,
+   "snr": 17.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 40.839,
+     "png_y": 10.289
+    },
+    "v2": {
+     "png_x": 40.839,
+     "png_y": 10.29
+    },
+    "v3": {
+     "png_x": 40.839,
+     "png_y": 10.292
+    },
+    "v4": {
+     "png_x": 40.839,
+     "png_y": 10.293
+    },
+    "v5": {
+     "png_x": 40.839,
+     "png_y": 10.294
+    },
+    "v6": {
+     "png_x": 40.839,
+     "png_y": 10.294
+    }
+   }
+  },
+  {
+   "id": "barnards-star-025",
+   "kind": "known",
+   "moving": true,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 4.7 arcsec",
+   "name": "CWISE J175744.96+044450.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175744.96+044450.0",
+     "sep_arcsec": 4.65,
+     "mags": {
+      "W1": 14.177,
+      "W2": 13.47
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 1185.5,
+    "pmdec": 92.2,
+    "total": 1189.1,
+    "total_err": 26.0
+   },
+   "ra": 269.4414783,
+   "dec": 4.7464812,
+   "catalog_ra": 269.4406674,
+   "catalog_dec": 4.7474898,
+   "snr": 15.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 26.956,
+     "png_y": 37.004
+    },
+    "v2": {
+     "png_x": 26.937,
+     "png_y": 37.002
+    },
+    "v3": {
+     "png_x": 26.849,
+     "png_y": 36.996
+    },
+    "v4": {
+     "png_x": 26.823,
+     "png_y": 36.994
+    },
+    "v5": {
+     "png_x": 26.765,
+     "png_y": 36.989
+    },
+    "v6": {
+     "png_x": 26.749,
+     "png_y": 36.988
+    }
+   }
+  },
+  {
+   "id": "barnards-star-026",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.3 arcsec",
+   "name": "CWISE J175742.90+044734.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175742.90+044734.7",
+     "sep_arcsec": 0.33,
+     "mags": {
+      "W1": 14.923,
+      "W2": 15.061
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175742.90+044734.9",
+     "sep_arcsec": 0.19,
+     "mags": {
+      "W1": 14.903,
+      "W2": 15.151,
+      "W3": 12.303
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574290+0447348",
+     "sep_arcsec": 0.44,
+     "mags": {
+      "J": 15.619,
+      "H": 15.056,
+      "K": 14.832
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 28.3,
+    "pmdec": -8.4,
+    "total": 29.5,
+    "total_err": 19.5
+   },
+   "ra": 269.4289436,
+   "dec": 4.7929967,
+   "catalog_ra": 269.428856,
+   "catalog_dec": 4.7929713,
+   "snr": 13.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 34.17,
+     "png_y": 9.767
+    },
+    "v2": {
+     "png_x": 34.17,
+     "png_y": 9.767
+    },
+    "v3": {
+     "png_x": 34.167,
+     "png_y": 9.768
+    },
+    "v4": {
+     "png_x": 34.167,
+     "png_y": 9.768
+    },
+    "v5": {
+     "png_x": 34.165,
+     "png_y": 9.768
+    },
+    "v6": {
+     "png_x": 34.165,
+     "png_y": 9.768
+    }
+   }
+  },
+  {
+   "id": "barnards-star-027",
+   "kind": "known",
+   "moving": true,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 8.5 arcsec",
+   "name": "CWISE J175749.05+044510.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175749.05+044510.2",
+     "sep_arcsec": 8.53,
+     "mags": {
+      "W1": 13.526,
+      "W2": 13.292
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 774.6,
+    "pmdec": -1507.1,
+    "total": 1694.5,
+    "total_err": 57.5
+   },
+   "ra": 269.4581975,
+   "dec": 4.7502011,
+   "catalog_ra": 269.4567356,
+   "catalog_dec": 4.7483324,
+   "snr": 13.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 17.168,
+     "png_y": 34.692
+    },
+    "v2": {
+     "png_x": 17.156,
+     "png_y": 34.716
+    },
+    "v3": {
+     "png_x": 17.098,
+     "png_y": 34.828
+    },
+    "v4": {
+     "png_x": 17.081,
+     "png_y": 34.861
+    },
+    "v5": {
+     "png_x": 17.044,
+     "png_y": 34.934
+    },
+    "v6": {
+     "png_x": 17.033,
+     "png_y": 34.955
+    }
+   }
+  },
+  {
+   "id": "barnards-star-028",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.1 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J17574454+0443577",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "17574454+0443577",
+     "sep_arcsec": 1.11,
+     "mags": {
+      "J": 15.406,
+      "H": 14.874,
+      "K": 14.741
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4353463,
+   "dec": 4.7328547,
+   "catalog_ra": 269.435613,
+   "catalog_dec": 4.732698,
+   "snr": 12.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    },
+    "v2": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    },
+    "v3": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    },
+    "v4": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    },
+    "v5": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    },
+    "v6": {
+     "png_x": 30.433,
+     "png_y": 44.973
+    }
+   }
+  },
+  {
+   "id": "barnards-star-029",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.0 arcsec",
+   "name": "CWISE J175754.43+044659.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175754.43+044659.0",
+     "sep_arcsec": 0.98,
+     "mags": {
+      "W1": 15.003,
+      "W2": 15.054
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175754.51+044659.1",
+     "sep_arcsec": 1.19,
+     "mags": {
+      "W1": 14.711,
+      "W2": 14.801,
+      "W3": 12.158
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575444+0446592",
+     "sep_arcsec": 0.43,
+     "mags": {
+      "J": 16.093,
+      "H": 15.308,
+      "K": 14.584
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -30.6,
+    "pmdec": 13.8,
+    "total": 33.5,
+    "total_err": 23.6
+   },
+   "ra": 269.4769753,
+   "dec": 4.7831082,
+   "catalog_ra": 269.4767025,
+   "catalog_dec": 4.7831184,
+   "snr": 12.5,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 6.147,
+     "png_y": 15.557
+    },
+    "v2": {
+     "png_x": 6.147,
+     "png_y": 15.557
+    },
+    "v3": {
+     "png_x": 6.15,
+     "png_y": 15.556
+    },
+    "v4": {
+     "png_x": 6.15,
+     "png_y": 15.555
+    },
+    "v5": {
+     "png_x": 6.152,
+     "png_y": 15.555
+    },
+    "v6": {
+     "png_x": 6.152,
+     "png_y": 15.554
+    }
+   }
+  },
+  {
+   "id": "barnards-star-030",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.5 arcsec",
+   "name": "CWISE J175755.75+044602.6",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175755.75+044602.6",
+     "sep_arcsec": 1.53,
+     "mags": {
+      "W1": 14.845,
+      "W2": 14.865
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175755.75+044602.6",
+     "sep_arcsec": 0.13,
+     "mags": {
+      "W1": 14.962,
+      "W2": 15.209,
+      "W3": 12.648
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575576+0446026",
+     "sep_arcsec": 0.25,
+     "mags": {
+      "J": 15.414,
+      "H": 14.95,
+      "K": 15.044
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 3.6,
+    "pmdec": 4.6,
+    "total": 5.8,
+    "total_err": 18.4
+   },
+   "ra": 269.4821134,
+   "dec": 4.7670427,
+   "catalog_ra": 269.4823137,
+   "catalog_dec": 4.7674192,
+   "snr": 12.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 3.152,
+     "png_y": 24.96
+    },
+    "v2": {
+     "png_x": 3.152,
+     "png_y": 24.96
+    },
+    "v3": {
+     "png_x": 3.152,
+     "png_y": 24.96
+    },
+    "v4": {
+     "png_x": 3.152,
+     "png_y": 24.96
+    },
+    "v5": {
+     "png_x": 3.152,
+     "png_y": 24.959
+    },
+    "v6": {
+     "png_x": 3.152,
+     "png_y": 24.959
+    }
+   }
+  },
+  {
+   "id": "barnards-star-031",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 0.6 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J17575080+0444205",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "17575080+0444205",
+     "sep_arcsec": 0.64,
+     "mags": {
+      "J": 15.426,
+      "H": 14.855,
+      "K": 15.196
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4615139,
+   "dec": 4.7391036,
+   "catalog_ra": 269.461683,
+   "catalog_dec": 4.739051,
+   "snr": 11.3,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    },
+    "v2": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    },
+    "v3": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    },
+    "v4": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    },
+    "v5": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    },
+    "v6": {
+     "png_x": 15.168,
+     "png_y": 41.315
+    }
+   }
+  },
+  {
+   "id": "barnards-star-032",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 4.9 arcsec",
+   "name": "CWISE J175743.43+044502.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175743.43+044502.8",
+     "sep_arcsec": 4.91,
+     "mags": {
+      "W1": 15.156,
+      "W2": 14.995
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 111.3,
+    "pmdec": -138.6,
+    "total": 177.8,
+    "total_err": 23.3
+   },
+   "ra": 269.4311283,
+   "dec": 4.7517808,
+   "catalog_ra": 269.4312867,
+   "catalog_dec": 4.7504251,
+   "snr": 11.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 32.903,
+     "png_y": 33.882
+    },
+    "v2": {
+     "png_x": 32.901,
+     "png_y": 33.884
+    },
+    "v3": {
+     "png_x": 32.893,
+     "png_y": 33.895
+    },
+    "v4": {
+     "png_x": 32.891,
+     "png_y": 33.898
+    },
+    "v5": {
+     "png_x": 32.885,
+     "png_y": 33.905
+    },
+    "v6": {
+     "png_x": 32.884,
+     "png_y": 33.906
+    }
+   }
+  },
+  {
+   "id": "barnards-star-033",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.4 arcsec",
+   "name": "CWISE J175751.15+044710.7",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175751.15+044710.7",
+     "sep_arcsec": 2.41,
+     "mags": {
+      "W1": 15.4,
+      "W2": 15.293
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175751.15+044710.8",
+     "sep_arcsec": 0.08,
+     "mags": {
+      "W1": 15.524,
+      "W2": 15.478,
+      "W3": 12.544
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575118+0447111",
+     "sep_arcsec": 0.65,
+     "mags": {
+      "J": 16.6,
+      "H": 15.827,
+      "K": 15.527
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 16.1,
+    "pmdec": -8.3,
+    "total": 18.1,
+    "total_err": 24.0
+   },
+   "ra": 269.4632261,
+   "dec": 4.7856354,
+   "catalog_ra": 269.4632051,
+   "catalog_dec": 4.7863054,
+   "snr": 10.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 14.171,
+     "png_y": 14.076
+    },
+    "v2": {
+     "png_x": 14.171,
+     "png_y": 14.076
+    },
+    "v3": {
+     "png_x": 14.17,
+     "png_y": 14.077
+    },
+    "v4": {
+     "png_x": 14.169,
+     "png_y": 14.077
+    },
+    "v5": {
+     "png_x": 14.169,
+     "png_y": 14.077
+    },
+    "v6": {
+     "png_x": 14.168,
+     "png_y": 14.077
+    }
+   }
+  },
+  {
+   "id": "barnards-star-034",
+   "kind": "known",
+   "moving": true,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 8.0 arcsec",
+   "name": "CWISE J175750.10+044445.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175750.10+044445.1",
+     "sep_arcsec": 8.0,
+     "mags": {
+      "W1": 13.938,
+      "W2": 13.343
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -1375.5,
+    "pmdec": 260.9,
+    "total": 1400.1,
+    "total_err": 24.4
+   },
+   "ra": 269.4566311,
+   "dec": 4.7450516,
+   "catalog_ra": 269.454951,
+   "catalog_dec": 4.7465109,
+   "snr": 10.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 17.901,
+     "png_y": 37.855
+    },
+    "v2": {
+     "png_x": 17.923,
+     "png_y": 37.851
+    },
+    "v3": {
+     "png_x": 18.025,
+     "png_y": 37.831
+    },
+    "v4": {
+     "png_x": 18.055,
+     "png_y": 37.826
+    },
+    "v5": {
+     "png_x": 18.122,
+     "png_y": 37.813
+    },
+    "v6": {
+     "png_x": 18.141,
+     "png_y": 37.809
+    }
+   }
+  },
+  {
+   "id": "barnards-star-035",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.1 arcsec",
+   "name": "CWISE J175743.82+044743.8",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175743.82+044743.8",
+     "sep_arcsec": 1.07,
+     "mags": {
+      "W1": 15.243,
+      "W2": 15.383
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175743.82+044743.7",
+     "sep_arcsec": 0.28,
+     "mags": {
+      "W1": 15.255,
+      "W2": 15.489,
+      "W3": 12.669
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574383+0447436",
+     "sep_arcsec": 0.71,
+     "mags": {
+      "J": 15.938,
+      "H": 15.372,
+      "K": 15.205
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -19.8,
+    "pmdec": -31.1,
+    "total": 36.9,
+    "total_err": 23.7
+   },
+   "ra": 269.432638,
+   "dec": 4.7957084,
+   "catalog_ra": 269.4325408,
+   "catalog_dec": 4.795428,
+   "snr": 9.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 32.011,
+     "png_y": 8.178
+    },
+    "v2": {
+     "png_x": 32.011,
+     "png_y": 8.178
+    },
+    "v3": {
+     "png_x": 32.013,
+     "png_y": 8.18
+    },
+    "v4": {
+     "png_x": 32.013,
+     "png_y": 8.181
+    },
+    "v5": {
+     "png_x": 32.014,
+     "png_y": 8.183
+    },
+    "v6": {
+     "png_x": 32.014,
+     "png_y": 8.183
+    }
+   }
+  },
+  {
+   "id": "barnards-star-036",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.3 arcsec",
+   "name": "CWISE J175746.40+044821.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175746.40+044821.5",
+     "sep_arcsec": 1.31,
+     "mags": {
+      "W1": 15.447,
+      "W2": 15.557
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175746.41+044822.1",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "W1": 15.273,
+      "W2": 15.375,
+      "W3": 12.565
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574639+0448211",
+     "sep_arcsec": 0.72,
+     "mags": {
+      "J": 15.748,
+      "H": 15.705,
+      "K": 15.249
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 7.2,
+    "pmdec": -23.7,
+    "total": 24.8,
+    "total_err": 28.2
+   },
+   "ra": 269.4436468,
+   "dec": 4.8061375,
+   "catalog_ra": 269.4433651,
+   "catalog_dec": 4.8059059,
+   "snr": 9.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 25.592,
+     "png_y": 2.073
+    },
+    "v2": {
+     "png_x": 25.591,
+     "png_y": 2.074
+    },
+    "v3": {
+     "png_x": 25.591,
+     "png_y": 2.076
+    },
+    "v4": {
+     "png_x": 25.591,
+     "png_y": 2.076
+    },
+    "v5": {
+     "png_x": 25.59,
+     "png_y": 2.077
+    },
+    "v6": {
+     "png_x": 25.59,
+     "png_y": 2.078
+    }
+   }
+  },
+  {
+   "id": "barnards-star-037",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 3.2 arcsec",
+   "name": "CWISE J175740.35+044659.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175740.35+044659.2",
+     "sep_arcsec": 3.22,
+     "mags": {
+      "W1": 14.709,
+      "W2": 14.597
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175740.35+044659.3",
+     "sep_arcsec": 0.06,
+     "mags": {
+      "W1": 14.869,
+      "W2": 14.683,
+      "W3": 12.3
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17574034+0446589",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "J": 15.818,
+      "H": 15.268,
+      "K": 15.131
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 2.6,
+    "pmdec": -13.2,
+    "total": 13.4,
+    "total_err": 15.6
+   },
+   "ra": 269.4189275,
+   "dec": 4.7826536,
+   "catalog_ra": 269.4181475,
+   "catalog_dec": 4.7830973,
+   "snr": 9.6,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 40.011,
+     "png_y": 15.821
+    },
+    "v2": {
+     "png_x": 40.011,
+     "png_y": 15.821
+    },
+    "v3": {
+     "png_x": 40.01,
+     "png_y": 15.822
+    },
+    "v4": {
+     "png_x": 40.01,
+     "png_y": 15.822
+    },
+    "v5": {
+     "png_x": 40.01,
+     "png_y": 15.823
+    },
+    "v6": {
+     "png_x": 40.01,
+     "png_y": 15.823
+    }
+   }
+  },
+  {
+   "id": "barnards-star-038",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 7.5 arcsec",
+   "name": "CWISE J175752.84+044346.0",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175752.84+044346.0",
+     "sep_arcsec": 7.54,
+     "mags": {
+      "W1": 16.114,
+      "W2": 16.376
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 11.0,
+    "pmdec": 141.6,
+    "total": 142.0,
+    "total_err": 46.3
+   },
+   "ra": 269.4697873,
+   "dec": 4.7319617,
+   "catalog_ra": 269.4702038,
+   "catalog_dec": 4.7299081,
+   "snr": 8.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 10.342,
+     "png_y": 45.507
+    },
+    "v2": {
+     "png_x": 10.342,
+     "png_y": 45.505
+    },
+    "v3": {
+     "png_x": 10.341,
+     "png_y": 45.494
+    },
+    "v4": {
+     "png_x": 10.341,
+     "png_y": 45.491
+    },
+    "v5": {
+     "png_x": 10.341,
+     "png_y": 45.484
+    },
+    "v6": {
+     "png_x": 10.34,
+     "png_y": 45.482
+    }
+   }
+  },
+  {
+   "id": "barnards-star-039",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "none",
+   "reason": "2MASS match within 1.3 arcsec (no CatWISE2020 or AllWISE row)",
+   "name": "2MASS J17575116+0444464",
+   "catalogs": [
+    {
+     "catalog": "2MASS",
+     "id": "17575116+0444464",
+     "sep_arcsec": 1.28,
+     "mags": {
+      "J": 15.917,
+      "H": 15.332,
+      "K": 14.994
+     }
+    }
+   ],
+   "pm_mas_yr": null,
+   "ra": 269.4629168,
+   "dec": 4.7464592,
+   "catalog_ra": 269.463196,
+   "catalog_dec": 4.746237,
+   "snr": 8.1,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    },
+    "v2": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    },
+    "v3": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    },
+    "v4": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    },
+    "v5": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    },
+    "v6": {
+     "png_x": 14.35,
+     "png_y": 37.009
+    }
+   }
+  },
+  {
+   "id": "barnards-star-040",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.4 arcsec",
+   "name": "CWISE J175753.23+044708.2",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175753.23+044708.2",
+     "sep_arcsec": 2.45,
+     "mags": {
+      "W1": 15.589,
+      "W2": 15.663
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175753.20+044708.2",
+     "sep_arcsec": 0.48,
+     "mags": {
+      "W1": 15.606,
+      "W2": 15.392,
+      "W3": 11.919
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575323+0447085",
+     "sep_arcsec": 0.26,
+     "mags": {
+      "J": 16.101,
+      "H": 15.628,
+      "K": 16.294
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -21.2,
+    "pmdec": -19.2,
+    "total": 28.6,
+    "total_err": 30.6
+   },
+   "ra": 269.4715803,
+   "dec": 4.7849005,
+   "catalog_ra": 269.471742,
+   "catalog_dec": 4.7855604,
+   "snr": 7.8,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 9.295,
+     "png_y": 14.505
+    },
+    "v2": {
+     "png_x": 9.295,
+     "png_y": 14.505
+    },
+    "v3": {
+     "png_x": 9.297,
+     "png_y": 14.507
+    },
+    "v4": {
+     "png_x": 9.297,
+     "png_y": 14.507
+    },
+    "v5": {
+     "png_x": 9.298,
+     "png_y": 14.508
+    },
+    "v6": {
+     "png_x": 9.299,
+     "png_y": 14.508
+    }
+   }
+  },
+  {
+   "id": "barnards-star-041",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 2.6 arcsec",
+   "name": "CWISE J175751.59+044721.4",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175751.59+044721.4",
+     "sep_arcsec": 2.63,
+     "mags": {
+      "W1": 15.986,
+      "W2": 16.408
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175751.58+044721.4",
+     "sep_arcsec": 0.1,
+     "mags": {
+      "W1": 16.222,
+      "W2": 17.045,
+      "W3": 12.16
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17575158+0447215",
+     "sep_arcsec": 0.34,
+     "mags": {
+      "J": 16.308,
+      "H": 16.055,
+      "K": 15.294
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 27.1,
+    "pmdec": -21.9,
+    "total": 34.9,
+    "total_err": 39.2
+   },
+   "ra": 269.4646461,
+   "dec": 4.788624,
+   "catalog_ra": 269.4650703,
+   "catalog_dec": 4.789219,
+   "snr": 7.2,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 13.344,
+     "png_y": 12.325
+    },
+    "v2": {
+     "png_x": 13.343,
+     "png_y": 12.326
+    },
+    "v3": {
+     "png_x": 13.341,
+     "png_y": 12.327
+    },
+    "v4": {
+     "png_x": 13.341,
+     "png_y": 12.328
+    },
+    "v5": {
+     "png_x": 13.339,
+     "png_y": 12.329
+    },
+    "v6": {
+     "png_x": 13.339,
+     "png_y": 12.329
+    }
+   }
+  },
+  {
+   "id": "barnards-star-042",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 0.6 arcsec",
+   "name": "CWISE J175738.19+044459.1",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175738.19+044459.1",
+     "sep_arcsec": 0.63,
+     "mags": {
+      "W1": 15.311,
+      "W2": 15.513
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175738.17+044459.2",
+     "sep_arcsec": 0.15,
+     "mags": {
+      "W1": 15.488,
+      "W2": 15.715,
+      "W3": 12.687
+     }
+    },
+    {
+     "catalog": "2MASS",
+     "id": "17573818+0444593",
+     "sep_arcsec": 0.53,
+     "mags": {
+      "J": 15.733,
+      "H": 15.39,
+      "K": 15.57
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 28.4,
+    "pmdec": -39.2,
+    "total": 48.5,
+    "total_err": 23.4
+   },
+   "ra": 269.4090397,
+   "dec": 4.7497097,
+   "catalog_ra": 269.4092072,
+   "catalog_dec": 4.7496614,
+   "snr": 5.9,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 45.782,
+     "png_y": 35.102
+    },
+    "v2": {
+     "png_x": 45.781,
+     "png_y": 35.103
+    },
+    "v3": {
+     "png_x": 45.779,
+     "png_y": 35.106
+    },
+    "v4": {
+     "png_x": 45.779,
+     "png_y": 35.107
+    },
+    "v5": {
+     "png_x": 45.777,
+     "png_y": 35.109
+    },
+    "v6": {
+     "png_x": 45.777,
+     "png_y": 35.109
+    }
+   }
+  },
+  {
+   "id": "barnards-star-043",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 3.2 arcsec",
+   "name": "CWISE J175742.14+044709.9",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175742.14+044709.9",
+     "sep_arcsec": 3.23,
+     "mags": {
+      "W1": 16.506,
+      "W2": 17.219
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175742.13+044709.9",
+     "sep_arcsec": 0.33,
+     "mags": {
+      "W1": 16.707,
+      "W2": 17.111,
+      "W3": 12.446
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -2.3,
+    "pmdec": 64.2,
+    "total": 64.2,
+    "total_err": 64.8
+   },
+   "ra": 269.426039,
+   "dec": 4.7855176,
+   "catalog_ra": 269.4255996,
+   "catalog_dec": 4.7863015,
+   "snr": 5.7,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 35.862,
+     "png_y": 14.151
+    },
+    "v2": {
+     "png_x": 35.862,
+     "png_y": 14.15
+    },
+    "v3": {
+     "png_x": 35.862,
+     "png_y": 14.145
+    },
+    "v4": {
+     "png_x": 35.862,
+     "png_y": 14.144
+    },
+    "v5": {
+     "png_x": 35.862,
+     "png_y": 14.141
+    },
+    "v6": {
+     "png_x": 35.862,
+     "png_y": 14.14
+    }
+   }
+  },
+  {
+   "id": "barnards-star-044",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 8.3 arcsec",
+   "name": "CWISE J175739.31+044547.5",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175739.31+044547.5",
+     "sep_arcsec": 8.3,
+     "mags": {
+      "W1": 16.379,
+      "W2": 16.541
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 148.2,
+    "pmdec": 58.6,
+    "total": 159.4,
+    "total_err": 58.6
+   },
+   "ra": 269.4127672,
+   "dec": 4.7651487,
+   "catalog_ra": 269.4142541,
+   "catalog_dec": 4.7633819,
+   "snr": 5.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 43.617,
+     "png_y": 26.073
+    },
+    "v2": {
+     "png_x": 43.614,
+     "png_y": 26.072
+    },
+    "v3": {
+     "png_x": 43.603,
+     "png_y": 26.068
+    },
+    "v4": {
+     "png_x": 43.6,
+     "png_y": 26.067
+    },
+    "v5": {
+     "png_x": 43.593,
+     "png_y": 26.064
+    },
+    "v6": {
+     "png_x": 43.591,
+     "png_y": 26.063
+    }
+   }
+  },
+  {
+   "id": "barnards-star-045",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 4.6 arcsec",
+   "name": "CWISE J175740.22+044621.3",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175740.22+044621.3",
+     "sep_arcsec": 4.56,
+     "mags": {
+      "W1": 16.144,
+      "W2": 16.01
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175740.01+044620.3",
+     "sep_arcsec": 2.34,
+     "mags": {
+      "W1": 16.703,
+      "W2": 15.778,
+      "W3": 11.043
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": 142.4,
+    "pmdec": 191.0,
+    "total": 238.3,
+    "total_err": 45.8
+   },
+   "ra": 269.417324,
+   "dec": 4.7720598,
+   "catalog_ra": 269.4180002,
+   "catalog_dec": 4.7731315,
+   "snr": 5.4,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 40.958,
+     "png_y": 22.039
+    },
+    "v2": {
+     "png_x": 40.956,
+     "png_y": 22.036
+    },
+    "v3": {
+     "png_x": 40.945,
+     "png_y": 22.022
+    },
+    "v4": {
+     "png_x": 40.942,
+     "png_y": 22.018
+    },
+    "v5": {
+     "png_x": 40.935,
+     "png_y": 22.008
+    },
+    "v6": {
+     "png_x": 40.933,
+     "png_y": 22.006
+    }
+   }
+  },
+  {
+   "id": "barnards-star-046",
+   "kind": "known",
+   "moving": false,
+   "motion_basis": "catalog",
+   "reason": "CatWISE2020 match within 1.8 arcsec",
+   "name": "CWISE J175739.73+044608.3",
+   "catalogs": [
+    {
+     "catalog": "CatWISE2020",
+     "id": "J175739.73+044608.3",
+     "sep_arcsec": 1.83,
+     "mags": {
+      "W1": 15.748,
+      "W2": 15.195
+     }
+    },
+    {
+     "catalog": "AllWISE",
+     "id": "J175739.71+044608.0",
+     "sep_arcsec": 0.3,
+     "mags": {
+      "W1": 16.02,
+      "W2": 16.154,
+      "W3": 11.862
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -0.9,
+    "pmdec": 58.1,
+    "total": 58.1,
+    "total_err": 29.4
+   },
+   "ra": 269.4157798,
+   "dec": 4.7687191,
+   "catalog_ra": 269.4155376,
+   "catalog_dec": 4.7691661,
+   "snr": 5.0,
+   "detected": true,
+   "forced": null,
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 41.847,
+     "png_y": 23.983
+    },
+    "v2": {
+     "png_x": 41.847,
+     "png_y": 23.982
+    },
+    "v3": {
+     "png_x": 41.847,
+     "png_y": 23.978
+    },
+    "v4": {
+     "png_x": 41.847,
+     "png_y": 23.977
+    },
+    "v5": {
+     "png_x": 41.847,
+     "png_y": 23.974
+    },
+    "v6": {
+     "png_x": 41.847,
+     "png_y": 23.973
+    }
+   }
+  },
+  {
+   "id": "barnards-star-047",
+   "kind": "known",
+   "moving": true,
+   "motion_basis": "catalog",
+   "reason": "bundle target",
+   "name": "Barnard's Star",
+   "catalogs": [
+    {
+     "catalog": "Gaia DR3",
+     "id": "4472832130942575872",
+     "sep_arcsec": null,
+     "mags": {
+      "G": 8.194
+     }
+    }
+   ],
+   "pm_mas_yr": {
+    "pmra": -801.6,
+    "pmdec": 10362.4,
+    "total": 10393.3,
+    "total_err": 0.0
+   },
+   "ra": 269.4463742,
+   "dec": 4.7686831,
+   "catalog_ra": 269.4463742,
+   "catalog_dec": 4.7686831,
+   "snr": null,
+   "detected": false,
+   "forced": "bundle target",
+   "image_shift_px": null,
+   "positions": {
+    "v1": {
+     "png_x": 24.097,
+     "png_y": 24.84
+    },
+    "v2": {
+     "png_x": 24.118,
+     "png_y": 24.7
+    },
+    "v3": {
+     "png_x": 24.001,
+     "png_y": 23.925
+    },
+    "v4": {
+     "png_x": 24.042,
+     "png_y": 23.669
+    },
+    "v5": {
+     "png_x": 24.223,
+     "png_y": 23.171
+    },
+    "v6": {
+     "png_x": 24.246,
+     "png_y": 23.047
+    }
+   }
+  }
+ ]
+}
