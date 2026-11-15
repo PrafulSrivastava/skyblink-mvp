@@ -17,6 +17,9 @@ export const GLOSSARY = {
   highlights: { term: 'Highlights', def: 'Only mark the objects worth a look: fast movers and objects missing from every catalogue we checked.' },
   markersAll: { term: 'All markers', def: 'Mark every object detected in this patch of sky.' },
   markersOff: { term: 'No markers', def: 'Hide the markers to see the raw image. A selected object stays marked.' },
+  liveView: { term: 'Live view', def: 'Images fetched from NASA’s archive the moment you ask, for any position. Nothing is prepared or checked in advance, so objects are not labelled.' },
+  exposure: { term: 'Exposure', def: 'One single picture taken by the telescope. SkyBlink turns each one north-up and averages the ones from the same visit.' },
+  irsa: { term: 'IRSA', def: 'NASA’s Infrared Science Archive at Caltech/IPAC, where SPHEREx and WISE images are kept for anyone to use.' },
 
   // Instruments, surveys and catalogues
   spherex: { term: 'SPHEREx', def: 'A NASA space telescope launched in March 2025. It maps the whole sky in 102 infrared colours and returns to each spot about every six months.' },

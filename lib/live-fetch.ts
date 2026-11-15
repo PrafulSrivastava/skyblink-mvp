@@ -7,6 +7,8 @@
  * run this file directly (scripts/check-live-fetch.mjs).
  */
 
+import type { LiveWcs } from './live-reproject'
+
 // ── API contract (field names match api/live.py exactly) ─────────────────────
 export type LiveBand = 'D1' | 'D2' | 'D3' | 'D4' | 'D5' | 'D6'
 export type LiveCollection = 'dr1' | 'qr3'
@@ -50,6 +52,8 @@ export interface LiveCutoutOk {
   width: number
   height: number
   bunit: string | null
+  /** The cutout's celestial WCS (TAN, usually with SIP), or null if it has none. See lib/live-reproject.ts. */
+  wcs: LiveWcs | null
   /** Top row first, row-major; null where the pixel is NaN/inf. */
   pixels: (number | null)[]
   finite: number
@@ -167,7 +171,7 @@ export function describeFailure(call: LiveCall<unknown>, what: 'search' | 'cutou
   if (call.networkError !== null) {
     return (
       `Could not reach the live-fetch backend at ${liveApiBase()}. ` +
-      'Locally, start: pipeline/objects/.venv/Scripts/python.exe scripts/live_dev_server.py'
+      'Locally, start it with: python3 scripts/live_dev_server.py (any Python 3.9+, no packages needed)'
     )
   }
   const body = call.body as Partial<LiveErrorBody> | null

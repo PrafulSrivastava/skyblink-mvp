@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useMemo, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Layers, ArrowLeftRight, Activity, History, Loader2, MapPin, Info } from 'lucide-react'
+import { Layers, ArrowLeftRight, Activity, History, Loader2, MapPin, Info, Telescope } from 'lucide-react'
 import SiteHeader from '@/components/SiteHeader'
 import BlinkPlayer from '@/components/viewer/BlinkPlayer'
 import DifferenceView from '@/components/viewer/DifferenceView'
@@ -12,6 +12,7 @@ import MetadataPanel from '@/components/viewer/MetadataPanel'
 import BandPicker from '@/components/viewer/BandPicker'
 import ObjectsPanel from '@/components/viewer/ObjectsPanel'
 import ObjectsLegend from '@/components/viewer/ObjectsLegend'
+import LiveViewer, { liveQueryFromParams } from '@/components/viewer/LiveViewer'
 import {
   loadBundleTarget, isBundleTarget, framesForBand,
   BUNDLE_TARGET_IDS,
@@ -40,7 +41,11 @@ function ViewerContent() {
     const mk = searchParams.get('markers')
     return mk === 'off' || mk === 'all' ? mk : 'highlights'
   })
-  const [loading, setLoading] = useState(true) // the first object loads on mount
+  // Live mode: any position, images fetched from IRSA on demand (?live=1&ra=…&dec=…)
+  const [liveMode, setLiveMode] = useState(() => searchParams.get('live') === '1')
+  // Only a live link opened from outside fetches straight away; the chip opens an empty form
+  const [liveInitial, setLiveInitial] = useState(() => liveQueryFromParams(searchParams))
+  const [loading, setLoading] = useState(() => searchParams.get('live') !== '1') // the first object loads on mount
   const [error, setError] = useState('')
 
   const applyLoaded = useCallback((data: LoadedBundleTarget, preferredBand?: string | null) => {
@@ -55,6 +60,7 @@ function ViewerContent() {
     setError(e instanceof Error ? `Could not load this object: ${e.message}` : 'Could not load this object')
 
   const loadTarget = useCallback((targetId: BundleTargetId) => {
+    setLiveMode(false)
     setLoading(true); setError('')
     setSelectedObjectId(null)
     loadBundleTarget(targetId)
@@ -72,6 +78,7 @@ function ViewerContent() {
 
   // Load the object from the URL, or a default one instead of an empty page
   useEffect(() => {
+    if (searchParams.get('live') === '1') return
     const tid = searchParams.get('target')
     let live = true
     loadBundleTarget(tid && isBundleTarget(tid) ? tid : DEFAULT_TARGET)
@@ -84,12 +91,12 @@ function ViewerContent() {
 
   // Keep the URL in step with what is on screen, so "Copy link" shares exactly this view
   useEffect(() => {
-    if (!loaded) return
+    if (!loaded || liveMode) return
     const qs = new URLSearchParams({ target: loaded.id, band, mode })
     if (showSpectrum) qs.set('spectrum', '1')
     if (markerMode !== 'highlights') qs.set('markers', markerMode)
     router.replace(`/viewer?${qs.toString()}`, { scroll: false })
-  }, [loaded, band, mode, showSpectrum, markerMode, router])
+  }, [loaded, band, mode, showSpectrum, markerMode, router, liveMode])
 
   const currentFrame = displayFrames[currentFrameIndex] ?? null
   const story = loaded ? TARGET_STORIES[loaded.id] : null
@@ -110,35 +117,55 @@ function ViewerContent() {
       on ? 'bg-sky-accent/20 text-sky-accent' : 'text-sky-inkDim hover:text-sky-ink'
     }`
 
+  const pickerCard = (
+    <div className="rounded-xl border border-sky-border bg-sky-surface p-4">
+      <p id="pick-h" className="mb-3 text-sm font-semibold text-sky-ink">Choose an object</p>
+      <div className="flex flex-wrap gap-2" role="group" aria-labelledby="pick-h">
+        {BUNDLE_TARGET_IDS.map(tid => {
+          const active = !liveMode && loaded?.id === tid
+          const s = TARGET_STORIES[tid]
+          return (
+            <button key={tid} type="button" onClick={() => loadTarget(tid)} disabled={loading}
+              aria-pressed={active}
+              className={`inline-flex min-h-11 sm:min-h-10 items-center gap-1.5 rounded-full border px-4 text-sm transition-colors disabled:opacity-60 ${
+                active
+                  ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
+                  : 'border-sky-border text-sky-ink hover:border-sky-accent/40'
+              }`}>
+              {loading && active ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
+              {s.name}
+            </button>
+          )
+        })}
+        <button type="button" onClick={() => { setLiveInitial(null); setLiveMode(true) }} aria-pressed={liveMode}
+          className={`inline-flex min-h-11 sm:min-h-10 items-center gap-1.5 rounded-full border px-4 text-sm transition-colors ${
+            liveMode
+              ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
+              : 'border-dashed border-sky-border text-sky-ink hover:border-sky-accent/40'
+          }`}>
+          <Telescope className="h-4 w-4" aria-hidden="true" /> Any position
+        </button>
+      </div>
+      <p className="mt-3 text-sm text-sky-inkDim">
+        Five objects are prepared and checked. <strong className="font-semibold text-sky-ink">Any position</strong> fetches
+        images of any spot in the sky <Term k="liveView">live</Term>, which takes about a minute.
+      </p>
+    </div>
+  )
+
+  if (liveMode) {
+    return (
+      <main id="main" className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <LiveViewer picker={pickerCard} initialQuery={liveInitial} />
+      </main>
+    )
+  }
+
   return (
     <main id="main" className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 py-6 lg:grid-cols-[minmax(0,1fr)_340px]">
       {/* Left */}
       <div className="min-w-0 space-y-5">
-        {/* Object picker */}
-        <div className="rounded-xl border border-sky-border bg-sky-surface p-4">
-          <p id="pick-h" className="mb-3 text-sm font-semibold text-sky-ink">Choose an object</p>
-          <div className="flex flex-wrap gap-2" role="group" aria-labelledby="pick-h">
-            {BUNDLE_TARGET_IDS.map(tid => {
-              const active = loaded?.id === tid
-              const s = TARGET_STORIES[tid]
-              return (
-                <button key={tid} type="button" onClick={() => loadTarget(tid)} disabled={loading}
-                  aria-pressed={active}
-                  className={`inline-flex min-h-11 sm:min-h-10 items-center gap-1.5 rounded-full border px-4 text-sm transition-colors disabled:opacity-60 ${
-                    active
-                      ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
-                      : 'border-sky-border text-sky-ink hover:border-sky-accent/40'
-                  }`}>
-                  {loading && active ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" /> : null}
-                  {s.name}
-                </button>
-              )
-            })}
-          </div>
-          <p className="mt-3 text-sm text-sky-inkDim">
-            Five objects are ready to explore. Searching any position in the sky is planned for a later release.
-          </p>
-        </div>
+        {pickerCard}
 
         {error && (
           <p role="alert" className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-red-200">{error}</p>

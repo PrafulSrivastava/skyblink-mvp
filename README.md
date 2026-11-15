@@ -66,20 +66,25 @@ Where the data are usable, a spectrum panel shows the SPHEREx spectrum of the ta
 
 A game at `/battle`. Spot the moving star in real SPHEREx data and tap where you see the motion. Score is based on accuracy and speed.
 
+### 7. Any position (live)
+
+In the viewer, **Any position** takes a sky position (hours/minutes/seconds or decimal degrees) and fetches SPHEREx images of that spot from IRSA while you wait, usually in about a minute. Each exposure arrives in the detector's own orientation; the browser resamples it onto the viewer's grid (49 × 49 pixels of 6.15″, north up, centred on the position) using the cutout's TAN-SIP WCS, groups exposures into visits, stacks each visit and blinks the result. Links of the form `/viewer/?live=1&ra=…&dec=…&band=D2` open and fetch straight away.
+
 ## How to use it
 
 1. Open https://skyblink-mvp.vercel.app and click **Open the viewer**, or go straight to `/viewer/?target=<id>`.
 2. Choose a patch with the target chips at the top. Valid ids are `barnards-star`, `eps-indi-b`, `wise-0855`, `rw-aur` and `r-dra`.
 3. Press play to blink. Pause on a frame to look closely.
 4. Switch the band with the band picker, and open the difference view to see what changed between visits.
-5. Turn on **Show markers**. Known objects are green and unidentified ones are pink. Look at the pink ones first. A dashed outer ring marks a high-proper-motion object.
+5. Markers start on **Highlights** (fast movers and unidentified objects); switch to **All** or **Off**. Known objects are slate circles and unidentified ones are orange squares. A dashed outer ring marks a high-proper-motion object.
 6. Click an object for its details. Use the SIMBAD and IRSA links to check it elsewhere.
+7. To look anywhere else, pick **Any position**, type a position and press **Fetch images**, or try one of the known positions under the form.
 
 **Reading the result.** "Unidentified" means no match in CatWISE2020, AllWISE or 2MASS. It does not mean "new". It marks a candidate worth checking against Gaia or SIMBAD.
 
 ## What it does not do (yet)
 
-- **Five fixed patches only.** Searching by arbitrary coordinates needs live archive services and is not part of the static site. `/live/` is an experimental test harness that fetches raw cutouts from IRSA for any position, but it is not the viewer and does no detection or matching. The home page text mentions coordinate search, but that is not available on the current static deployment.
+- **Live positions are unchecked.** **Any position** fetches and aligns real images, but does no detection or catalogue matching, and has no difference view, spectrum or object list. Only the five prepared patches have those. It depends on IRSA, which is slow (a search takes about 20 s) and sometimes answers 502; the backend retries. `/live/` remains as a raw test harness for the backend.
 - **"Moving" comes from catalog proper motion.** It is not measured from the SPHEREx frames, because the visits are only months apart.
 - **No solar-system layer.** Comets, asteroids and planets are not identified.
 - **Native resolution.** Images are upscaled in the viewer from 6.15″ per pixel.
@@ -111,17 +116,19 @@ npm run dev            # http://localhost:3000
 npm run build          # static export to out/
 ```
 
-Live fetch test harness (experimental), at `/live/`. The Python backend is separate because `next dev` does not run Vercel functions:
+Live view (**Any position** in the viewer, and the raw harness at `/live/`). The Python backend (`api/live.py`, standard library only, Python 3.9+) runs separately because `next dev` does not run Vercel functions:
 
 ```bash
-pipeline/objects/.venv/Scripts/python.exe scripts/live_dev_server.py          # backend on http://127.0.0.1:8787/api/live/
-NEXT_PUBLIC_LIVE_API_BASE=http://127.0.0.1:8787/api/live/ npm run dev         # http://localhost:3000/live/
+python3 scripts/live_dev_server.py                                            # backend on http://127.0.0.1:8787/api/live/
+NEXT_PUBLIC_LIVE_API_BASE=http://127.0.0.1:8787/api/live/ npm run dev         # http://localhost:3000/viewer/?live=1
 ```
 
 Checks:
 
 ```bash
 node --experimental-strip-types scripts/check-sky-objects.mjs   # viewer helpers
+node --experimental-strip-types scripts/check-live-fetch.mjs     # live fetch client
+node --experimental-strip-types scripts/check-live-reproject.mjs # live WCS reprojection and coordinate parsing
 cd pipeline/objects && .venv/Scripts/python -m pytest tests     # pipeline tests (see pipeline/objects/README.md for setup)
 ```
 
