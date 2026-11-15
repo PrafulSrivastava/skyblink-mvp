@@ -1,0 +1,70 @@
+\                                                                               
+\fixlen = T
+\RowsRetrieved =                 6
+\ORIGIN  = 'IPAC Infrared Science Archive (IRSA), Caltech/JPL'
+\SIMULATED_TABLE  = 'n'
+\DATETIME= '2026-11-15 02:20:02'
+\DATABASE= 'CatWISE2020 Catalog (catwise_2020)'
+\EQUINOX = 'J2000'
+\SKYAREA = 'within 36 arcsec of  ra=269.44637 dec=+4.76868 Eq J2000 '
+\StatusFile = '/workspace/TMP_5PtvOQ_2191642/Gator/irsa/2191642/log.2191642.html'
+\SQL     = 'WHERE (no constraints) 
+\SQL     = 'SELECT (21 column names follow in next row.)'
+\ 
+\ source_name 
+\ ___ source hexagesimal designation
+\ ra (deg) 
+\ ___ right ascension (J2000)
+\ dec (deg) 
+\ ___ declination (J2000)
+\ clon 
+\ ___ Right ascention in Sexagesimal format.
+\ clat 
+\ ___ Declination in Sexagesimal format.
+\ ra_pm (deg) 
+\ ___ Right ascension at epoch MJD=57170 (2015.405) from psf model incl. motion
+\ dec_pm (deg) 
+\ ___ Declination at epoch MJD=57170 (2015.405) from psf model incl. motion
+\ pmra (arcsec/yr) 
+\ ___ Apparent motion in RA
+\ pmdec (arcsec/yr) 
+\ ___ Apparent motion in Dec
+\ sigpmra (arcsec/yr) 
+\ ___ Uncertainty in the RA motion estimate
+\ sigpmdec (arcsec/yr) 
+\ ___ Uncertainty in the Dec motion estimate
+\ w1mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 1
+\ w2mpro (mag) 
+\ ___ instrumental profile-fit photometry magnitude, band 2
+\ w1snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 1
+\ w2snr 
+\ ___ instrumental profile-fit photometry S/N ratio, band 2
+\ nb 
+\ ___ number of blend components used in each fit
+\ na 
+\ ___ number of actively deblended components
+\ cc_flags 
+\ ___ worst case 4 character cc_flag from AllWISE
+\ ab_flags 
+\ ___ unWISE artifact bitmask contamination flags
+\ pmcode 
+\ ___ Motion estimate quality code
+\ meanobsmjd (d) 
+\ ___ mean observation epoch
+\ dist (arcsec) 
+\ ___ Distance between the target position and each source in arcsec.
+\ angle (deg) 
+\ ___ Position Angle in degree.
+\ 
+|                source_name|           ra|          dec|          clon|          clat|        ra_pm|       dec_pm|       pmra|      pmdec|   sigpmra|  sigpmdec|  w1mpro|  w2mpro|   w1snr|   w2snr|   nb|   na|         cc_flags|         ab_flags| pmcode|    meanobsmjd|           dist|       angle|
+|                       char|       double|       double|          char|          char|       double|       double|     double|     double|    double|    double|  double|  double|  double|  double|  int|  int|             char|             char|   char|        double|         double|      double|
+|                           |          deg|          deg|              |              |          deg|          deg|  arcsec/yr|  arcsec/yr| arcsec/yr| arcsec/yr|     mag|     mag|        |        |     |     |                 |                 |       |             d|         arcsec|         deg|
+|                       null|         null|         null|          null|          null|         null|         null|       null|       null|      null|      null|    null|    null|    null|    null| null| null|             null|             null|   null|          null|           null|        null|
+         J175746.85+044623.6   269.4452409     4.7732426   17h57m46.86s   04d46m23.67s   269.4452427     4.7732350    -0.01382    -0.03663     0.0314     0.0332   16.315   16.150     34.7     14.4     1     0              0H00                00   1N000   57271.013244       16.917459   346.146696 
+         J175748.37+044616.8   269.4515807     4.7713378   17h57m48.38s   04d46m16.82s   269.4515757     4.7713434     0.02811    -0.04248     0.0179     0.0197   15.410   15.360     52.5     26.9     1     0              null                00   1N000   57294.110919       20.999928    62.894666 
+         J175747.63+044546.3   269.4484970     4.7628813   17h57m47.64s   04d45m46.37s   269.4485019     4.7628923     0.01336    -0.06057     0.0111     0.0118   14.451   14.416     72.9     61.2     1     0              hh00                00   1N000   57411.936610       22.226268   159.920624 
+         J175747.82+044634.8   269.4492891     4.7763404   17h57m47.83s   04d46m34.83s   269.4492931     4.7763399    -0.00273    -0.08839     0.0357     0.0378   16.272   16.601     36.1      9.6     1     0              null                00   1N000   57187.906058       29.498895    20.793775 
+         J175745.63+044627.6   269.4401628     4.7743464   17h57m45.64s   04d46m27.65s   269.4401607     4.7743787     0.05471    -0.16582     0.0540     0.0589   16.816   17.298     20.5      4.4     1     0              null                00   1N000   57452.534541       30.199435   312.491503 
+         J175748.58+044629.0   269.4524167     4.7747496   17h57m48.58s   04d46m29.10s   269.4524155     4.7747497    -0.00205    -0.02174     0.0048     0.0049   12.370   12.452     86.1    116.0     1     0              0h00                00   1N000   57173.054374       30.789918    44.791996 
