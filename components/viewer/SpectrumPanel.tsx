@@ -7,6 +7,7 @@ import {
 } from 'recharts'
 import { Download, X, AlertTriangle, Sun } from 'lucide-react'
 import type { BundleSpectrumBinned, BundleSpectrum } from '@/lib/bundle-loader'
+import { Hint, RichText, Term } from '@/components/Term'
 
 interface SpectrumPanelProps {
   spectrum: BundleSpectrum | null
@@ -18,12 +19,12 @@ interface SpectrumPanelProps {
 const DETECTOR_BOUNDARIES = [1.09, 1.62, 2.42, 3.82, 4.42]
 
 const MOLECULAR_BANDS = [
-  { name: 'H₂O', wavelength: 1.4,  note: 'Water vapour' },
-  { name: 'H₂O', wavelength: 1.9,  note: 'Water vapour' },
-  { name: 'CH₄', wavelength: 2.2,  note: 'Methane' },
-  { name: 'CH₄', wavelength: 3.3,  note: 'Methane — hero dip in Eps Indi B' },
-  { name: 'CO',  wavelength: 2.35, note: 'Carbon monoxide' },
-  { name: 'CO₂', wavelength: 4.25, note: 'Carbon dioxide' },
+  { name: 'H₂O', wavelength: 1.4,  note: 'Water vapour absorbs light here. A dip means water in a cool atmosphere.' },
+  { name: 'H₂O', wavelength: 1.9,  note: 'Water vapour absorbs light here. A dip means water in a cool atmosphere.' },
+  { name: 'CH₄', wavelength: 2.2,  note: 'Methane absorbs light here. It only forms in very cool atmospheres such as brown dwarfs.' },
+  { name: 'CH₄', wavelength: 3.3,  note: 'The strongest methane band. Epsilon Indi B shows a clear dip here.' },
+  { name: 'CO',  wavelength: 2.35, note: 'Carbon monoxide absorbs light here, common in cool stars.' },
+  { name: 'CO₂', wavelength: 4.25, note: 'Carbon dioxide absorbs light here.' },
 ]
 
 /** Per-target honest headers */
@@ -35,28 +36,28 @@ const TARGET_SPECTRUM_STATE: Record<string, {
 }> = {
   'barnards-star': {
     title: 'Spectrum unavailable',
-    subtitle: '349/350 forced-photometry frames are saturated (OVERFLOW/NONLINEAR inside aperture). Barnard\'s Star is K≈4.5, far above the SPHEREx nonlinearity limit.',
+    subtitle: '349 of 350 frames are [[saturated|saturated]] at the star (flagged OVERFLOW or NONLINEAR). Barnard\'s Star is far brighter than [[SPHEREx|spherex]] can measure without saturating.',
     saturated: true,
   },
   'eps-indi-b': {
     title: 'Epsilon Indi B spectrum',
-    subtitle: 'T1+T6 brown dwarf binary. Click the 3.3 µm CH₄ annotation. 4 of 102 channels saturated.',
+    subtitle: 'A pair of [[brown dwarfs|brownDwarf]]. Hover the 3.3 [[µm|micron]] [[CH₄|methane]] label to see the methane dip. 4 of 102 [[channels|channel]] [[saturated|saturated]].',
     saturated: false,
   },
   'wise-0855': {
     title: 'WISE 0855 spectrum',
-    subtitle: 'D6 (>4.4 µm) flux from WISE 0855. Channels marked contaminated are dominated by a G=16.3 Gaia star 7.8″ away.',
+    subtitle: 'Light above 4.4 [[µm|micron]] ([[band|band]] D6) from WISE 0855. [[Channels|channel]] marked contaminated are dominated by a [[Gaia|gaia]] star ([[G|gMag]] = 16.3) 7.8[[″|arcsecond]] away.',
     blendWarning: '0.75–2.5 µm: contaminated by Gaia DR3 5756956644387831296 (G=16.3, 7.8″). Do not read as WISE 0855.',
     saturated: false,
   },
   'rw-aur': {
     title: 'RW Aur spectrum',
-    subtitle: '301/327 frames saturated. Only the 26 unsaturated D1 frames carry usable flux. Variability visible in those channels.',
+    subtitle: '301 of 327 frames [[saturated|saturated]]. Only the 26 unsaturated [[band|band]] D1 frames carry usable brightness, and they show it varying.',
     saturated: false,
   },
   'r-dra': {
     title: 'Spectrum unavailable',
-    subtitle: 'R Dra is fully saturated (515/515 frames). The PSF-wing brightness ratio is shown in the diff panel as a variability proxy.',
+    subtitle: 'R Dra is fully [[saturated|saturated]] (515 of 515 frames). The [[PSF-wing|psfWing]] brightness ratio in the Diff view tracks its variability instead.',
     saturated: true,
   },
 }
@@ -132,12 +133,12 @@ export default function SpectrumPanel({ spectrum, targetId, isLoading, onClose }
             <h2 className="text-sky-ink text-base font-semibold">{state?.title ?? 'Spectrum'}</h2>
             {state?.saturated && (
               <span className="text-xs px-1.5 py-0.5 rounded bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 font-mono">
-                saturated
+                <Term k="saturated">saturated</Term>
               </span>
             )}
           </div>
           {state?.subtitle && (
-            <div className="text-sky-inkDim text-xs mt-1 max-w-lg">{state.subtitle}</div>
+            <div className="text-sky-inkDim text-xs mt-1 max-w-lg"><RichText text={state.subtitle} /></div>
           )}
         </div>
         <div className="flex gap-2 ml-4 flex-shrink-0">
@@ -185,13 +186,13 @@ export default function SpectrumPanel({ spectrum, targetId, isLoading, onClose }
             {MOLECULAR_BANDS.map(b => {
               const key = `${b.name}-${b.wavelength}`
               return (
-                <button key={key}
+                <Hint key={key} entry={{ term: `${b.name} at ${b.wavelength} µm`, def: b.note }}>
+                <button
                   onMouseEnter={() => setHoveredBand(key)}
                   onFocus={() => setHoveredBand(key)}
                   onBlur={() => setHoveredBand(null)}
                   type="button"
                   onMouseLeave={() => setHoveredBand(null)}
-                  title={b.note}
                   className={`px-2 py-0.5 rounded-full text-xs font-mono transition-colors ${
                     hoveredBand === key
                       ? 'bg-sky-accent/20 text-sky-accent border border-sky-accent/40'
@@ -199,6 +200,7 @@ export default function SpectrumPanel({ spectrum, targetId, isLoading, onClose }
                   }`}>
                   {b.name} {b.wavelength}µm
                 </button>
+                </Hint>
               )
             })}
           </div>
@@ -248,6 +250,9 @@ export default function SpectrumPanel({ spectrum, targetId, isLoading, onClose }
               </LineChart>
             </ResponsiveContainer>
           </div>
+          <p className="mt-1 text-xs text-sky-inkDim">
+            Brightness in <Term k="microjansky">µJy</Term> against wavelength in <Term k="micron">µm</Term>. Dashed lines mark the edges of the six <Term k="band">bands</Term> and common molecules.
+          </p>
 
           {/* CH4 dip callout for Eps Indi B */}
           {targetId === 'eps-indi-b' && spectrum?.points && (() => {

@@ -7,6 +7,8 @@ import { MARKER_STYLE, isHighlight, type MarkerMode } from '@/lib/object-overlay
 import { sortObjects, formatPm, type ObjectSortKey, type SortDir } from '@/lib/object-list'
 import ObjectDetails from './ObjectDetails'
 import MarkerSwatch from './MarkerSwatch'
+import { Hint, Term } from '@/components/Term'
+import type { GlossaryKey } from '@/lib/glossary'
 
 interface ObjectsPanelProps {
   file: SkyObjectsFile | null
@@ -16,17 +18,17 @@ interface ObjectsPanelProps {
   onMarkerModeChange: (m: MarkerMode) => void
 }
 
-const SORT_BUTTONS: { key: ObjectSortKey; label: string }[] = [
-  { key: 'snr', label: 'Brightness' },
-  { key: 'kind', label: 'Category' },
+const SORT_BUTTONS: { key: ObjectSortKey; label: string; tip?: GlossaryKey }[] = [
+  { key: 'snr', label: 'Brightness', tip: 'snr' },
+  { key: 'kind', label: 'Category', tip: 'known' },
   { key: 'name', label: 'Name' },
-  { key: 'pm', label: 'Motion' },
+  { key: 'pm', label: 'Motion', tip: 'properMotion' },
 ]
 
-const MARKER_MODES: { id: MarkerMode; label: string }[] = [
-  { id: 'off', label: 'Off' },
-  { id: 'highlights', label: 'Highlights' },
-  { id: 'all', label: 'All' },
+const MARKER_MODES: { id: MarkerMode; label: string; tip: GlossaryKey }[] = [
+  { id: 'off', label: 'Off', tip: 'markersOff' },
+  { id: 'highlights', label: 'Highlights', tip: 'highlights' },
+  { id: 'all', label: 'All', tip: 'markersAll' },
 ]
 
 const NO_OBJECTS: readonly SkyObject[] = []
@@ -76,23 +78,25 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, markerM
     <section aria-labelledby="objects-h" className="rounded-xl border border-sky-border bg-sky-surface p-4 text-sm" data-testid="objects-panel">
       <h2 id="objects-h" className="text-base font-semibold text-sky-ink">Objects in this patch</h2>
       <p className="mt-1 text-sky-inkDim">
-        <span className="font-mono text-sky-ink">{nKnown}</span> known ·{' '}
-        <span className="font-mono text-sky-ink">{nUnidentified}</span> unidentified ·{' '}
-        <span className="font-mono text-sky-ink">{nMoving}</span> fast-moving
+        <span className="font-mono text-sky-ink">{nKnown}</span> <Term k="known">known</Term> ·{' '}
+        <span className="font-mono text-sky-ink">{nUnidentified}</span> <Term k="unidentified">unidentified</Term> ·{' '}
+        <span className="font-mono text-sky-ink">{nMoving}</span> <Term k="fastMover">fast-moving</Term>
       </p>
 
       <fieldset className="mt-3">
         <legend className="mb-1.5 text-sky-inkDim">Markers on the image</legend>
         <div className="grid grid-cols-3 overflow-hidden rounded-lg border border-sky-border">
           {MARKER_MODES.map((m, i) => (
-            <label key={m.id}
-              className={`flex min-h-11 sm:min-h-9 cursor-pointer items-center justify-center px-2 text-center transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-sky-accent ${
+            <Hint key={m.id} k={m.tip} className="flex">
+            <label
+              className={`flex flex-1 min-h-11 sm:min-h-9 cursor-pointer items-center justify-center px-2 text-center transition-colors has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-sky-accent ${
                 i > 0 ? 'border-l border-sky-border' : ''
               } ${markerMode === m.id ? 'bg-sky-accent/15 text-sky-accent' : 'text-sky-inkDim hover:text-sky-ink'}`}>
               <input type="radio" name="marker-mode" value={m.id} checked={markerMode === m.id}
                 onChange={() => onMarkerModeChange(m.id)} className="sr-only" />
               {m.label}
             </label>
+            </Hint>
           ))}
         </div>
         <p className="mt-1.5 text-xs text-sky-inkDim">
@@ -106,8 +110,8 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, markerM
         {SORT_BUTTONS.map(b => {
           const active = sortKey === b.key
           return (
+            <Hint key={b.key} k={b.tip}>
             <button
-              key={b.key}
               type="button"
               onClick={() => clickSort(b.key)}
               aria-pressed={active}
@@ -122,6 +126,7 @@ export default function ObjectsPanel({ file, selectedObjectId, onSelect, markerM
                 ? <ArrowUp className="h-3 w-3" aria-label="ascending" />
                 : <ArrowDown className="h-3 w-3" aria-label="descending" />)}
             </button>
+            </Hint>
           )
         })}
       </div>

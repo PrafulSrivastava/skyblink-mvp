@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { ExternalLink, Copy, Check, AlertTriangle } from 'lucide-react'
 import { formatMonth } from '@/lib/long-baseline'
+import { Term } from '@/components/Term'
 import type { LoadedBundleTarget, LoadedPlayerFrame } from '@/lib/bundle-loader'
 
 interface MetadataPanelProps {
@@ -49,18 +50,18 @@ export default function MetadataPanel({ loaded, currentFrame }: MetadataPanelPro
       {/* Mean-epoch position */}
       <div>
         <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">
-          Where it is now <span className="normal-case font-normal">({formatMonth(target.mean_epoch.date)})</span>
+          Where it is now <span className="normal-case font-normal">(<Term k="epoch">{formatMonth(target.mean_epoch.date)}</Term>)</span>
         </h3>
         <div className="space-y-1">
-          <div className="flex justify-between"><span className="text-sky-inkDim"><abbr title="Right ascension: east–west position on the sky">RA</abbr></span><RA deg={target.mean_epoch.ra_deg} /></div>
-          <div className="flex justify-between"><span className="text-sky-inkDim"><abbr title="Declination: north–south position on the sky">Dec</abbr></span><Dec deg={target.mean_epoch.dec_deg} /></div>
+          <div className="flex justify-between"><span className="text-sky-inkDim"><Term k="ra">RA</Term></span><RA deg={target.mean_epoch.ra_deg} /></div>
+          <div className="flex justify-between"><span className="text-sky-inkDim"><Term k="dec">Dec</Term></span><Dec deg={target.mean_epoch.dec_deg} /></div>
         </div>
       </div>
 
       {/* Input coordinate staleness */}
       {target.input.offset_from_mean_epoch_position_arcsec > 5 && (
         <div className="p-3 rounded-lg border border-amber-400/40 bg-amber-400/5">
-          <div className="flex items-center gap-1.5 text-amber-200 font-semibold"><AlertTriangle className="w-4 h-4" aria-hidden="true" />Catalogue position is out of date</div>
+          <div className="flex items-center gap-1.5 text-amber-200 font-semibold"><AlertTriangle className="w-4 h-4" aria-hidden="true" /><span><Term k="catalogue">Catalogue</Term> position is <Term k="staleCoordinate">out of date</Term></span></div>
           <div className="text-sky-inkDim mt-1">
             {target.id === 'wise-0855'
               ? `Brief coordinate is ${target.input.offset_from_mean_epoch_position_arcsec.toFixed(0)}″ (${target.input.offset_from_mean_epoch_position_px.toFixed(1)} px) from actual position`
@@ -75,19 +76,19 @@ export default function MetadataPanel({ loaded, currentFrame }: MetadataPanelPro
 
       {/* Proper motion */}
       <div>
-        <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">Motion across the sky</h3>
+        <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5"><Term k="properMotion">Motion across the sky</Term></h3>
         <div className="space-y-1">
           <div className="flex justify-between">
-            <span className="text-sky-inkDim">East–west <abbr title="proper motion in right ascension times cos(declination)" className="font-mono">μα·cosδ</abbr></span>
-            <span className="font-mono text-sky-ink">{target.catalog.pmra.toFixed(0)} mas/yr</span>
+            <span className="text-sky-inkDim">East–west <Term k="pmRa" className="font-mono">μα·cosδ</Term></span>
+            <span className="font-mono text-sky-ink">{target.catalog.pmra.toFixed(0)} <Term k="masPerYear">mas/yr</Term></span>
           </div>
           <div className="flex justify-between">
-            <span className="text-sky-inkDim">North–south <abbr title="proper motion in declination" className="font-mono">μδ</abbr></span>
-            <span className="font-mono text-sky-ink">{target.catalog.pmdec.toFixed(0)} mas/yr</span>
+            <span className="text-sky-inkDim">North–south <Term k="pmDec" className="font-mono">μδ</Term></span>
+            <span className="font-mono text-sky-ink">{target.catalog.pmdec.toFixed(0)} <Term k="masPerYear">mas/yr</Term></span>
           </div>
           <div className="flex justify-between">
-            <span className="text-sky-inkDim">Catalogue</span>
-            <span className="font-mono text-sky-accent text-xs">{target.catalog.catalog}</span>
+            <span className="text-sky-inkDim"><Term k="catalogue">Catalogue</Term></span>
+            <span className="font-mono text-sky-accent text-xs"><Term k={/catwise/i.test(target.catalog.catalog) ? 'catwise' : 'gaia'}>{target.catalog.catalog}</Term></span>
           </div>
         </div>
       </div>
@@ -96,20 +97,20 @@ export default function MetadataPanel({ loaded, currentFrame }: MetadataPanelPro
       {motionBand && (
         <div>
           <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">
-            Measured shift <span className="normal-case font-normal">(band {defaultBand}, first to last full visit)</span>
+            <Term k="measuredShift">Measured shift</Term> <span className="normal-case font-normal">(<Term k="band">band</Term> {defaultBand}, first to last full <Term k="visit">visit</Term>)</span>
           </h3>
           <div className="space-y-1">
             <div className="flex justify-between">
-              <span className="text-sky-inkDim">Predicted</span>
+              <span className="text-sky-inkDim"><Term k="predictedShift">Predicted</Term></span>
               <span className="font-mono text-sky-ink">{motionCheck.predicted_shift_px.toFixed(2)} px</span>
             </div>
             <div className="flex justify-between">
-              <span className="text-sky-inkDim">Measured</span>
+              <span className="text-sky-inkDim"><Term k="measuredShift">Measured</Term></span>
               <span className="font-mono text-sky-ink">{typeof motionBand.measured_shift_px === 'number' ? `${motionBand.measured_shift_px.toFixed(2)} px` : 'not measured'}</span>
             </div>
             {motionBand.comparison_shift_px !== undefined && (
               <div className="flex justify-between">
-                <span className="text-sky-inkDim">Comparison star</span>
+                <span className="text-sky-inkDim"><Term k="comparisonStar">Comparison star</Term></span>
                 <span className="font-mono text-sky-ink">{motionBand.comparison_shift_px.toFixed(2)} px</span>
               </div>
             )}
@@ -122,23 +123,23 @@ export default function MetadataPanel({ loaded, currentFrame }: MetadataPanelPro
         <div>
           <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">This image</h3>
           <div className="space-y-1">
-            <div className="flex justify-between"><span className="text-sky-inkDim">Visit</span><span className="font-mono text-sky-ink">{currentFrame.visitId}</span></div>
+            <div className="flex justify-between"><span className="text-sky-inkDim"><Term k="visit">Visit</Term></span><span className="font-mono text-sky-ink">{currentFrame.visitId}</span></div>
             <div className="flex justify-between"><span className="text-sky-inkDim">Dates</span><span className="font-mono text-sky-ink">{currentFrame.dateStart} to {currentFrame.dateEnd}</span></div>
-            <div className="flex justify-between"><span className="text-sky-inkDim">Band</span><span className="font-mono text-sky-accent">{currentFrame.band}</span></div>
+            <div className="flex justify-between"><span className="text-sky-inkDim"><Term k="band">Band</Term></span><span className="font-mono text-sky-accent">{currentFrame.band}</span></div>
             <div className="flex justify-between">
-              <span className="text-sky-inkDim">Visit type</span>
+              <span className="text-sky-inkDim"><Term k="partialVisit">Visit type</Term></span>
               <span className={`${currentFrame.visitType === 'full' ? 'text-sky-ink' : 'text-amber-300'}`}>
                 {currentFrame.visitType}
               </span>
             </div>
-            <div className="flex justify-between"><span className="text-sky-inkDim">Frames stacked</span><span className="font-mono text-sky-ink">{currentFrame.nCoadded}</span></div>
+            <div className="flex justify-between"><span className="text-sky-inkDim"><Term k="framesStacked">Frames stacked</Term></span><span className="font-mono text-sky-ink">{currentFrame.nCoadded}</span></div>
           </div>
         </div>
       )}
 
       {/* Data links */}
       <div>
-        <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">Original data</h3>
+        <h3 className="text-sky-inkDim text-xs font-semibold uppercase tracking-wider mb-1.5">Original data (<Term k="dr1qr3">DR1 and QR3</Term>)</h3>
         <div className="space-y-1">
           <a href="https://doi.org/10.26131/IRSA678" target="_blank" rel="noopener noreferrer"
             className="flex min-h-10 items-center gap-1.5 text-sky-inkDim hover:text-sky-accent transition-colors">

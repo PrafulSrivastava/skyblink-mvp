@@ -3,15 +3,16 @@
 import React from 'react'
 import { MARKER_STYLE } from '@/lib/object-overlay'
 import MarkerSwatch from './MarkerSwatch'
+import { Term } from '@/components/Term'
 
 const C = 15
 
 /** Key for the canvas markers. Every category differs by shape or dash, not only colour. */
 export default function ObjectsLegend() {
-  const rows: { key: string; label: string; swatch: React.ReactNode }[] = [
+  const rows: { key: string; label: React.ReactNode; swatch: React.ReactNode }[] = [
     {
       key: 'target',
-      label: 'Where the target should be now',
+      label: <>Where the target <Term k="predictedPosition">should be now</Term></>,
       swatch: (
         <svg width={30} height={30} viewBox="0 0 30 30" className="flex-shrink-0" aria-hidden="true">
           <g stroke="rgba(90,185,252,0.9)" strokeWidth={1.5} strokeDasharray="4 4">
@@ -23,9 +24,9 @@ export default function ObjectsLegend() {
         </svg>
       ),
     },
-    { key: 'moving', label: 'Fast mover (over 1″ a year): dashed outer ring', swatch: <MarkerSwatch shape="circle" color={MARKER_STYLE.known} moving /> },
-    { key: 'known', label: 'Known: listed in CatWISE, AllWISE or 2MASS', swatch: <MarkerSwatch shape="circle" color={MARKER_STYLE.known} /> },
-    { key: 'unidentified', label: 'Unidentified: in none of those catalogues', swatch: <MarkerSwatch shape="square" color={MARKER_STYLE.unidentified} /> },
+    { key: 'moving', label: <><Term k="fastMover">Fast mover</Term> (over 1<Term k="arcsecond">″</Term> a year): dashed outer ring</>, swatch: <MarkerSwatch shape="circle" color={MARKER_STYLE.known} moving /> },
+    { key: 'known', label: <><Term k="known">Known</Term>: listed in <Term k="catwise">CatWISE</Term>, <Term k="allwise">AllWISE</Term> or <Term k="twomass">2MASS</Term></>, swatch: <MarkerSwatch shape="circle" color={MARKER_STYLE.known} /> },
+    { key: 'unidentified', label: <><Term k="unidentified">Unidentified</Term>: in none of those <Term k="catalogue">catalogues</Term></>, swatch: <MarkerSwatch shape="square" color={MARKER_STYLE.unidentified} /> },
     { key: 'selected', label: 'Selected', swatch: <MarkerSwatch shape="circle" color={MARKER_STYLE.known} selected /> },
   ]
 

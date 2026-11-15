@@ -6,25 +6,26 @@ import SiteFooter from '@/components/SiteFooter'
 import HeroBlink from '@/components/HeroBlink'
 import { BUNDLE_TARGET_IDS } from '@/lib/bundle-loader'
 import { TARGET_STORIES } from '@/lib/target-stories'
+import { RichText, Term } from '@/components/Term'
 
 const STEPS = [
   {
     icon: Crosshair,
     title: 'Pick an object',
-    desc: 'Choose one of five nearby stars and brown dwarfs. SkyBlink works out where each one is today, because star catalogues record where they were years ago.',
-    tech: 'Positions corrected with Gaia DR3 or CatWISE2020 proper motion.',
+    desc: 'Choose one of five nearby stars and [[brown dwarfs|brownDwarf]]. SkyBlink works out where each one is today, because star [[catalogues|catalogue]] record [[where they were years ago|staleCoordinate]].',
+    tech: 'Positions corrected with [[Gaia DR3|gaia]] or [[CatWISE2020|catwise]] [[proper motion|properMotion]].',
   },
   {
     icon: Layers,
     title: 'We line up the images',
-    desc: 'Every NASA SPHEREx picture of that patch of sky is stacked by visit, cleaned of artefacts and turned so north is up, so the background stars hold still.',
-    tech: 'Frames grouped into ~6-month visits, co-added per detector band, flagged pixels masked, reprojected to one grid.',
+    desc: 'Every NASA [[SPHEREx|spherex]] picture of that patch of sky is [[stacked|coadd]] by [[visit|visit]], cleaned of artefacts and turned so [[north is up|northUp]], so the background stars hold still.',
+    tech: 'Frames grouped into ~6-month visits, averaged per detector [[band|band]], flagged pixels masked, reprojected to one grid.',
   },
   {
     icon: Eye,
     title: 'Watch it move',
-    desc: 'The images flip back and forth like a flip-book. Anything that moved jumps. Switch to Diff to see the change in colour, or open a spectrum to see what it is made of.',
-    tech: '102 infrared channels from 0.75 to 5 µm.',
+    desc: 'The images [[flip back and forth|blink]] like a flip-book. Anything that moved jumps. Switch to [[Diff|diff]] to see the change in colour, or open a [[spectrum|spectrum]] to see what it is made of.',
+    tech: '102 [[infrared|infrared]] [[channels|channel]] from 0.75 to 5 [[µm|micron]].',
   },
 ]
 
@@ -40,17 +41,17 @@ export default function HomePage() {
           <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 py-14 sm:py-20 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <p className="mb-6 inline-flex items-center gap-2 rounded-full border border-sky-accent/30 bg-sky-accent/5 px-3 py-1.5 text-sm text-sky-accent">
-                Real images from NASA SPHEREx and WISE
+                <span>Real images from NASA <Term k="spherex">SPHEREx</Term> and <Term k="wise">WISE</Term></span>
               </p>
               <h1 id="hero-h" className="mb-6 text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
                 Watch the infrared sky move.
               </h1>
               <p className="mb-5 max-w-xl text-lg leading-relaxed text-sky-inkDim sm:text-xl">
-                Flip between NASA infrared images taken years apart and see nearby stars drift across the sky.
-                No software, no sign-in, no FITS files.
+                Flip between NASA <Term k="infrared">infrared</Term> images taken years apart and see nearby stars drift across the sky.
+                No software, no sign-in, no <Term k="fits">FITS files</Term>.
               </p>
               <p className="mb-10 max-w-xl text-base font-semibold text-sky-ink">
-                Star catalogues are out of date. We found where the stars went.
+                Star <Term k="catalogue">catalogues</Term> are <Term k="staleCoordinate">out of date</Term>. We found where the stars went.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link href="/viewer" className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-sky-accent px-6 font-bold text-sky-bg transition-colors hover:bg-sky-accent/90">
@@ -73,8 +74,8 @@ export default function HomePage() {
           <div className="mx-auto max-w-7xl">
             <h2 id="how-h" className="mb-4 text-3xl font-black">How it works</h2>
             <p className="mb-12 max-w-2xl text-lg text-sky-inkDim">
-              Astronomers have found moving stars this way for a century: take two pictures of the same sky and flip between them.
-              SkyBlink does it with NASA’s newest infrared survey.
+              Astronomers have found moving stars this way for a century: take two pictures of the same sky and <Term k="blink">flip between them</Term>.
+              SkyBlink does it with NASA’s newest <Term k="infrared">infrared</Term> survey.
             </p>
             <ol className="grid grid-cols-1 gap-6 md:grid-cols-3">
               {STEPS.map((s, i) => (
@@ -86,8 +87,8 @@ export default function HomePage() {
                     <span className="font-mono text-sm text-sky-inkDim">Step {i + 1}</span>
                   </div>
                   <h3 className="mb-3 text-lg font-bold">{s.title}</h3>
-                  <p className="mb-3 leading-relaxed text-sky-inkDim">{s.desc}</p>
-                  <p className="text-sm text-sky-inkDim">{s.tech}</p>
+                  <p className="mb-3 leading-relaxed text-sky-inkDim"><RichText text={s.desc} /></p>
+                  <p className="text-sm text-sky-inkDim"><RichText text={s.tech} /></p>
                 </li>
               ))}
             </ol>
@@ -105,17 +106,17 @@ export default function HomePage() {
               {BUNDLE_TARGET_IDS.map(id => {
                 const t = TARGET_STORIES[id]
                 return (
-                  <li key={id}>
-                    <Link href={`/viewer?target=${id}`} className="group flex h-full flex-col rounded-xl border border-sky-border bg-sky-surface p-5 transition-colors hover:border-sky-accent/50">
-                      <span className="mb-3 self-start rounded-full border border-sky-accent/30 bg-sky-accent/10 px-2.5 py-0.5 text-xs font-semibold text-sky-accent">
-                        {t.tag}
-                      </span>
-                      <h3 className="text-lg font-bold text-sky-ink group-hover:text-sky-accent">{t.name}</h3>
-                      <p className="mb-3 text-sm text-sky-inkDim">{t.kind}</p>
-                      <p className="mb-4 leading-relaxed text-sky-inkDim">{t.story}</p>
-                      <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-sky-accent">
-                        Open in the viewer <ArrowRight className="h-4 w-4" aria-hidden="true" />
-                      </span>
+                  <li key={id} className="flex h-full flex-col rounded-xl border border-sky-border bg-sky-surface p-5 transition-colors hover:border-sky-accent/50">
+                    <span className="mb-3 self-start rounded-full border border-sky-accent/30 bg-sky-accent/10 px-2.5 py-0.5 text-xs font-semibold text-sky-accent">
+                      {t.tag}
+                    </span>
+                    <h3 className="text-lg font-bold">
+                      <Link href={`/viewer?target=${id}`} className="text-sky-ink hover:text-sky-accent">{t.name}</Link>
+                    </h3>
+                    <p className="mb-3 text-sm text-sky-inkDim"><RichText text={t.kind} /></p>
+                    <p className="mb-4 leading-relaxed text-sky-inkDim"><RichText text={t.story} /></p>
+                    <Link href={`/viewer?target=${id}`} className="mt-auto inline-flex min-h-11 items-center gap-1 self-start text-sm font-semibold text-sky-accent hover:underline">
+                      Open {t.name} in the viewer <ArrowRight className="h-4 w-4" aria-hidden="true" />
                     </Link>
                   </li>
                 )
@@ -148,8 +149,8 @@ export default function HomePage() {
                 <h3 className="mb-3 font-semibold text-sky-ink">SPHEREx</h3>
                 <p className="mb-4 leading-relaxed text-sky-inkDim">
                   SPHEREx (Spectro-Photometer for the History of the Universe, Epoch of Reionization and Ices Explorer)
-                  is a NASA mission launched in March 2025. It maps the whole sky in 102 infrared colours,
-                  from 0.75 to 5 µm, and comes back to each spot about every six months.
+                  is a NASA mission launched in March 2025. It maps the whole sky in 102 <Term k="infrared">infrared</Term> colours,
+                  from 0.75 to 5 <Term k="micron">µm</Term>, and comes back to each spot about every six months.
                 </p>
                 <ul className="space-y-1">
                   {[
@@ -170,9 +171,9 @@ export default function HomePage() {
               <div>
                 <h3 className="mb-3 font-semibold text-sky-ink">Other data</h3>
                 <ul className="list-disc space-y-2 pl-5 text-sky-inkDim marker:text-sky-accent">
-                  <li><strong className="text-sky-ink">Gaia DR3</strong> (ESA/DPAC): motion for Barnard’s Star, ε Indi B, RW Aur and R Dra, and the comparison stars</li>
-                  <li><strong className="text-sky-ink">CatWISE2020</strong> (doi:10.26131/IRSA551): motion for WISE 0855</li>
-                  <li><strong className="text-sky-ink">CatWISE, AllWISE and 2MASS</strong>: the catalogues used to label objects as known</li>
+                  <li><strong className="text-sky-ink"><Term k="gaia">Gaia DR3</Term></strong> (ESA/DPAC): motion for Barnard’s Star, ε Indi B, RW Aur and R Dra, and the comparison stars</li>
+                  <li><strong className="text-sky-ink"><Term k="catwise">CatWISE2020</Term></strong> (doi:10.26131/IRSA551): motion for WISE 0855</li>
+                  <li><strong className="text-sky-ink"><Term k="catwise">CatWISE</Term>, <Term k="allwise">AllWISE</Term> and <Term k="twomass">2MASS</Term></strong>: the <Term k="catalogue">catalogues</Term> used to label objects as <Term k="known">known</Term></li>
                   <li><strong className="text-sky-ink">IRSA</strong> (NASA/IPAC): image search and the public SPHEREx archive</li>
                 </ul>
               </div>

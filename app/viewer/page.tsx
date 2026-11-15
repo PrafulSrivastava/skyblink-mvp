@@ -19,20 +19,10 @@ import {
 } from '@/lib/bundle-loader'
 import { visibleObjects, type MarkerMode } from '@/lib/object-overlay'
 import { TARGET_STORIES } from '@/lib/target-stories'
+import { Hint, RichText, Term } from '@/components/Term'
 
 const DEFAULT_TARGET: BundleTargetId = 'barnards-star'
 type Mode = 'blink' | 'diff'
-
-const GLOSSARY: [string, string][] = [
-  ['Blink', 'Flipping between images of the same sky taken at different times. Anything that moved or changed brightness jumps.'],
-  ['Band (D1–D6)', 'SPHEREx has six detectors, each covering a range of infrared wavelengths. D1 is closest to visible light, D6 the longest and best for cold objects.'],
-  ['Visit', 'SPHEREx passes over each spot about every six months. The images from one pass are stacked into one picture. A partial visit has fewer images.'],
-  ['Arcsecond (″)', 'A tiny angle: 1/3600 of a degree. The full Moon is about 1,800″ across. One pixel here is 6.15″.'],
-  ['Proper motion (mas/yr)', 'How fast a star crawls across the sky, in thousandths of an arcsecond per year. Only nearby stars move enough to see.'],
-  ['S/N', 'Signal-to-noise: how clearly an object stands out from the background. Above about 5 counts as a detection.'],
-  ['Saturated', 'Too bright for the detector. The centre of the star is masked because its pixel values are not reliable.'],
-  ['Spectrum', 'How bright an object is at each wavelength. Dips reveal molecules such as water or methane in its atmosphere.'],
-]
 
 function ViewerContent() {
   const searchParams = useSearchParams()
@@ -157,16 +147,16 @@ function ViewerContent() {
         {/* What am I looking at? */}
         {story && loaded && (
           <section aria-labelledby="target-h" className="rounded-xl border border-sky-border bg-sky-surface p-5">
-            <p className="mb-1 text-sm text-sky-inkDim">{story.kind}</p>
+            <p className="mb-1 text-sm text-sky-inkDim"><RichText text={story.kind} /></p>
             <h1 id="target-h" className="mb-3 text-3xl font-black tracking-tight">{story.name}</h1>
-            <p className="max-w-3xl leading-relaxed text-sky-inkDim">{story.story}</p>
+            <p className="max-w-3xl leading-relaxed text-sky-inkDim"><RichText text={story.story} /></p>
             <p className="mt-3 flex max-w-3xl gap-2 leading-relaxed text-sky-ink">
               <Info className="mt-1 h-4 w-4 flex-shrink-0 text-sky-accent" aria-hidden="true" />
-              <span>{story.tip}</span>
+              <span><RichText text={story.tip} /></span>
             </p>
             <details className="mt-3 text-sm text-sky-inkDim">
               <summary className="inline-flex min-h-10 cursor-pointer items-center text-sky-accent">The numbers</summary>
-              <p className="mt-1 max-w-3xl">{story.tech}</p>
+              <p className="mt-1 max-w-3xl"><RichText text={story.tech} /></p>
             </details>
           </section>
         )}
@@ -176,26 +166,36 @@ function ViewerContent() {
           <section aria-label="Images" className="rounded-xl border border-sky-border bg-sky-surface p-4">
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <div className="flex overflow-hidden rounded-lg border border-sky-border" role="group" aria-label="View">
-                <button type="button" onClick={() => setMode('blink')} aria-pressed={mode === 'blink'} className={modeBtn(mode === 'blink')}>
-                  <Layers className="h-4 w-4" aria-hidden="true" /> Blink
-                </button>
-                <button type="button" onClick={() => setMode('diff')} aria-pressed={mode === 'diff'} className={`${modeBtn(mode === 'diff')} border-l border-sky-border`}>
-                  <ArrowLeftRight className="h-4 w-4" aria-hidden="true" /> Diff
-                </button>
+                <Hint k="blink">
+                  <button type="button" onClick={() => setMode('blink')} aria-pressed={mode === 'blink'} className={modeBtn(mode === 'blink')}>
+                    <Layers className="h-4 w-4" aria-hidden="true" /> Blink
+                  </button>
+                </Hint>
+                <Hint k="diff">
+                  <button type="button" onClick={() => setMode('diff')} aria-pressed={mode === 'diff'} className={`${modeBtn(mode === 'diff')} border-l border-sky-border`}>
+                    <ArrowLeftRight className="h-4 w-4" aria-hidden="true" /> Diff
+                  </button>
+                </Hint>
               </div>
+              <Hint k="spectrum">
               <button type="button" onClick={() => setShowSpectrum(s => !s)} aria-pressed={showSpectrum}
                 className={`inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border px-3 text-sm transition-colors ${
                   showSpectrum ? 'border-sky-accent/40 bg-sky-accent/20 text-sky-accent' : 'border-sky-border text-sky-inkDim hover:border-sky-accent/40 hover:text-sky-ink'
                 }`}>
                 <Activity className="h-4 w-4" aria-hidden="true" /> Spectrum
               </button>
+              </Hint>
               {loaded && (
+                <Hint k="longBaseline">
                 <Link href={`/long-baseline?target=${loaded.id}`}
                   className="inline-flex min-h-11 sm:min-h-9 items-center gap-1.5 rounded-lg border border-sky-border px-3 text-sm text-sky-inkDim transition-colors hover:border-sky-accent/40 hover:text-sky-ink">
                   <History className="h-4 w-4" aria-hidden="true" /> 16 years
                 </Link>
+                </Hint>
               )}
-              <p className="ml-auto hidden text-sm text-sky-inkDim md:block">5′ of sky · 6.15″ per pixel · north up</p>
+              <p className="ml-auto hidden text-sm text-sky-inkDim md:block">
+                <Term k="arcminute">5′</Term> of sky · <Term k="pixelScale">6.15″ per pixel</Term> · <Term k="northUp">north up</Term>
+              </p>
             </div>
 
             {mode === 'blink' ? (
@@ -226,7 +226,7 @@ function ViewerContent() {
                   )}
                 </div>
                 <div>
-                  <h3 className="mb-2 text-sm font-semibold text-sky-ink">What changed</h3>
+                  <h3 className="mb-2 text-sm font-semibold text-sky-ink"><Term k="diff">What changed</Term></h3>
                   <DifferenceView
                     frameA={frameA}
                     frameB={frameB}
@@ -265,7 +265,7 @@ function ViewerContent() {
         )}
       </div>
 
-      {/* Right: objects, position, glossary */}
+      {/* Right: objects and position */}
       <aside className="space-y-4" aria-label="Details">
         {mode === 'blink' && loaded && (
           <ObjectsPanel
@@ -280,35 +280,18 @@ function ViewerContent() {
         {loaded?.id === 'wise-0855' && (
           <section aria-labelledby="stale-h" className="rounded-xl border border-sky-accent/30 bg-sky-accent/5 p-4 text-sm">
             <h2 id="stale-h" className="mb-1.5 flex items-center gap-1.5 font-semibold text-sky-accent">
-              <MapPin className="h-4 w-4" aria-hidden="true" /> The published position is wrong
+              <MapPin className="h-4 w-4" aria-hidden="true" /> The published position is <Term k="staleCoordinate">out of date</Term>
             </h2>
             <p className="text-sky-inkDim">
               The challenge brief gives <span className="font-mono text-sky-ink">08h55m10.831s −07°14′42.5″</span> for WISE 0855.
-              That spot is <strong className="text-sky-ink">125.7″ (20 pixels)</strong> from where it really is in the SPHEREx images.
-              SkyBlink corrects for 10.5 years of motion using CatWISE2020.
+              That spot is <strong className="text-sky-ink">125.7<Term k="arcsecond">″</Term> (20 pixels)</strong> from where it really is in the <Term k="spherex">SPHEREx</Term> images.
+              SkyBlink corrects for 10.5 years of <Term k="properMotion">motion</Term> using <Term k="catwise">CatWISE2020</Term>.
             </p>
           </section>
         )}
 
         <MetadataPanel loaded={loaded} currentFrame={currentFrame} />
 
-        <section aria-labelledby="glossary-h" className="rounded-xl border border-sky-border bg-sky-surface p-4 text-sm">
-          <h2 id="glossary-h" className="mb-2 text-base font-semibold text-sky-ink">What the terms mean</h2>
-          <ul className="space-y-1">
-            {GLOSSARY.map(([term, def]) => (
-              <li key={term}>
-                <details className="rounded-md">
-                  <summary className="flex min-h-10 cursor-pointer items-center font-medium text-sky-ink">{term}</summary>
-                  <p className="pb-2 text-sky-inkDim">{def}</p>
-                </details>
-              </li>
-            ))}
-          </ul>
-          <a href="https://spherex.caltech.edu" target="_blank" rel="noopener noreferrer"
-            className="mt-2 inline-flex min-h-10 items-center text-sky-accent hover:underline">
-            About the SPHEREx mission<span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        </section>
       </aside>
     </main>
   )

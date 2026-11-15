@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect, useCallback, useImperativeHandle } from 'react'
 import { Target, Clock, Star, Award, ArrowRight, RotateCcw, ExternalLink, Trophy } from 'lucide-react'
 import { formatMonth } from '@/lib/long-baseline'
+import { RichText, Term } from '@/components/Term'
 
 export interface Round {
   id: string
@@ -217,7 +218,7 @@ export default function SoloGame({ rounds, ref }: SoloGameProps) {
           <Target className="mx-auto mb-3 h-10 w-10 text-battle-accent" aria-hidden="true" />
           <h2 className="mb-2 text-2xl font-black text-sky-ink">Solo challenge</h2>
           <p className="text-sky-inkDim">
-            {rounds.length} rounds. Two real SPHEREx images flip back and forth: tap the object that moved.
+            {rounds.length} rounds. Two real <Term k="spherex">SPHEREx</Term> images <Term k="blink">flip back and forth</Term>: tap the object that moved.
             Closer and faster scores more.
           </p>
         </div>
@@ -332,7 +333,7 @@ export default function SoloGame({ rounds, ref }: SoloGameProps) {
             <div className="mb-3 flex items-start justify-between gap-3">
               <div>
                 <h3 className="font-semibold text-sky-ink">{round.revealName}</h3>
-                <p className="text-sm text-sky-inkDim">{round.hint}</p>
+                <p className="text-sm text-sky-inkDim"><RichText text={round.hint} /></p>
                 <p className="mt-1 text-sm text-sky-inkDim">
                   {lastScore.distancePx < 10 ? 'Spot on.' : lastScore.distancePx < 25 ? 'Close.' : 'Missed.'}{' '}
                   The blue ring shows where it was.

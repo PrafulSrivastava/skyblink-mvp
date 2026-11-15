@@ -6,6 +6,7 @@ import { Play } from 'lucide-react'
 import SoloGame, { type Round, type SoloGameHandle } from './SoloGame'
 import { loadBundleTarget, framesForBand, BUNDLE_TARGET_IDS } from '@/lib/bundle-loader'
 import { TARGET_STORIES } from '@/lib/target-stories'
+import { Term } from '@/components/Term'
 
 const REVEAL_URLS: Record<string, string> = {
   'barnards-star': 'https://en.wikipedia.org/wiki/Barnard%27s_Star',
@@ -68,11 +69,11 @@ export default function BattleClient() {
         <div className="relative mx-auto grid max-w-6xl items-center gap-10 px-4 sm:px-6 py-14 lg:grid-cols-2">
           <div>
             <p className="mb-5 inline-flex rounded-full border border-battle-accent/40 bg-battle-accent/10 px-3 py-1.5 text-sm text-battle-accent">
-              Real SPHEREx DR1 and QR3 images
+              <span>Real <Term k="spherex">SPHEREx</Term> <Term k="dr1qr3">DR1 and QR3</Term> images</span>
             </p>
             <h1 id="battle-h" className="mb-4 text-5xl font-black leading-tight tracking-tight sm:text-6xl">Blink Battle</h1>
             <p className="mb-8 max-w-lg text-lg text-sky-inkDim">
-              Astronomers found moving stars by flipping between photographs. Try it yourself: spot what moved in real NASA infrared images.
+              Astronomers found moving stars by <Term k="blink">flipping between photographs</Term>. Try it yourself: spot what moved in real NASA <Term k="infrared">infrared</Term> images.
             </p>
             <div className="flex flex-wrap gap-3">
               <button type="button" disabled={loading || !rounds.length} onClick={() => gameRef.current?.start()}

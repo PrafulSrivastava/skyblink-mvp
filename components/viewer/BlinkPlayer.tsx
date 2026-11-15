@@ -9,6 +9,7 @@ import {
 } from '@/lib/object-overlay'
 import { formatMonth } from '@/lib/long-baseline'
 import { prefersReducedMotion } from '@/lib/use-reduced-motion'
+import { Hint } from '@/components/Term'
 
 export interface PixelClick {
   png_x: number
@@ -266,12 +267,14 @@ export default function BlinkPlayer({
           {/* Visits, labelled by date */}
           <div className="mt-2 flex flex-wrap gap-1.5" role="group" aria-label="Jump to a visit">
             {frames.map((f, i) => (
+              <Hint key={f.visitId + f.band} entry={{
+                term: `${f.visitType === 'partial' ? 'Partial visit' : 'Visit'} · ${formatMonth(f.dateStart)}`,
+                def: `${f.dateStart} to ${f.dateEnd}. ${f.nCoadded} frame${f.nCoadded === 1 ? '' : 's'} stacked into one picture.${f.visitType === 'partial' ? ' A partial visit has only a few frames of this spot, so it is noisier.' : ''}`,
+              }}>
               <button
-                key={f.visitId + f.band}
                 type="button"
                 onClick={() => { setPlaying(false); goTo(i) }}
                 aria-pressed={i === currentIndex}
-                title={`${f.dateStart} to ${f.dateEnd}, ${f.nCoadded} frames stacked`}
                 className={`min-h-11 sm:min-h-8 rounded-md border px-2.5 text-xs transition-colors ${
                   i === currentIndex
                     ? 'border-sky-accent/50 bg-sky-accent/15 text-sky-accent'
@@ -281,6 +284,7 @@ export default function BlinkPlayer({
                 {formatMonth(f.dateStart)}
                 {f.visitType === 'partial' && <span className="text-amber-300"> · partial</span>}
               </button>
+              </Hint>
             ))}
           </div>
           <p className="mt-2 hidden text-xs text-sky-inkDim sm:block">Keyboard: Space to play or pause, ← → to step.</p>

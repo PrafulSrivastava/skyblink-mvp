@@ -11,6 +11,8 @@ import {
 } from '@/lib/long-baseline'
 import { TARGET_STORIES } from '@/lib/target-stories'
 import { isBundleTarget } from '@/lib/bundle-loader'
+import { Hint, RichText, Term } from '@/components/Term'
+import type { GlossaryKey } from '@/lib/glossary'
 
 const chip = (on: boolean) =>
   `inline-flex min-h-11 sm:min-h-10 items-center gap-1.5 rounded-full border px-4 text-sm transition-colors ${
@@ -58,7 +60,7 @@ export default function LongBaselineExplorer() {
       <div className="mb-8 max-w-3xl">
         <h1 className="mb-4 text-4xl font-black tracking-tight sm:text-5xl">16 years of motion in one blink</h1>
         <p className="text-lg text-sky-inkDim">
-          A 2010 image from NASA’s WISE survey flips against a SPHEREx image of the same sky from 2025–26.
+          A 2010 image from NASA’s <Term k="wise">WISE</Term> survey <Term k="blink">flips</Term> against a <Term k="spherex">SPHEREx</Term> image of the same sky from 2025–26.
           Over 16 years the fastest stars cross a big part of the frame, no measuring needed.
         </p>
       </div>
@@ -81,12 +83,13 @@ export default function LongBaselineExplorer() {
             </div>
           </div>
           <div role="group" aria-label="Choose an infrared band">
-            <h2 className="mb-2 text-sm font-semibold text-sky-inkDim">Infrared band</h2>
+            <h2 className="mb-2 text-sm font-semibold text-sky-inkDim"><Term k="infrared">Infrared</Term> <Term k="band">band</Term></h2>
             <div className="flex flex-wrap gap-2">
               {LB_BANDS.map(b => {
                 const usable = !!sel?.data.pairs[b.id]?.usable
                 return (
-                  <button key={b.id} type="button" disabled={!usable} className={`${chip(sel?.band === b.id)} disabled:opacity-40`}
+                  <Hint key={b.id} entry={{ term: `${b.label} · ${b.um}`, def: b.id === 'W1' ? 'WISE’s 3.4 µm filter, compared with SPHEREx light from 2.9 to 3.8 µm.' : 'WISE’s 4.6 µm filter, compared with SPHEREx light from 4.0 to 5.0 µm. Cold brown dwarfs show best here.' }}>
+                  <button type="button" disabled={!usable} className={`${chip(sel?.band === b.id)} disabled:opacity-40`}
                     aria-pressed={sel?.band === b.id} onClick={() => {
                       if (!sel) return
                       setSel({ ...sel, band: b.id })
@@ -94,6 +97,7 @@ export default function LongBaselineExplorer() {
                     }}>
                     {b.label} <span className="text-xs opacity-80">{b.um}</span>
                   </button>
+                  </Hint>
                 )
               })}
             </div>
@@ -125,8 +129,8 @@ export default function LongBaselineExplorer() {
           {sel && story && (
             <section aria-labelledby="lb-about" className="rounded-xl border border-sky-border bg-sky-surface p-5">
               <h2 id="lb-about" className="text-2xl font-bold">{story.name}</h2>
-              <p className="mb-3 text-sm text-sky-inkDim">{story.kind}</p>
-              <p className="leading-relaxed text-sky-inkDim">{story.story}</p>
+              <p className="mb-3 text-sm text-sky-inkDim"><RichText text={story.kind} /></p>
+              <p className="leading-relaxed text-sky-inkDim"><RichText text={story.story} /></p>
               <Link href={`/viewer?target=${sel.meta.id}`} className="mt-4 inline-flex min-h-11 items-center gap-1.5 font-semibold text-sky-accent hover:underline">
                 Open the SPHEREx-only blink <ArrowRight className="h-4 w-4" aria-hidden="true" />
               </Link>
@@ -137,17 +141,17 @@ export default function LongBaselineExplorer() {
             <section aria-labelledby="lb-measure" className="rounded-xl border border-sky-border bg-sky-surface p-5">
               <h2 id="lb-measure" className="mb-4 text-lg font-bold">What the blink measures</h2>
               <dl className="divide-y divide-sky-border text-sm">
-                {[
-                  ['WISE image', formatDay(sel.data.wise.date)],
-                  ['SPHEREx image', `${formatDay(pair.spherex_date_start)} (visit ${pair.spherex_visit})`],
-                  ['SPHEREx frames stacked', `${pair.spherex_n_frames}, at ${fmt(pair.spherex_wl_um[0], 2)}–${fmt(pair.spherex_wl_um[1], 2)} µm`],
-                  ['Time between them', `${fmt(sel.data.motion.baseline_years, 1)} years`],
-                  ['Proper motion', `${fmt(sel.data.motion.pm_total_mas_yr, 0)} mas/yr (milliarcseconds a year)`],
-                  ['Expected shift', `${fmt(pair.shift_arcsec, 1)}″, about ${fmt(pair.shift_arcsec / 6.15, 1)} pixels`],
-                  ['Fit vs prediction', `WISE ${fitText(pair.fit.wise)}, SPHEREx ${fitText(pair.fit.spherex)}`],
-                ].map(([k, v]) => (
-                  <div key={k} className="grid grid-cols-[minmax(0,10rem)_1fr] gap-3 py-2">
-                    <dt className="text-sky-inkDim">{k}</dt>
+                {([
+                  ['WISE image', 'wise', formatDay(sel.data.wise.date)],
+                  ['SPHEREx image', 'spherex', `${formatDay(pair.spherex_date_start)} (visit ${pair.spherex_visit})`],
+                  ['SPHEREx frames stacked', 'framesStacked', `${pair.spherex_n_frames}, at ${fmt(pair.spherex_wl_um[0], 2)}–${fmt(pair.spherex_wl_um[1], 2)} µm`],
+                  ['Time between them', 'baseline', `${fmt(sel.data.motion.baseline_years, 1)} years`],
+                  ['Proper motion', 'properMotion', `${fmt(sel.data.motion.pm_total_mas_yr, 0)} mas/yr`],
+                  ['Expected shift', 'predictedShift', `${fmt(pair.shift_arcsec, 1)}″, about ${fmt(pair.shift_arcsec / 6.15, 1)} pixels`],
+                  ['Fit vs prediction', 'fitOffset', `WISE ${fitText(pair.fit.wise)}, SPHEREx ${fitText(pair.fit.spherex)}`],
+                ] as [string, GlossaryKey, string][]).map(([label, key, v]) => (
+                  <div key={label} className="grid grid-cols-[minmax(0,10rem)_1fr] gap-3 py-2">
+                    <dt className="text-sky-inkDim"><Term k={key}>{label}</Term></dt>
                     <dd className="font-mono text-sky-ink">{v}</dd>
                   </div>
                 ))}
@@ -169,11 +173,11 @@ export default function LongBaselineExplorer() {
               matches the WISE band.
             </p>
             <p>
-              <strong className="text-sky-ink">One shared grid.</strong> Both are drawn on 49 × 49 pixels of 6.15″, centred halfway
+              <strong className="text-sky-ink">One shared grid.</strong> Both are drawn on 49 × 49 pixels of <Term k="pixelScale">6.15″</Term>, centred halfway
               between the two positions so the star stays in view. WISE’s finer pixels are averaged into each cell.
             </p>
             <p>
-              <strong className="text-sky-ink">The rings and the arrow.</strong> They come from Gaia DR3 or CatWISE2020 motion, not drawn by
+              <strong className="text-sky-ink">The rings and the arrow.</strong> They come from <Term k="gaia">Gaia DR3</Term> or <Term k="catwise">CatWISE2020</Term> motion, not drawn by
               hand. A fit to the star lands within a pixel of them wherever its centre is not saturated.
             </p>
           </section>

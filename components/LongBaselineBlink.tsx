@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { Pause, Play, Route } from 'lucide-react'
 import { formatDay, formatMonth, lbImageUrl, type LbBand, type LbTarget } from '@/lib/long-baseline'
 import { useReducedMotion } from '@/lib/use-reduced-motion'
+import { Hint, Term } from '@/components/Term'
 
 interface LongBaselineBlinkProps {
   targetId: string
@@ -112,14 +113,18 @@ export default function LongBaselineBlink({ targetId, name, data, band, compact 
           {playing ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
           {playing ? 'Pause' : 'Play'}
         </button>
+        <Hint k="wise">
         <button type="button" className={chip(!playing && frame === 0)} onClick={() => show(0)} aria-pressed={!playing && frame === 0}>
           <span className="inline-block h-2.5 w-2.5 rounded-full border border-dashed" style={{ borderColor: THEN }} aria-hidden="true" />
           {wiseYear}
         </button>
+        </Hint>
+        <Hint k="spherex">
         <button type="button" className={chip(!playing && frame === 1)} onClick={() => show(1)} aria-pressed={!playing && frame === 1}>
           <span className="inline-block h-2.5 w-2.5 rounded-full border" style={{ borderColor: NOW }} aria-hidden="true" />
           {nowYear}
         </button>
+        </Hint>
         {!compact && (
           <button type="button" className={chip(showPath)} onClick={() => setShowPath(s => !s)} aria-pressed={showPath}>
             <Route className="h-4 w-4" aria-hidden="true" />
@@ -132,13 +137,13 @@ export default function LongBaselineBlink({ targetId, name, data, band, compact 
         {moves ? (
           <>
             <span className="text-sky-ink font-semibold">{name}</span> moved{' '}
-            <span className="text-sky-ink">{pair.shift_arcsec.toFixed(0)}″</span> ({shiftPx.toFixed(0)} pixels) between{' '}
+            <span className="text-sky-ink">{pair.shift_arcsec.toFixed(0)}<Term k="arcsecond">″</Term></span> ({shiftPx.toFixed(0)} <Term k="pixelScale">pixels</Term>) between{' '}
             {formatDay(data.wise.date)} and {formatMonth(pair.spherex_date_start)}.
-            {' '}Dashed ring: its {wiseYear} position. Solid ring: its position now. Both are predicted from its catalogue motion, not drawn by hand.
+            {' '}Dashed ring: its {wiseYear} position. Solid ring: its position now. Both are <Term k="predictedPosition">predicted</Term> from its <Term k="properMotion">catalogue motion</Term>, not drawn by hand.
           </>
         ) : (
           <>
-            <span className="text-sky-ink font-semibold">{name}</span> barely moves: {pair.shift_arcsec.toFixed(1)}″ in{' '}
+            <span className="text-sky-ink font-semibold">{name}</span> barely moves: {pair.shift_arcsec.toFixed(1)}<Term k="arcsecond">″</Term> in{' '}
             {data.motion.baseline_years.toFixed(0)} years. Any change you see is brightness, not motion.
           </>
         )}

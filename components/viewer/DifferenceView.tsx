@@ -4,6 +4,7 @@ import React, { useRef, useEffect } from 'react'
 import { Info, AlertTriangle } from 'lucide-react'
 import type { LoadedPlayerFrame, BundleTarget } from '@/lib/bundle-loader'
 import { formatMonth } from '@/lib/long-baseline'
+import { RichText, Term } from '@/components/Term'
 
 interface DifferenceViewProps {
   /** First frame of the diff pair (reference) */
@@ -42,24 +43,24 @@ function colorizeDivergingPixel(gray: number): [number, number, number, number] 
 const DIPOLE_NOTES: Record<string, { plain: string; note: string; warn?: boolean }> = {
   'barnards-star': {
     plain: 'Look for a blue and orange pair at the crosshair: the star has slid from the blue side to the orange side.',
-    note: 'D2 measured 1.54 px dipole vs 1.67 px predicted (comparison star residual 0.10 px). The motion is measured in the star’s outer glow because the saturated centre is masked.',
+    note: '[[Band|band]] D2 [[measured|measuredShift]] 1.54 px shift vs 1.67 px [[predicted|predictedShift]] ([[comparison star|comparisonStar]] moved 0.10 px). The motion is measured in the star’s [[outer glow|psfWing]] because the [[saturated|saturated]] centre is masked.',
   },
   'eps-indi-b': {
-    plain: 'A small shift over a few months. This target is better known for its spectrum: open Spectrum.',
-    note: 'Moderate proper motion. The 3.3 µm CH₄ spectrum is the main science result for this target.',
+    plain: 'A small shift over a few months. This target is better known for its [[spectrum|spectrum]]: open Spectrum.',
+    note: 'Moderate [[proper motion|properMotion]]. The 3.3 [[µm|micron]] [[CH₄|methane]] spectrum is the main science result for this target.',
   },
   'wise-0855': {
-    plain: 'Faint and only six months apart, so the shift is under one pixel. The 16-year view shows its motion far more clearly.',
-    note: '0.60 px measured in D6 vs 0.64 px predicted (6-month baseline). No comparison star inside the grid.',
+    plain: 'Faint and only six months apart, so the shift is under one pixel. The [[16-year view|longBaseline]] shows its motion far more clearly.',
+    note: '0.60 px [[measured|measuredShift]] in [[band|band]] D6 vs 0.64 px [[predicted|predictedShift]] (6 months apart). No [[comparison star|comparisonStar]] inside the image.',
     warn: true,
   },
   'rw-aur': {
     plain: 'Colour here means a change in brightness, not motion: this young star flickers.',
-    note: 'D2 saturated core masked. Same-channel flux compared across visits.',
+    note: '[[Band|band]] D2 [[saturated|saturated]] core masked. Same-[[channel|channel]] brightness compared across [[visits|visit]].',
   },
   'r-dra': {
     plain: 'Colour here means a change in brightness, not motion: this giant star pulses.',
-    note: 'Fully saturated. PSF-wing brightness ratio between visits is the variability proxy (±0.3 mag floor).',
+    note: 'Fully [[saturated|saturated]]. The [[PSF-wing|psfWing]] brightness ratio between [[visits|visit]] tracks its variability (±0.3 [[mag|magnitude]] floor).',
   },
 }
 
@@ -151,7 +152,7 @@ export default function DifferenceView({
         {target?.comparison_star && (
           <li className="flex items-center gap-1.5">
             <span className="h-3 w-3 rounded-full border border-dashed border-sky-ink" aria-hidden="true" />
-            Comparison star (Gaia G = {target.comparison_star.G.toFixed(1)})
+            <span><Term k="comparisonStar">Comparison star</Term> (<Term k="gMag">Gaia G</Term> = {target.comparison_star.G.toFixed(1)})</span>
           </li>
         )}
       </ul>
@@ -162,9 +163,9 @@ export default function DifferenceView({
             {noteInfo.warn
               ? <AlertTriangle className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />
               : <Info className="mt-0.5 h-4 w-4 flex-shrink-0" aria-hidden="true" />}
-            <span>{noteInfo.plain}</span>
+            <span><RichText text={noteInfo.plain} /></span>
           </p>
-          <p className="text-xs text-sky-inkDim">{noteInfo.note}</p>
+          <p className="text-xs text-sky-inkDim"><RichText text={noteInfo.note} /></p>
         </div>
       )}
     </div>
