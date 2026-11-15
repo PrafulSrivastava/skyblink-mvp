@@ -75,6 +75,16 @@ def test_masked_core_and_halo_suppressed():
     assert all(hypot(d.png_x - 24, d.png_y - 24) > 2.5 for d in run(frames))
 
 
+def test_single_masked_core_pixel_needs_halo():
+    frames = make_frames([(24.0, 24.0, 50.0)], mask=box(24, 24, 24, 24))
+    kw = dict(threshold=5.0, min_sep_px=2.0, edge_margin_px=2)
+    smap, bad = detection_map(frames, 3), bad_fraction(frames)
+    with_halo = find_sources(smap, bad, halo_dilate_px=1, **kw)
+    assert all(hypot(d.png_x - 24, d.png_y - 24) > 2.5 for d in with_halo)
+    no_halo = find_sources(smap, bad, halo_dilate_px=0, **kw)
+    assert min(hypot(d.png_x - 24.0, d.png_y - 24.45) for d in no_halo) < 0.1
+
+
 def test_close_pair_merges():
     assert len(run(make_frames([(20.0, 20.0, 4.0), (21.0, 20.0, 4.0)]))) == 1
 
